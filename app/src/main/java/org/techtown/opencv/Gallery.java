@@ -22,7 +22,7 @@ import java.io.IOException;
 
 public class Gallery {
     public int exifOrientation;
-    public int exifDegree;
+    public float exifDegree;
     public String imgPath;
 
     public final int PERMISSIONS_REQUEST_CODE = 1000;
@@ -59,11 +59,11 @@ public class Gallery {
     }
 
     // 사진 회전 함수
-    public Bitmap rotate(Bitmap bitmap, float degree) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degree);
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-    }
+//    public Bitmap rotate(Bitmap bitmap, float degree) {
+//        Matrix matrix = new Matrix();
+//        matrix.postRotate(degree);
+//        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//    }
 
 
     // 권한 체크 함수

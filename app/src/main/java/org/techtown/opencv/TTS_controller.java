@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,3 +70,21 @@ public class TTS_controller {
         }
     }
 }
+
+// 돋보기 기능 -> 나중에 추가
+//ImageButton b; (사진찍기 버튼)
+//
+////이미지버튼 설정
+//        b=findViewById(R.id.imageButton);
+//                b.setBackground(ContextCompat.getDrawable(this, R.drawable.backarrow));
+////돋보기 기능. textSize는 public으로 선언-xml 연결 수정필요
+//                Button plusButton= findViewById(R.id.plusButton);
+//                plusButton.setOnClickListener(new View.OnClickListener() {
+//@Override
+//public void onClick(View v) {
+//        TextView textview= findViewById(R.id.textView);
+//        int size= 16;
+//        textSize+=5;
+//        textview.setTextSize(size+textSize);
+//        }
+//        });

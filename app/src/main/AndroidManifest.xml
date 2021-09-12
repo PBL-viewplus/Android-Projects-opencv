@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.techtown.opencv">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -31,14 +32,19 @@
         <activity android:name=".AzureImage">
 
         </activity>
-        <activity android:name=".Clickcamera"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            tools:ignore="Instantiatable"> <!-- 화면 전환 시 앱 종료 X -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".OCR_TTS"/>
+        <activity android:name=".AzureImage"
+            tools:ignore="DuplicateActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

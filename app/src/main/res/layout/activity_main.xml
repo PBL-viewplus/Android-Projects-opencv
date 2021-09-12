@@ -1,74 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <Button
-            android:id="@+id/load_camera_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onButtonClicked"
-            android:text="카메라"
-            tools:ignore="OnClick" />
-
-        <Button
-            android:id="@+id/load_image_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onButtonClicked"
-            android:text="이미지 업로드"
-            tools:ignore="OnClick" />
-        <Button
-            android:id="@+id/tess_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="분석"
-            android:layout_marginTop="20dp"/>
-
-    </LinearLayout>
+    android:background="#EBE5DA"
+    tools:context=".OCR_TTS">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/origin_iv"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp"/>
-
-        <ImageView
-            android:id="@+id/edge_iv"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp"/>
-
+            android:id="@+id/logo"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/logo" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/text_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="인식 결과"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"/>
-
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
+        <ImageButton
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/button1" />
 
+        <ImageButton
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/button2" />
 
+        <ImageButton
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/button3" />
+
+        <ImageButton
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/button4" />
+
+        <ImageButton
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/button5" />
     </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
