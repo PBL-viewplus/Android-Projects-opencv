@@ -12,10 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -33,10 +35,15 @@ public class OCR_TTS extends AppCompatActivity {
     private static final int REQ_CODE_SELECT_IMAGE = 100;
     private Bitmap originBitmap;
     private Bitmap changeBitmap;
+    private ImageButton backButton;
     private ImageView originImageView;
-    private Button mLoadImageBtn;
+    private ImageButton minusButton;
+    private ImageButton plusButton;
     private TextView mTextResult;
-    private Button load_camera_btn;
+    private ImageButton pictureButton;
+
+    //    private Button mLoadImageBtn;
+//    private Button load_camera_btn;
     String dataPath = "";
 
     // tesseract 객체 생성
@@ -57,24 +64,47 @@ public class OCR_TTS extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        String value = intent.getExtras().getString("value");
-        if (value=="camera"){
-            System.out.println("camera");
-        }
-        if (value == "gallery"){
-            System.out.println("gallery");
-        }
 
-        setContentView(R.layout.ocr_tts);
+        setContentView(R.layout.analyze_picture);
         originImageView = findViewById(R.id.origin_iv);
-        mLoadImageBtn = findViewById(R.id.load_image_btn);
-        load_camera_btn = findViewById(R.id.load_camera_btn);
-        mTextResult = findViewById(R.id.textview);
+        mTextResult = findViewById(R.id.text_result);
+        minusButton = findViewById(R.id.btn_minus);
+        plusButton = findViewById(R.id.btn_plus);
+        backButton = findViewById(R.id.btn_back);
+        pictureButton = findViewById(R.id.btn_picture);
 
         // 카메라 권한 체크
         Permission permission = new Permission();
         permission.permissioncheck(getApplicationContext());
+
+        Intent intent = getIntent();
+        int value = intent.getExtras().getInt("value");
+
+        if (value == 1){
+            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.picturebutton));
+        }
+        if (value == 2){
+            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.gallerybutton));
+        }
+
+
+        // 사진 찍기, 갤러리 버튼
+        pictureButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (value == 1){
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    camera.cameraStart(getApplicationContext(), intent);
+                    startActivityForResult(intent, 1);
+                }
+                if (value == 2){
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                    intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 2);
+                }
+            }
+        });
 
         // tesseract 언어 데이터 경로
         dataPath = getFilesDir()+ "/tesseract/";
@@ -87,15 +117,15 @@ public class OCR_TTS extends AppCompatActivity {
         // TTS 객체 초기화
         tts.initTTS(getApplicationContext());
 
-        // 사진 찍기 버튼. 버튼 수정 필요 -이름겹침
-        load_camera_btn.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                camera.cameraStart(getApplicationContext(), intent);
-                startActivityForResult(intent, 2);
-            }
-        });
+//        // 사진 찍기 버튼. 버튼 수정 필요 -이름겹침
+//        load_camera_btn.setOnClickListener(new Button.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                camera.cameraStart(getApplicationContext(), intent);
+//                startActivityForResult(intent, 2);
+//            }
+//        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!gallery.hasPermissions(gallery.PERMISSIONS,getApplicationContext())) {
@@ -103,16 +133,16 @@ public class OCR_TTS extends AppCompatActivity {
             }
         }
 
-        // 이미지 업로드 버튼
-        mLoadImageBtn.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-                intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
-            }
-        });
+//        // 이미지 업로드 버튼
+//        mLoadImageBtn.setOnClickListener(new Button.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Intent.ACTION_PICK);
+//                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+//                intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
+//            }
+//        });
 
     }
 

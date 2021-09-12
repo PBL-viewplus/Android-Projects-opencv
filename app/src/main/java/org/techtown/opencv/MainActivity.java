@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), OCR_TTS.class);
-                intent.putExtra("value", "camera");
+                intent.putExtra("value", 1);
                 startActivity(intent);
             }
         });
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), OCR_TTS.class);
-                intent.putExtra("value", "gallery");
+                intent.putExtra("value", 2);
                 startActivity(intent);
             }
         });
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AzureImage.class);
+                intent.putExtra("value", 3);
                 startActivity(intent);
             }
         });
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AzureImage.class);
+                intent.putExtra("value", 4);
                 startActivity(intent);
             }
         });

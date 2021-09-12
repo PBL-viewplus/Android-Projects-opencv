@@ -1,6 +1,7 @@
 package org.techtown.opencv;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -18,6 +19,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,10 +48,15 @@ public class AzureImage extends AppCompatActivity {
     //음성(분석 누르면 최초한번설정필요), d앨범 이미지 돌아감, 화면 눕혔을때 꺼지는 에러 햇나?
     ImageView imageView;
     Button btnProcess;
-    TextView txtResult;
-    Button btnCamera;
-    Button btnGallery;
+    TextView mTextResult;
+//    Button btnCamera;
+//    Button btnGallery;
+    ImageButton pictureButton;
     Bitmap imgBitmap;
+    ImageButton minusButton;
+    ImageButton plusButton;
+    ImageButton backButton;
+
 
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
@@ -62,16 +69,25 @@ public class AzureImage extends AppCompatActivity {
     // 카메라 객체 생성
     Camera camera = new Camera();
 
+    // 갤러리 객체 생성
+    Gallery gallery = new Gallery();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_azure_image);
+        setContentView(R.layout.analyze_picture);
 
-        imageView = (ImageView) findViewById(R.id.image_view);
-        btnProcess = (Button) findViewById(R.id.btn_process);
-        txtResult = (TextView) findViewById(R.id.txt_result);
-        btnCamera = (Button) findViewById(R.id.btn_camera);
-        btnGallery = (Button) findViewById(R.id.btn_gallery);
+        imageView = (ImageView) findViewById(R.id.origin_iv);
+        //btnProcess = (Button) findViewById(R.id.btn_process);//없앨거
+        mTextResult = (TextView) findViewById(R.id.text_result);
+
+        //하나만 필요
+        //btnCamera = (Button) findViewById(R.id.btn_camera);
+        //btnGallery = (Button) findViewById(R.id.btn_gallery);
+        pictureButton = (ImageButton) findViewById(R.id.btn_picture);
+        minusButton=(ImageButton) findViewById(R.id.btn_minus);
+        plusButton=(ImageButton) findViewById(R.id.btn_plus);
+        backButton=(ImageButton) findViewById(R.id.btn_back);
 
         // 카메라 권한 체크
         Permission permission = new Permission();
@@ -84,25 +100,61 @@ public class AzureImage extends AppCompatActivity {
         Bitmap sample = BitmapFactory.decodeResource(getResources(),R.drawable.sample);
         imageView.setImageBitmap(sample);
 
-        // 갤러리 버튼
-        btnGallery.setOnClickListener(view -> {
-            startGalleryChooser();
-            txtResult.setText("");
-        });
+        //인텐트 받기
+        Intent intent = getIntent();
+        int value = intent.getExtras().getInt("value");
 
-        // 카메라 버튼
-        btnCamera.setOnClickListener(new View.OnClickListener(){
+        if (value == 3){
+            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.picturebutton));
+        }
+        if (value == 4){
+            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.gallerybutton));
+        }
+
+        // 사진 찍기, 갤러리 버튼
+        pictureButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                camera.cameraStart(getApplicationContext(), intent);
-                startActivityForResult(intent, 2);
-                txtResult.setText("");
+                if (value == 3){
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    camera.cameraStart(getApplicationContext(), intent);
+                    startActivityForResult(intent, 3);
+                }
+                if (value == 4){
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                    intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 4);
+                }
             }
         });
 
-        // Analyze 버튼
-        btnProcess.setOnClickListener(new View.OnClickListener() {
+//        if (value==3){
+//            //이미지버튼 설정
+//            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.picturebutton));
+//            // 카메라 버튼
+//            pictureButton.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    camera.cameraStart(getApplicationContext(), intent);
+//                    startActivityForResult(intent, 2);
+//                    mTextResult.setText("");
+//                }
+//            });
+//        }
+//        if (value==4){
+//            //이미지버튼 설정
+//            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.gallerybutton));
+//            // 갤러리 버튼
+//            pictureButton.setOnClickListener(view -> {
+//                //startGalleryChooser();
+//                mTextResult.setText("");
+//            });
+//        }
+
+        // Analyze 버튼->없어도 바로 분석들어갈수있도록
+        minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imgBitmap = camera.getResizedBitmap(imgBitmap); // 해상도 조절
@@ -145,7 +197,7 @@ public class AzureImage extends AppCompatActivity {
 
                         if(TextUtils.isEmpty(s)){ // s가 null일때
 
-                            txtResult.setText("인식할 수 없습니다");
+                            mTextResult.setText("인식할 수 없습니다");
                             Toast.makeText(AzureImage.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -172,9 +224,6 @@ public class AzureImage extends AppCompatActivity {
                                 }
                             }.start();
                         }
-
-
-
                     }
 
                     @Override
@@ -182,7 +231,6 @@ public class AzureImage extends AppCompatActivity {
                         progressDialog.setMessage(values[0]);
 
                     }
-
                 };
                 visionTask.execute(inputStream);
             }
@@ -194,20 +242,26 @@ public class AzureImage extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        if (requestCode == 1 && resultCode == RESULT_OK && intent != null) { // 갤러리
+        if (requestCode ==3  && resultCode == RESULT_OK) { // 카메라
+            try{
+                imgBitmap = BitmapFactory.decodeFile(camera.imageFilePath);
+                camera.exifInterface();
+                camera.fileOpen(getApplicationContext(), imgBitmap);
+                imageView.setImageBitmap(camera.rotate(imgBitmap,camera.exifDegree));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else if (requestCode == 4 && resultCode == RESULT_OK && intent != null) { // 갤러리
             try {
                 InputStream in = getContentResolver().openInputStream(intent.getData());
                 imgBitmap = BitmapFactory.decodeStream(in);
                 in.close();
 
                 imageView.setImageBitmap(imgBitmap);
-            } catch (Exception e) {}
-        }
-        else if (requestCode == 2 && resultCode == RESULT_OK) { // 카메라
-            imgBitmap = BitmapFactory.decodeFile(camera.imageFilePath);
-            camera.exifInterface();
-            camera.fileOpen(getApplicationContext(), imgBitmap);
-            imageView.setImageBitmap(camera.rotate(imgBitmap,camera.exifDegree));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -227,8 +281,8 @@ public class AzureImage extends AppCompatActivity {
         public void handleMessage(Message msg) {
             Bundle bundle = msg.getData();
             String resultWord = bundle.getString("resultWord");
-            txtResult.setText(resultWord);
-            tts.speakOut(txtResult);
+            mTextResult.setText(resultWord);
+            tts.speakOut(mTextResult);
             //Toast.makeText(getApplicationContext(),resultWord,Toast.LENGTH_SHORT).show();
         }
     };
