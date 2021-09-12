@@ -32,7 +32,6 @@ import com.bumptech.glide.request.RequestOptions;
 
 public class OCR_TTS extends AppCompatActivity {
 
-    private static final int REQ_CODE_SELECT_IMAGE = 100;
     private Bitmap originBitmap;
     private Bitmap changeBitmap;
     private ImageButton backButton;
@@ -42,8 +41,7 @@ public class OCR_TTS extends AppCompatActivity {
     private TextView mTextResult;
     private ImageButton pictureButton;
 
-    //    private Button mLoadImageBtn;
-//    private Button load_camera_btn;
+
     String dataPath = "";
 
     // tesseract 객체 생성
@@ -73,13 +71,9 @@ public class OCR_TTS extends AppCompatActivity {
         backButton = findViewById(R.id.btn_back);
         pictureButton = findViewById(R.id.btn_picture);
 
-        // 카메라 권한 체크
-        Permission permission = new Permission();
-        permission.permissioncheck(getApplicationContext());
-
+        // Mainactivity의 intent value값 받아 버튼 종류 결정
         Intent intent = getIntent();
         int value = intent.getExtras().getInt("value");
-
         if (value == 1){
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.picturebutton));
         }
@@ -87,6 +81,20 @@ public class OCR_TTS extends AppCompatActivity {
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.gallerybutton));
         }
 
+        // 카메라 권한 체크
+        Permission permission = new Permission();
+        permission.permissioncheck(getApplicationContext());
+
+        // tesseract 언어 데이터 경로
+        dataPath = getFilesDir()+ "/tesseract/";
+        tesseract.checkFile(new File(dataPath+"tessdata/"),"kor", dataPath, getApplicationContext());
+        tesseract.checkFile(new File(dataPath+"tessdata/"),"eng", dataPath, getApplicationContext());
+
+        // tesseract 객체 초기화
+        tesseract.tessInit(dataPath);
+
+        // TTS 객체 초기화
+        tts.initTTS(getApplicationContext());
 
         // 사진 찍기, 갤러리 버튼
         pictureButton.setOnClickListener(new Button.OnClickListener(){
@@ -106,45 +114,13 @@ public class OCR_TTS extends AppCompatActivity {
             }
         });
 
-        // tesseract 언어 데이터 경로
-        dataPath = getFilesDir()+ "/tesseract/";
-        tesseract.checkFile(new File(dataPath+"tessdata/"),"kor", dataPath, getApplicationContext());
-        tesseract.checkFile(new File(dataPath+"tessdata/"),"eng", dataPath, getApplicationContext());
-
-        // tesseract 객체 초기화
-        tesseract.tessInit(dataPath);
-
-        // TTS 객체 초기화
-        tts.initTTS(getApplicationContext());
-
-//        // 사진 찍기 버튼. 버튼 수정 필요 -이름겹침
-//        load_camera_btn.setOnClickListener(new Button.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                camera.cameraStart(getApplicationContext(), intent);
-//                startActivityForResult(intent, 2);
-//            }
-//        });
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!gallery.hasPermissions(gallery.PERMISSIONS,getApplicationContext())) {
                 requestPermissions(gallery.PERMISSIONS, gallery.PERMISSIONS_REQUEST_CODE);
             }
         }
-
-//        // 이미지 업로드 버튼
-//        mLoadImageBtn.setOnClickListener(new Button.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Intent.ACTION_PICK);
-//                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-//                intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
-//            }
-//        });
-
     }
+
 
     @Override
     public void onPause() {
@@ -164,32 +140,32 @@ public class OCR_TTS extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         RequestOptions requestOptions= new RequestOptions();
-        requestOptions = requestOptions.skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);//캐시비우기
+        requestOptions = requestOptions.skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE); // 캐시비우기
 
-        float degree=0; //회전필요한 각도
+        float degree = 0; // 회전에 필요한 각도
 
-        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {//카메라 실행
-             try {
-                 BitmapFactory.Options options = new BitmapFactory.Options();
-                 String path = camera.imageFilePath;
-                 options.inSampleSize = 4;
+        // 카메라 실행
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            try {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                String path = camera.imageFilePath;
+                options.inSampleSize = 4;
 
-                 originBitmap = BitmapFactory.decodeFile(path, options);
-                 changeBitmap = BitmapFactory.decodeFile(path, options);
+                originBitmap = BitmapFactory.decodeFile(path, options);
+                changeBitmap = BitmapFactory.decodeFile(path, options);
 
-                 camera.exifInterface();
-//               originBitmap = camera.rotate(originBitmap,camera.exifDegree);
-//               changeBitmap = camera.rotate(changeBitmap,camera.exifDegree);
+                camera.exifInterface();
 
-                 degree=camera.exifDegree;
-                 camera.fileOpen(getApplicationContext(), originBitmap);
+                degree = camera.exifDegree;
+                camera.fileOpen(getApplicationContext(), originBitmap);
 
-             } catch (Exception e) {
-                 e.printStackTrace();
-             }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
-        if (requestCode == REQ_CODE_SELECT_IMAGE&& resultCode == Activity.RESULT_OK){//갤러리 실행
+        // 갤러리 실행
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK){
             try {
                 String path = gallery.getImagePathFromURI(data.getData(), getApplicationContext());
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -198,19 +174,18 @@ public class OCR_TTS extends AppCompatActivity {
                 changeBitmap = BitmapFactory.decodeFile(path, options);
 
                 gallery.exifInterface();
-                degree=gallery.exifDegree;
+                degree = gallery.exifDegree;
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
 
         if (originImageView != null) {
             opencv.detectEdgeUsingJNI(originBitmap, changeBitmap);
         }
 
-        //사진 회전
+        // 사진 회전
         requestOptions.transform(new RotateTransform(degree));
         Glide.with(this).load(originBitmap).apply(requestOptions).into(originImageView);
 
@@ -226,7 +201,6 @@ public class OCR_TTS extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
 
-//        changeBitmap.recycle();
         if (changeBitmap != null) {
             changeBitmap = null;
         }
