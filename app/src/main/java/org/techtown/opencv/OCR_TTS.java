@@ -1,17 +1,21 @@
 package org.techtown.opencv;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -27,6 +31,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import org.opencv.android.OpenCVLoader;
 
 import java.io.File;
+import java.io.InputStream;
 
 
 import com.bumptech.glide.request.RequestOptions;
@@ -77,28 +82,12 @@ public class OCR_TTS extends AppCompatActivity {
         Permission permission = new Permission();
         permission.permissioncheck(getApplicationContext());
 
-
-        minusButton.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+        // 갤러리 권한 체크
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!gallery.hasPermissions(gallery.PERMISSIONS,getApplicationContext())) {
+                requestPermissions(gallery.PERMISSIONS, gallery.PERMISSIONS_REQUEST_CODE);
             }
-        });
-
-        plusButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
-            }
-        });
-
-        // 뒤로가기 버튼
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        }
 
         // tesseract 언어 데이터 경로
         dataPath = getFilesDir()+ "/tesseract/";
@@ -129,11 +118,30 @@ public class OCR_TTS extends AppCompatActivity {
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!gallery.hasPermissions(gallery.PERMISSIONS,getApplicationContext())) {
-                requestPermissions(gallery.PERMISSIONS, gallery.PERMISSIONS_REQUEST_CODE);
+        // 돋보기 +버튼
+        minusButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
             }
-        }
+        });
+
+        // 돋보기 -버튼
+        plusButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+            }
+        });
+
+        // 뒤로가기 버튼
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
 
@@ -170,13 +178,54 @@ public class OCR_TTS extends AppCompatActivity {
                 changeBitmap = BitmapFactory.decodeFile(path, options);
 
                 camera.exifInterface();
-
                 degree = camera.exifDegree;
                 camera.fileOpen(getApplicationContext(), originBitmap);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            AsyncTask<InputStream,String,String> ocrTask = new AsyncTask<InputStream, String, String>() {
+                String result;
+                // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
+                ProgressDialog progressDialog = new ProgressDialog(OCR_TTS.this); // 실시간 진행 상태 알림
+
+                @Override // 작업시작
+                protected void onPreExecute() {
+                    progressDialog.show();
+                } // progressdialog 생성
+
+                @Override // 진행중
+                protected String doInBackground(InputStream... inputStreams) {
+                    tts.speakOutString("분석중입니다");
+                    publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
+
+                    result = tesseract.processImage(changeBitmap);
+                    return result;
+                }
+
+                @SuppressLint("StaticFieldLeak")
+                @Override // 종료
+                protected void onPostExecute(String s){
+
+                    if(TextUtils.isEmpty(s)){
+                        progressDialog.dismiss();
+                        mTextResult.setText("인식할 수 없습니다");
+                        tts.speakOut(mTextResult);
+                    }
+                    else {
+                        progressDialog.dismiss();
+                        mTextResult.setText(result);
+                        tts.speakOut(mTextResult);
+                    }
+                }
+
+                @Override
+                protected void onProgressUpdate(String... values){
+                    progressDialog.setMessage(values[0]);
+                }
+            };
+            ocrTask.execute();
         }
 
         // 갤러리 실행
@@ -194,19 +243,56 @@ public class OCR_TTS extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            AsyncTask<InputStream,String,String> ocrTask = new AsyncTask<InputStream, String, String>() {
+                String result;
+                // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
+                ProgressDialog progressDialog = new ProgressDialog(OCR_TTS.this); // 실시간 진행 상태 알림
+
+                @Override // 작업시작
+                protected void onPreExecute() {
+                    progressDialog.show();
+                } // progressdialog 생성
+
+                @Override // 진행중
+                protected String doInBackground(InputStream... inputStreams) {
+                    tts.speakOutString("분석중입니다");
+                    publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
+
+                    result = tesseract.processImage(changeBitmap);
+                    return result;
+                }
+
+                @SuppressLint("StaticFieldLeak")
+                @Override // 종료
+                protected void onPostExecute(String s){
+
+                    if(TextUtils.isEmpty(s)){
+                        progressDialog.dismiss();
+                        mTextResult.setText("인식할 수 없습니다");
+                        tts.speakOut(mTextResult);
+                    }
+                    else {
+                        progressDialog.dismiss();
+                        mTextResult.setText(result);
+                        tts.speakOut(mTextResult);
+                    }
+                }
+
+                @Override
+                protected void onProgressUpdate(String... values){
+                    progressDialog.setMessage(values[0]);
+                }
+            };
+            ocrTask.execute();
         }
 
-        if(data!=null){
-            if (originImageView != null) {
-                opencv.detectEdgeUsingJNI(originBitmap, changeBitmap);
+        if (originBitmap != null) {
+            opencv.detectEdgeUsingJNI(originBitmap, changeBitmap);
 
-                // 사진 회전
-                requestOptions.transform(new RotateTransform(degree));
-                Glide.with(this).load(originBitmap).apply(requestOptions).into(originImageView);
-
-                tesseract.processImage(changeBitmap, mTextResult);
-                tts.speakOut(mTextResult);
-            }
+            // 사진 회전
+            requestOptions.transform(new RotateTransform(degree));
+            Glide.with(this).load(originBitmap).apply(requestOptions).into(originImageView);
         }
     }
 

@@ -70,10 +70,10 @@ public class Tesseract {
         }
     }
 
-    // 분석 결과 제공 함수
-    public void processImage(Bitmap img, TextView text){
+    // 분석 결과 리턴 함수
+    public String processImage(Bitmap img){
         tess.setImage(img);
         String OCRresult = tess.getUTF8Text();
-        text.setText(OCRresult);
+        return OCRresult;
     }
 }
