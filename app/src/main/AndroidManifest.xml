@@ -28,7 +28,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.OpenCV">
+        android:theme="@style/Theme.OpenCV"
+
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"><!-- 카메라 메모리초과 오류 -->
         <activity android:name=".AzureImage">
 
         </activity>

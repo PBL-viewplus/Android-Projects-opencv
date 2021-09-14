@@ -50,7 +50,12 @@ public class TTS_controller {
         });
     }
 
-    // tts 실행 함수
+    // tts 실행 함수(String)
+    public void speakOutString(String s) {
+        tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    // tts 실행 함수(TextView)
     public void speakOut(TextView t) {
         String text = t.getText().toString();
         tts.setSpeechRate((float) 0.9); // 속도.

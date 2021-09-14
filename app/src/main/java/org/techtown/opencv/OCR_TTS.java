@@ -2,6 +2,7 @@ package org.techtown.opencv;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -85,6 +86,29 @@ public class OCR_TTS extends AppCompatActivity {
         Permission permission = new Permission();
         permission.permissioncheck(getApplicationContext());
 
+
+        minusButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+            }
+        });
+
+        plusButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+            }
+        });
+
+        // 뒤로가기 버튼
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         // tesseract 언어 데이터 경로
         dataPath = getFilesDir()+ "/tesseract/";
         tesseract.checkFile(new File(dataPath+"tessdata/"),"kor", dataPath, getApplicationContext());
@@ -147,8 +171,8 @@ public class OCR_TTS extends AppCompatActivity {
         // 카메라 실행
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             try {
-                BitmapFactory.Options options = new BitmapFactory.Options();
                 String path = camera.imageFilePath;
+                BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 4;
 
                 originBitmap = BitmapFactory.decodeFile(path, options);
@@ -181,16 +205,18 @@ public class OCR_TTS extends AppCompatActivity {
             }
         }
 
-        if (originImageView != null) {
-            opencv.detectEdgeUsingJNI(originBitmap, changeBitmap);
+        if(data!=null){
+            if (originImageView != null) {
+                opencv.detectEdgeUsingJNI(originBitmap, changeBitmap);
+
+                // 사진 회전
+                requestOptions.transform(new RotateTransform(degree));
+                Glide.with(this).load(originBitmap).apply(requestOptions).into(originImageView);
+
+                tesseract.processImage(changeBitmap, mTextResult);
+                tts.speakOut(mTextResult);
+            }
         }
-
-        // 사진 회전
-        requestOptions.transform(new RotateTransform(degree));
-        Glide.with(this).load(originBitmap).apply(requestOptions).into(originImageView);
-
-        tesseract.processImage(changeBitmap, mTextResult);
-        tts.speakOut(mTextResult);
     }
 
     public void onStop(){

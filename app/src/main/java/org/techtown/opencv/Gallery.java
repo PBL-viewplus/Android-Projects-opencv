@@ -128,4 +128,20 @@ public class Gallery {
             return imgPath;
         }
     }
+
+    // 해상도 조절 함수
+    public Bitmap getResizedBitmap(Bitmap image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        float scaleWidth = ((float) 960) / width;
+        // create a matrix for the manipulation
+        float scaleHeight = ((float) 720) / height;
+        Matrix matrix = new Matrix();
+        // resize the bit map
+        matrix.postScale(scaleWidth, scaleHeight);
+        // recreate the new Bitmap
+        Bitmap resizedBitmap = Bitmap.createBitmap(image, 0, 0, width, height, matrix, false );
+        image.recycle();
+        return resizedBitmap;
+    }
 }

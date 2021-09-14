@@ -2,10 +2,12 @@ package org.techtown.opencv;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton camera_image;
     private ImageButton gallery_image;
     private ImageButton web_image;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

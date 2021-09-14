@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
@@ -24,6 +25,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayInputStream;
@@ -45,12 +49,8 @@ import edmt.dev.edmtdevcognitivevision.VisionServiceRestClient;
 import android.os.Bundle;
 
 public class AzureImage extends AppCompatActivity {
-    //음성(분석 누르면 최초한번설정필요), d앨범 이미지 돌아감, 화면 눕혔을때 꺼지는 에러 햇나?
     ImageView imageView;
-    Button btnProcess;
     TextView mTextResult;
-//    Button btnCamera;
-//    Button btnGallery;
     ImageButton pictureButton;
     Bitmap imgBitmap;
     ImageButton minusButton;
@@ -78,12 +78,7 @@ public class AzureImage extends AppCompatActivity {
         setContentView(R.layout.analyze_picture);
 
         imageView = (ImageView) findViewById(R.id.origin_iv);
-        //btnProcess = (Button) findViewById(R.id.btn_process);//없앨거
         mTextResult = (TextView) findViewById(R.id.text_result);
-
-        //하나만 필요
-        //btnCamera = (Button) findViewById(R.id.btn_camera);
-        //btnGallery = (Button) findViewById(R.id.btn_gallery);
         pictureButton = (ImageButton) findViewById(R.id.btn_picture);
         minusButton=(ImageButton) findViewById(R.id.btn_minus);
         plusButton=(ImageButton) findViewById(R.id.btn_plus);
@@ -99,6 +94,29 @@ public class AzureImage extends AppCompatActivity {
         // 초기 imageView 설정
         Bitmap sample = BitmapFactory.decodeResource(getResources(),R.drawable.sample);
         imageView.setImageBitmap(sample);
+
+
+        minusButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+            }
+        });
+
+        plusButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+            }
+        });
+
+        // 뒤로가기 버튼
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //인텐트 받기
         Intent intent = getIntent();
@@ -129,34 +147,30 @@ public class AzureImage extends AppCompatActivity {
             }
         });
 
-//        if (value==3){
-//            //이미지버튼 설정
-//            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.picturebutton));
-//            // 카메라 버튼
-//            pictureButton.setOnClickListener(new View.OnClickListener(){
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    camera.cameraStart(getApplicationContext(), intent);
-//                    startActivityForResult(intent, 2);
-//                    mTextResult.setText("");
-//                }
-//            });
-//        }
-//        if (value==4){
-//            //이미지버튼 설정
-//            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.gallerybutton));
-//            // 갤러리 버튼
-//            pictureButton.setOnClickListener(view -> {
-//                //startGalleryChooser();
-//                mTextResult.setText("");
-//            });
-//        }
+    }
 
-        // Analyze 버튼->없어도 바로 분석들어갈수있도록
-        minusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+    // onActivityResult(): sub activity에서 main activity로 넘어갈 때
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        RequestOptions requestOptions= new RequestOptions();
+        requestOptions = requestOptions.skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE); // 캐시비우기
+
+        float degree = 0; // 회전에 필요한 각도
+
+        // 카메라 실행
+        if (requestCode ==3  && resultCode == RESULT_OK) {
+            try{
+                String path = camera.imageFilePath;
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 4;
+
+                imgBitmap = BitmapFactory.decodeFile(path, options);
+                camera.exifInterface();
+                degree = camera.exifDegree;
+                camera.fileOpen(getApplicationContext(), imgBitmap);
+
                 imgBitmap = camera.getResizedBitmap(imgBitmap); // 해상도 조절
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
@@ -175,6 +189,7 @@ public class AzureImage extends AppCompatActivity {
                     protected String doInBackground(InputStream... inputStreams) {
                         try
                         {
+                            tts.speakOutString("분석중입니다");
                             publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
                             String[] features = {"Description"};
                             String[] details = {};
@@ -199,6 +214,7 @@ public class AzureImage extends AppCompatActivity {
 
                             mTextResult.setText("인식할 수 없습니다");
                             Toast.makeText(AzureImage.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
+                            tts.speakOut(mTextResult);
                         }
                         else {
                             progressDialog.dismiss();
@@ -233,32 +249,115 @@ public class AzureImage extends AppCompatActivity {
                     }
                 };
                 visionTask.execute(inputStream);
-            }
-        });
-    }
 
+                // 사진 회전
+                requestOptions.transform(new RotateTransform(degree));
+                Glide.with(this).load(imgBitmap).apply(requestOptions).into(imageView);
 
-    // onActivityResult(): sub activity에서 main activity로 넘어갈 때
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-
-        if (requestCode ==3  && resultCode == RESULT_OK) { // 카메라
-            try{
-                imgBitmap = BitmapFactory.decodeFile(camera.imageFilePath);
-                camera.exifInterface();
-                camera.fileOpen(getApplicationContext(), imgBitmap);
-                imageView.setImageBitmap(camera.rotate(imgBitmap,camera.exifDegree));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        else if (requestCode == 4 && resultCode == RESULT_OK && intent != null) { // 갤러리
-            try {
-                InputStream in = getContentResolver().openInputStream(intent.getData());
-                imgBitmap = BitmapFactory.decodeStream(in);
-                in.close();
 
-                imageView.setImageBitmap(imgBitmap);
+        // 갤러리 실행
+        else if (requestCode == 4 && resultCode == RESULT_OK ) {
+            try {
+                String path = gallery.getImagePathFromURI(data.getData(), getApplicationContext());
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 4;
+                imgBitmap = BitmapFactory.decodeFile(path, options);
+
+                gallery.exifInterface();
+                degree = gallery.exifDegree;
+
+//                InputStream in = getContentResolver().openInputStream(data.getData());
+//                imgBitmap = BitmapFactory.decodeStream(in);
+//                in.close();
+
+                imgBitmap = gallery.getResizedBitmap(imgBitmap); // 해상도 조절
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
+                final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+                AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
+                    // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
+                    ProgressDialog progressDialog = new ProgressDialog(AzureImage.this); // 실시간 진행 상태 알림
+
+                    @Override // 작업시작
+                    protected void onPreExecute() {
+                        progressDialog.show();
+                    } // progressdialog 생성
+
+                    @Override // 진행중
+                    protected String doInBackground(InputStream... inputStreams) {
+                        try
+                        {
+                            tts.speakOutString("분석중입니다");
+                            publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
+                            String[] features = {"Description"};
+                            String[] details = {};
+
+                            AnalysisResult result = visionServiceClient.analyzeImage(inputStreams[0],features,details);
+
+                            String jsonResult = new Gson().toJson(result);
+                            return jsonResult;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (VisionServiceException e) {
+                            e.printStackTrace();
+                        }
+                        return "";
+                    }
+
+                    @SuppressLint("StaticFieldLeak")
+                    @Override // 종료
+                    protected void onPostExecute(String s){
+
+                        if(TextUtils.isEmpty(s)){ // s가 null일때
+
+                            mTextResult.setText("인식할 수 없습니다");
+                            Toast.makeText(AzureImage.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
+                            tts.speakOut(mTextResult);
+                        }
+                        else {
+                            progressDialog.dismiss();
+                            AnalysisResult result = new Gson().fromJson(s, AnalysisResult.class);
+                            StringBuilder result_Text = new StringBuilder();
+                            for (Caption caption : result.description.captions)
+                                result_Text.append(caption.text);
+
+                            //파파고 번역
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    String word = result_Text.toString();
+                                    Papago_translate papago = new Papago_translate();
+                                    String resultWord = papago.getTranslation(word, "en", "ko");
+
+                                    Bundle papagoBundle = new Bundle();
+                                    papagoBundle.putString("resultWord", resultWord);
+
+                                    Message msg = papago_handler.obtainMessage();
+                                    msg.setData(papagoBundle);
+                                    papago_handler.sendMessage(msg);
+                                }
+                            }.start();
+                        }
+                    }
+
+                    @Override
+                    protected void onProgressUpdate(String... values){
+                        progressDialog.setMessage(values[0]);
+
+                    }
+                };
+                visionTask.execute(inputStream);
+
+                // 사진 회전
+                requestOptions.transform(new RotateTransform(degree));
+                Glide.with(this).load(imgBitmap).apply(requestOptions).into(imageView);
+
+                //imageView.setImageBitmap(imgBitmap);
             } catch (Exception e) {
                 e.printStackTrace();
             }
