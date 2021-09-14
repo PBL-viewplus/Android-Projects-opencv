@@ -101,12 +101,26 @@
         android:layout_weight="3.2"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/text_result"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="TextView"
-            android:textSize="20sp"/>
+            android:background="#ffffff"
+            android:layout_margin="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/text_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:text="분석 결과"
+                    android:textSize="25sp" />
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 </LinearLayout>

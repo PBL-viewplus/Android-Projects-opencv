@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -76,6 +77,7 @@ public class AzureImage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.analyze_picture);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 가로 화면 고정
 
         imageView = (ImageView) findViewById(R.id.origin_iv);
         mTextResult = (TextView) findViewById(R.id.text_result);

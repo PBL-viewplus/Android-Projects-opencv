@@ -36,8 +36,7 @@
 
         </activity>
         <activity android:name=".MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            tools:ignore="Instantiatable"> <!-- 화면 전환 시 앱 종료 X -->
+            android:screenOrientation="portrait"> <!-- 가로 화면 고정-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -2,6 +2,7 @@ package org.techtown.opencv;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,30 +42,20 @@ public class OCR_TTS extends AppCompatActivity {
     private ImageButton plusButton;
     private TextView mTextResult;
     private ImageButton pictureButton;
+    private String dataPath = "";
 
-
-    String dataPath = "";
-
-    // tesseract 객체 생성
     Tesseract tesseract = new Tesseract();
-
-    // 갤러리 객체 생성
     Gallery gallery = new Gallery();
-
-    // opencv 객체 생성
     OpenCV opencv = new OpenCV();
-
-    // 카메라 객체 생성
     Camera camera = new Camera();
-
-    // tts 객체 생성
     TTS_controller tts = new TTS_controller();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.analyze_picture);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 가로 화면 고정
+
         originImageView = findViewById(R.id.origin_iv);
         mTextResult = findViewById(R.id.text_result);
         minusButton = findViewById(R.id.btn_minus);
