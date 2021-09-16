@@ -43,6 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Dialog" android:theme="@style/Theme.AppCompat.Dialog"></activity>
 
         <activity android:name=".OCR_TTS"/>
         <activity android:name=".AzureImage"

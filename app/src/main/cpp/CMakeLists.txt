@@ -5,8 +5,8 @@
 
 cmake_minimum_required(VERSION 3.10.2)
 #set(pathPROJECT "C:/Users/USER/AndroidStudioProjects-Kotlin202106/Android-Projects-opencv-master/OpenCV")
-#set(pathPROJECT "C:/Users/Jiwoon Kim/AndroidStudioProjects-PBLpractice/OpenCV")
-set(pathPROJECT "C:/Users/heewon/Desktop/PBL/Android-Projects/Android-Projects-opencv")
+set(pathPROJECT "C:/Users/Jiwoon Kim/AndroidStudioProjects-PBLpractice/OpenCV")
+#set(pathPROJECT "C:/Users/heewon/Desktop/PBL/Android-Projects/Android-Projects-opencv")
 set(pathOPENCV "${pathPROJECT}/sdk")
 set(pathLIBOPENCV_JAVA "${pathOPENCV}/native/libs/${ANDROID_ABI}/libopencv_java4.so")
 
