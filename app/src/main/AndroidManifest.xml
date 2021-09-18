@@ -35,7 +35,7 @@
         <activity android:name=".AzureImage">
 
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".Intro"
             android:screenOrientation="portrait"> <!-- 가로 화면 고정-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Dialog" android:theme="@style/Theme.AppCompat.Dialog"></activity>
-
+        <activity android:name=".MainActivity"/>
         <activity android:name=".OCR_TTS"/>
         <activity android:name=".AzureImage"
             tools:ignore="DuplicateActivity" />
