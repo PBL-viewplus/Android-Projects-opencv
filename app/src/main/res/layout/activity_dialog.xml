@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#eeeeee"
+    android:background="@drawable/radius"
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="wrap_content">
+    <!--android:background="#eeeeee"-->
 
     <!-- 타이틀바 -->
     <LinearLayout
@@ -36,6 +37,7 @@
             android:alpha="0.87"
             android:gravity="center"
             android:layout_marginBottom="3dp"
+            android:text="heiii"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -52,16 +54,29 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <!--버튼 두개 비율조정 필요-->
         <Button
+            android:layout_width="157dp"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:gravity="left"
+            android:padding="16dp"
             android:text="확인"
+            android:textColor="#ff7a00"
+            android:textSize="15sp"
+            android:onClick="mOnClose" />
+
+        <Button
+            android:text="다시보지않기"
             android:textSize="15sp"
             android:textColor="#ff7a00"
             android:padding="16dp"
-            android:gravity="center"
+            android:gravity="right"
             android:background="#00000000"
             android:layout_width="match_parent"
             android:layout_height="53dp"
-            android:onClick="mOnClose"/>
+            android:onClick="mOnCloseForever"/>
     </LinearLayout>
     <!--// 닫기 버튼 -->
 

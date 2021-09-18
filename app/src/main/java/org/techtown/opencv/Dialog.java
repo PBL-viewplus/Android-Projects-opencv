@@ -1,7 +1,10 @@
 package org.techtown.opencv;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -19,13 +22,15 @@ public class Dialog extends AppCompatActivity {
         //타이틀바 없애기
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_dialog);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        setTitle("");
 
         //UI 객체생성
         txtText = (TextView)findViewById(R.id.txtText);
 
         //데이터 가져오기
         Intent intent = getIntent();
-        String data = intent.getStringExtra("data");
+        String data = intent.getStringExtra("data"); //xml에서 작성할거면 불필요
         txtText.setText(data);
     }
 
@@ -33,11 +38,22 @@ public class Dialog extends AppCompatActivity {
     public void mOnClose(View v){
         //데이터 전달하기
         Intent intent = new Intent();
-        intent.putExtra("result", "Close Popup");
+        intent.putExtra("result", "확인");
         setResult(RESULT_OK, intent);
 
         //액티비티(팝업) 닫기
         finish();
+    }
+
+    public void mOnCloseForever(View v){
+        //데이터 전달하기
+        Intent intent = new Intent();
+        intent.putExtra("result", "다시보지않기");
+        setResult(RESULT_OK, intent);
+
+        //액티비티(팝업) 닫기
+        finish();
+
     }
 
     @Override

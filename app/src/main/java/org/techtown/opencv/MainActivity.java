@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton camera_image;
     private ImageButton gallery_image;
     private ImageButton web_image;
+    public String PopDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         camera_image = findViewById(R.id.button3);
         gallery_image = findViewById(R.id.button4);
         web_image = findViewById(R.id.button5);
+        PopDialog="";
 
         // 카메라 문자 읽기
         camera_text.setOnClickListener(new Button.OnClickListener(){
@@ -39,10 +41,14 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("value", 1);
                 startActivity(intent);
 
-                //데이터 담아서 팝업(액티비티) 호출
-                Intent intent2 = new Intent(getApplicationContext(), Dialog.class);
-                intent2.putExtra("data", "Test Popup");
-                startActivityForResult(intent2, 1);
+                //앱껐다가 다시키면 안먹힘.
+                if(PopDialog.equals("") || PopDialog.equals("확인")){
+                    //데이터 담아서 팝업(액티비티) 호출
+                    Intent intent2 = new Intent(getApplicationContext(), Dialog.class);
+                    intent2.putExtra("data", "Test Popup");//xml에서 작성할거면 불필요
+                    startActivityForResult(intent2, 1);
+                }
+
             }
         });
 
@@ -79,17 +85,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 1) {
-//            if (resultCode == RESULT_OK) {
-//                //데이터 받기
-//                String result = data.getStringExtra("result");
-//
-//            }
-//        }
-//    }
+        @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                //데이터 받기
+                PopDialog = data.getStringExtra("result");
+            }
+        }
+    }
 
     //뒤로가기 눌렀을 때 앱 종료 묻기
     public void onBackPressed() {
