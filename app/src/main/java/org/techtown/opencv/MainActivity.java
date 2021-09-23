@@ -1,7 +1,9 @@
 package org.techtown.opencv;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton web_image;
     public String PopDialog;
 
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         web_image = findViewById(R.id.button5);
         PopDialog="";
 
+        pref=getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        editor = pref.edit();
+
         // 카메라 문자 읽기
         camera_text.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -41,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("value", 1);
                 startActivity(intent);
 
-                //앱껐다가 다시키면 안먹힘.
+                PopDialog=pref.getString("result","");
+
                 if(PopDialog.equals("") || PopDialog.equals("확인")){
                     //데이터 담아서 팝업(액티비티) 호출
                     Intent intent2 = new Intent(getApplicationContext(), Dialog.class);
@@ -81,9 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-
 
         @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -92,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 //데이터 받기
                 PopDialog = data.getStringExtra("result");
+                editor.putString("result", PopDialog);
+                editor.apply();
             }
         }
     }

@@ -1,6 +1,7 @@
 package org.techtown.opencv;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ public class Dialog extends AppCompatActivity {
         setTitle("");
 
         //UI 객체생성
-        txtText = (TextView)findViewById(R.id.txtText);
+        txtText = (TextView) findViewById(R.id.txtText);
 
         //데이터 가져오기
         Intent intent = getIntent();
@@ -35,7 +36,7 @@ public class Dialog extends AppCompatActivity {
     }
 
     //확인 버튼 클릭
-    public void mOnClose(View v){
+    public void mOnClose(View v) {
         //데이터 전달하기
         Intent intent = new Intent();
         intent.putExtra("result", "확인");
@@ -45,12 +46,11 @@ public class Dialog extends AppCompatActivity {
         finish();
     }
 
-    public void mOnCloseForever(View v){
+    public void mOnCloseForever(View v) {
         //데이터 전달하기
         Intent intent = new Intent();
         intent.putExtra("result", "다시보지않기");
         setResult(RESULT_OK, intent);
-
         //액티비티(팝업) 닫기
         finish();
 
@@ -59,7 +59,7 @@ public class Dialog extends AppCompatActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //바깥레이어 클릭시 안닫히게
-        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
+        if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
             return false;
         }
         return true;
@@ -70,5 +70,4 @@ public class Dialog extends AppCompatActivity {
         //안드로이드 백버튼 막기
         return;
     }
-
 }
