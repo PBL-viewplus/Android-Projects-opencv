@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,10 +33,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import org.opencv.android.OpenCVLoader;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
 
 import com.bumptech.glide.request.RequestOptions;
+
+import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 
 
 public class OCR_TTS extends AppCompatActivity {
@@ -48,6 +53,7 @@ public class OCR_TTS extends AppCompatActivity {
     private TextView mTextResult;
     private ImageButton pictureButton;
     private String dataPath = "";
+    private String mCurrentPhotoPath; // 사진 경로
 
     Tesseract tesseract = new Tesseract();
     Gallery gallery = new Gallery();
@@ -170,20 +176,56 @@ public class OCR_TTS extends AppCompatActivity {
         // 카메라 실행
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             try {
-                String path = camera.imageFilePath;
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 4;
+                File file = new File(mCurrentPhotoPath);
+                Bitmap rotatedBitmap = null;
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
+                        FileProvider.getUriForFile(OCR_TTS.this,
+                                getApplicationContext().getPackageName() + ".fileprovider", file));
 
-                originBitmap = BitmapFactory.decodeFile(path, options);
-                changeBitmap = BitmapFactory.decodeFile(path, options);
+                // 회전된 사진을 원래대로 돌려 표시한다.
+                if (bitmap != null) {
+                    ExifInterface ei = new ExifInterface(mCurrentPhotoPath);
+                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+                    switch (orientation) {
 
-                camera.exifInterface();
-                degree = camera.exifDegree;
-                camera.fileOpen(getApplicationContext(), originBitmap);
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            rotatedBitmap = rotateImage(bitmap, 90);
+                            break;
 
-            } catch (Exception e) {
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotatedBitmap = rotateImage(bitmap, 180);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotatedBitmap = rotateImage(bitmap, 270);
+                            break;
+
+                        case ExifInterface.ORIENTATION_NORMAL:
+                        default:
+                            rotatedBitmap = bitmap;
+                    }
+                    originImageView.setImageBitmap(rotatedBitmap);
+                    changeBitmap=rotatedBitmap;
+                }
+            }catch (IOException e) {
                 e.printStackTrace();
             }
+//            try {
+//                String path = camera.imageFilePath;
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inSampleSize = 4;
+//
+//                originBitmap = BitmapFactory.decodeFile(path, options);
+//                changeBitmap = BitmapFactory.decodeFile(path, options);
+//
+//                camera.exifInterface();
+//                degree = camera.exifDegree;
+//                camera.fileOpen(getApplicationContext(), originBitmap);
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
             AsyncTask<InputStream,String,String> ocrTask = new AsyncTask<InputStream, String, String>() {
                 String result;
@@ -240,6 +282,35 @@ public class OCR_TTS extends AppCompatActivity {
                 gallery.exifInterface();
                 degree = gallery.exifDegree;
 
+                Bitmap rotatedBitmap = null;
+                // 회전된 사진을 원래대로 돌려 표시한다.
+                if (changeBitmap != null) {
+                    ExifInterface ei = new ExifInterface(path);
+                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+
+                    switch (orientation) {
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            rotatedBitmap = rotateImage(changeBitmap, 90);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotatedBitmap = rotateImage(changeBitmap, 180);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotatedBitmap = rotateImage(changeBitmap, 270);
+                            break;
+
+                        case ExifInterface.ORIENTATION_NORMAL:
+
+                        default:
+                            rotatedBitmap = changeBitmap;
+                    }
+                    originImageView.setImageBitmap(rotatedBitmap);
+                    changeBitmap=rotatedBitmap;
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -288,11 +359,11 @@ public class OCR_TTS extends AppCompatActivity {
         }
 
         if (originBitmap != null) {
-            opencv.detectEdgeUsingJNI(originBitmap, changeBitmap);
+            //opencv.detectEdgeUsingJNI(originBitmap, changeBitmap); //갤러리 오류
 
             // 사진 회전
-            requestOptions.transform(new RotateTransform(degree));
-            Glide.with(this).load(originBitmap).apply(requestOptions).into(originImageView);
+//            requestOptions.transform(new RotateTransform(degree));
+//            Glide.with(this).load(originBitmap).apply(requestOptions).into(originImageView);
         }
     }
 
