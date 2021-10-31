@@ -40,7 +40,8 @@ public class Camera {
 
             }
             if (photoFile != null) {
-                photoUri = FileProvider.getUriForFile(context, context.getPackageName(), photoFile);
+                // ***이전: context.getPackageName()
+                photoUri = FileProvider.getUriForFile(context, "org.techtown.opencv.fileprovider", photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
             }
         }

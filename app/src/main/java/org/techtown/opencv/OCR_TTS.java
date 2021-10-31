@@ -3,6 +3,7 @@ package org.techtown.opencv;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -13,21 +14,24 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.opencv.android.OpenCVLoader;
@@ -38,6 +42,8 @@ import java.io.InputStream;
 
 
 import com.bumptech.glide.request.RequestOptions;
+
+import javax.crypto.SecretKey;
 
 import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 
@@ -54,6 +60,11 @@ public class OCR_TTS extends AppCompatActivity {
     private ImageButton pictureButton;
     private String dataPath = "";
     private String mCurrentPhotoPath; // 사진 경로
+
+    public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
+    public String TAG="hello";
+
+//    private boolean flag = false;
 
     Tesseract tesseract = new Tesseract();
     Gallery gallery = new Gallery();
@@ -77,10 +88,10 @@ public class OCR_TTS extends AppCompatActivity {
         // Mainactivity의 intent value값 받아 버튼 종류 결정
         Intent intent = getIntent();
         int value = intent.getExtras().getInt("value");
-        if (value == 1){
+        if (value == 1) {
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.picturebutton));
         }
-        if (value == 2){
+        if (value == 2) {
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.gallerybutton));
         }
 
@@ -90,15 +101,15 @@ public class OCR_TTS extends AppCompatActivity {
 
         // 갤러리 권한 체크
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!gallery.hasPermissions(gallery.PERMISSIONS,getApplicationContext())) {
+            if (!gallery.hasPermissions(gallery.PERMISSIONS, getApplicationContext())) {
                 requestPermissions(gallery.PERMISSIONS, gallery.PERMISSIONS_REQUEST_CODE);
             }
         }
 
         // tesseract 언어 데이터 경로
-        dataPath = getFilesDir()+ "/tesseract/";
-        tesseract.checkFile(new File(dataPath+"tessdata/"),"kor", dataPath, getApplicationContext());
-        tesseract.checkFile(new File(dataPath+"tessdata/"),"eng", dataPath, getApplicationContext());
+        dataPath = getFilesDir() + "/tesseract/";
+        tesseract.checkFile(new File(dataPath + "tessdata/"), "kor", dataPath, getApplicationContext());
+        tesseract.checkFile(new File(dataPath + "tessdata/"), "eng", dataPath, getApplicationContext());
 
         // tesseract 객체 초기화
         tesseract.tessInit(dataPath);
@@ -107,15 +118,15 @@ public class OCR_TTS extends AppCompatActivity {
         tts.initTTS(getApplicationContext());
 
         // 사진 찍기, 갤러리 버튼
-        pictureButton.setOnClickListener(new Button.OnClickListener(){
+        pictureButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (value == 1){
+                if (value == 1) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     camera.cameraStart(getApplicationContext(), intent);
                     startActivityForResult(intent, 1);
                 }
-                if (value == 2){
+                if (value == 2) {
                     Intent intent = new Intent(Intent.ACTION_PICK);
                     intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
                     intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -125,7 +136,7 @@ public class OCR_TTS extends AppCompatActivity {
         });
 
         // 돋보기 +버튼
-        minusButton.setOnClickListener(new Button.OnClickListener(){
+        minusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
@@ -150,7 +161,6 @@ public class OCR_TTS extends AppCompatActivity {
 
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
@@ -168,7 +178,7 @@ public class OCR_TTS extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        RequestOptions requestOptions= new RequestOptions();
+        RequestOptions requestOptions = new RequestOptions();
         requestOptions = requestOptions.skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE); // 캐시비우기
 
         float degree = 0; // 회전에 필요한 각도
@@ -176,7 +186,8 @@ public class OCR_TTS extends AppCompatActivity {
         // 카메라 실행
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             try {
-                File file = new File(mCurrentPhotoPath);
+                //경로 변경**  --> 오류: 분석완전히 안끝내고 다른 사진찍으면 분석중입니다 뜨지 않음
+                File file = new File(camera.imageFilePath);
                 Bitmap rotatedBitmap = null;
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
                         FileProvider.getUriForFile(OCR_TTS.this,
@@ -184,7 +195,7 @@ public class OCR_TTS extends AppCompatActivity {
 
                 // 회전된 사진을 원래대로 돌려 표시한다.
                 if (bitmap != null) {
-                    ExifInterface ei = new ExifInterface(mCurrentPhotoPath);
+                    ExifInterface ei = new ExifInterface(camera.imageFilePath);
                     int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                             ExifInterface.ORIENTATION_UNDEFINED);
                     switch (orientation) {
@@ -206,9 +217,9 @@ public class OCR_TTS extends AppCompatActivity {
                             rotatedBitmap = bitmap;
                     }
                     originImageView.setImageBitmap(rotatedBitmap);
-                    changeBitmap=rotatedBitmap;
+                    changeBitmap = rotatedBitmap;
                 }
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 //            try {
@@ -227,7 +238,7 @@ public class OCR_TTS extends AppCompatActivity {
 //                e.printStackTrace();
 //            }
 
-            AsyncTask<InputStream,String,String> ocrTask = new AsyncTask<InputStream, String, String>() {
+            AsyncTask<InputStream, String, String> ocrTask = new AsyncTask<InputStream, String, String>() {
                 String result;
                 // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
                 ProgressDialog progressDialog = new ProgressDialog(OCR_TTS.this); // 실시간 진행 상태 알림
@@ -242,20 +253,21 @@ public class OCR_TTS extends AppCompatActivity {
                     tts.speakOutString("분석중입니다");
                     publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
 
-                    result = tesseract.processImage(changeBitmap);
+                    progressDialog.setCanceledOnTouchOutside(false);
+
+                    //result = tesseract.processImage(changeBitmap);
                     return result;
                 }
 
                 @SuppressLint("StaticFieldLeak")
                 @Override // 종료
-                protected void onPostExecute(String s){
+                protected void onPostExecute(String s) {
 
-                    if(TextUtils.isEmpty(s)){
+                    if (TextUtils.isEmpty(s)) {
                         progressDialog.dismiss();
                         mTextResult.setText("인식할 수 없습니다");
                         tts.speakOut(mTextResult);
-                    }
-                    else {
+                    } else {
                         progressDialog.dismiss();
                         mTextResult.setText(result);
                         tts.speakOut(mTextResult);
@@ -263,7 +275,7 @@ public class OCR_TTS extends AppCompatActivity {
                 }
 
                 @Override
-                protected void onProgressUpdate(String... values){
+                protected void onProgressUpdate(String... values) {
                     progressDialog.setMessage(values[0]);
                 }
             };
@@ -271,51 +283,63 @@ public class OCR_TTS extends AppCompatActivity {
         }
 
         // 갤러리 실행
-        if (requestCode == 2 && resultCode == Activity.RESULT_OK){
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
             try {
                 String path = gallery.getImagePathFromURI(data.getData(), getApplicationContext());
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 4;
                 originBitmap = BitmapFactory.decodeFile(path, options);
                 changeBitmap = BitmapFactory.decodeFile(path, options);
+                Bitmap tempBitmap = BitmapFactory.decodeFile(path, options);
 
-                gallery.exifInterface();
-                degree = gallery.exifDegree;
+//                gallery.exifInterface();
+//                degree = gallery.exifDegree;
 
                 Bitmap rotatedBitmap = null;
+                Bitmap showBitmap = null;
+
                 // 회전된 사진을 원래대로 돌려 표시한다.
-                if (changeBitmap != null) {
+                if (originBitmap != null) {
                     ExifInterface ei = new ExifInterface(path);
                     int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                             ExifInterface.ORIENTATION_UNDEFINED);
 
                     switch (orientation) {
                         case ExifInterface.ORIENTATION_ROTATE_90:
-                            rotatedBitmap = rotateImage(changeBitmap, 90);
+                            rotatedBitmap = rotateImage(originBitmap, 90);
+                            showBitmap = rotateImage(tempBitmap, 90);
                             break;
 
                         case ExifInterface.ORIENTATION_ROTATE_180:
-                            rotatedBitmap = rotateImage(changeBitmap, 180);
+                            rotatedBitmap = rotateImage(originBitmap, 180);
+                            showBitmap = rotateImage(tempBitmap, 180);
                             break;
 
                         case ExifInterface.ORIENTATION_ROTATE_270:
-                            rotatedBitmap = rotateImage(changeBitmap, 270);
+                            rotatedBitmap = rotateImage(originBitmap, 270);
+                            showBitmap = rotateImage(tempBitmap, 270);
                             break;
 
                         case ExifInterface.ORIENTATION_NORMAL:
 
                         default:
-                            rotatedBitmap = changeBitmap;
+                            rotatedBitmap = originBitmap;
+                            showBitmap = tempBitmap;
                     }
-                    originImageView.setImageBitmap(rotatedBitmap);
-                    changeBitmap=rotatedBitmap;
+                    //originImageView.setImageBitmap(rotatedBitmap);
+                    originBitmap = rotatedBitmap;
+                    changeBitmap = rotatedBitmap;
+                    opencv.detectEdgeUsingJNI(originBitmap, changeBitmap);
+
+                    originImageView.setImageBitmap(showBitmap);
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            AsyncTask<InputStream,String,String> ocrTask = new AsyncTask<InputStream, String, String>() {
+
+            AsyncTask<InputStream, String, String> ocrTask = new AsyncTask<InputStream, String, String>() {
                 String result;
                 // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
                 ProgressDialog progressDialog = new ProgressDialog(OCR_TTS.this); // 실시간 진행 상태 알림
@@ -325,49 +349,86 @@ public class OCR_TTS extends AppCompatActivity {
                     progressDialog.show();
                 } // progressdialog 생성
 
+                @RequiresApi(api = Build.VERSION_CODES.M) //버전 23까지 가야됨
+                @SuppressLint("StaticFieldLeak")
                 @Override // 진행중
                 protected String doInBackground(InputStream... inputStreams) {
+
                     tts.speakOutString("분석중입니다");
                     publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
 
+
+                    //창 터치시 중지 방지
+                    //progressDialog.setCancelable(false);//뒤로가기도 막음
+                    progressDialog.setCanceledOnTouchOutside(false);
+
+
                     result = tesseract.processImage(changeBitmap);
+
                     return result;
                 }
 
+                @RequiresApi(api = Build.VERSION_CODES.M)
                 @SuppressLint("StaticFieldLeak")
                 @Override // 종료
-                protected void onPostExecute(String s){
+                protected void onPostExecute(String s) {
 
-                    if(TextUtils.isEmpty(s)){
+                    if (TextUtils.isEmpty(s)) {
                         progressDialog.dismiss();
                         mTextResult.setText("인식할 수 없습니다");
                         tts.speakOut(mTextResult);
-                    }
-                    else {
+                    } else {
                         progressDialog.dismiss();
                         mTextResult.setText(result);
+
+                        //다시 암호화 실행
+                        try{
+                            if (!AES.isExistKey(alias)) {
+                                AES.generateKey(alias);
+                            }
+                            SecretKey secretKey = AES.getKeyStoreKey(alias);
+                            String[] enc = AES.encByKeyStoreKey(secretKey, result);
+                            result="비어있음";
+
+                            Log.d(TAG, "암호화 결과 : " + enc[0]);
+                            Log.d(TAG, "암호화 IV : " + enc[1]);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                         tts.speakOut(mTextResult);
                     }
                 }
 
                 @Override
-                protected void onProgressUpdate(String... values){
+                protected void onProgressUpdate(String... values) {
                     progressDialog.setMessage(values[0]);
                 }
+
+//                @Override
+//                protected void onCancelled() {//액티비티나갈때..
+//                    super.onCancelled();
+//                    System.out.println("hellllllllflag22222222"+flag);
+//
+//                    if (tts != null){
+//                        tts.ttsDestory();
+//                    }
+//
+//                }
             };
             ocrTask.execute();
         }
 
-        if (originBitmap != null) {
-            //opencv.detectEdgeUsingJNI(originBitmap, changeBitmap); //갤러리 오류
-
-            // 사진 회전
-//            requestOptions.transform(new RotateTransform(degree));
-//            Glide.with(this).load(originBitmap).apply(requestOptions).into(originImageView);
-        }
+//        if (originBitmap != null) {
+//            //opencv.detectEdgeUsingJNI(originBitmap, changeBitmap);
+//
+//            // 사진 회전
+////            requestOptions.transform(new RotateTransform(degree));
+////            Glide.with(this).load(originBitmap).apply(requestOptions).into(originImageView);
+//        }
     }
 
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         tts.ttsStop();
     }
@@ -379,8 +440,42 @@ public class OCR_TTS extends AppCompatActivity {
             changeBitmap = null;
         }
 
-        if (tts != null){
+        if (tts != null) {
             tts.ttsDestory();
         }
+
+//        if (ocrTask.getStatus() == AsyncTask.Status.RUNNING) {
+//            ocrTask.cancel(true);
+//        }
     }
+
+
+    //progressDialog 중지시킴 (이전 과정 아예 중지)
+//    public void killProgressDialog(ProgressDialog progressDialog){
+//        progressDialog.setCancelable(true);
+//
+//        progressDialog.cancel();
+//        progressDialog.dismiss();
+//    }
+//
+//    @Override
+//    public void onBackPressed() {// 액티비티 벗어날때만 됨.. 헐
+//        Toast.makeText(this, "Back button pressed.", Toast.LENGTH_SHORT).show();
+//
+//        ocrTask.cancel(true);
+//
+//
+//
+//        flag=true;
+//        System.out.println("hellllllllflag333333"+flag);
+//
+//        super.onBackPressed();
+//
+//        //killProgressDialog(progressDialog);
+//
+//        //finish();
+//    }
+
+
+
 }
