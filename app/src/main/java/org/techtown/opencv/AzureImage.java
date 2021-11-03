@@ -91,7 +91,7 @@ public class AzureImage extends AppCompatActivity {
         permission.permissioncheck(getApplicationContext());
 
         // TTS 객체 초기화
-        tts.initTTS(getApplicationContext());
+        tts.initTTS(this, 0);
 
         // 초기 imageView 설정
         Bitmap sample = BitmapFactory.decodeResource(getResources(),R.drawable.sample);

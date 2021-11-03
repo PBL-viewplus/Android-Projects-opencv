@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,16 +14,21 @@ public class TTS_controller {
 
     private final Bundle params = new Bundle();
     private TextToSpeech tts;
+    // 팝업창 tts 내용
+    private String dialogText = "주의사항. 사진은 최대한 가까이하고 정중앙으로 찍어주세요. 그림자가 지지 않게 밝은 곳에서 찍어주세요.";
 
 
     // tts 객체 초기화
-    public void initTTS(Context context) {
+    public void initTTS(Context context, int num) {
         params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, null);
         tts = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int state) {
                 if (state == TextToSpeech.SUCCESS) {
                     tts.setLanguage(Locale.KOREAN);
+                    if (num==1){
+                        speakOutString(dialogText);
+                    }
                 } else {
                     Toast.makeText(context, "TTS 객체 초기화 중 문제가 발생했습니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -52,6 +56,7 @@ public class TTS_controller {
 
     // tts 실행 함수(String)
     public void speakOutString(String s) {
+        tts.setSpeechRate((float) 0.9); // 속도
         tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
     }
 
@@ -75,21 +80,3 @@ public class TTS_controller {
         }
     }
 }
-
-// 돋보기 기능 -> 나중에 추가
-//ImageButton b; (사진찍기 버튼)
-//
-////이미지버튼 설정
-//        b=findViewById(R.id.imageButton);
-//                b.setBackground(ContextCompat.getDrawable(this, R.drawable.backarrow));
-////돋보기 기능. textSize는 public으로 선언-xml 연결 수정필요
-//                Button plusButton= findViewById(R.id.plusButton);
-//                plusButton.setOnClickListener(new View.OnClickListener() {
-//@Override
-//public void onClick(View v) {
-//        TextView textview= findViewById(R.id.textView);
-//        int size= 16;
-//        textSize+=5;
-//        textview.setTextSize(size+textSize);
-//        }
-//        });

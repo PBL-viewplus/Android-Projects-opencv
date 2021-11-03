@@ -1,11 +1,9 @@
 package org.techtown.opencv;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -14,7 +12,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Dialog extends AppCompatActivity {
-    TextView txtText;
+    private TextView title;
+    private TextView content;
+
+    TTS_controller tts = new TTS_controller();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,34 +28,26 @@ public class Dialog extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setTitle("");
 
-        //UI 객체생성
-        txtText = (TextView) findViewById(R.id.txtText);
+        title = findViewById(R.id.title);
+        content = findViewById(R.id.content);
 
-        //데이터 가져오기
-        Intent intent = getIntent();
-        String data = intent.getStringExtra("data"); //xml에서 작성할거면 불필요
-        txtText.setText(data);
+        tts.initTTS(this, 1);
     }
 
     //확인 버튼 클릭
     public void mOnClose(View v) {
-        //데이터 전달하기
         Intent intent = new Intent();
         intent.putExtra("result", "확인");
         setResult(RESULT_OK, intent);
-
-        //액티비티(팝업) 닫기
-        finish();
+        finish(); //액티비티(팝업) 닫기
     }
 
+    // 다시보지 않기 버튼
     public void mOnCloseForever(View v) {
-        //데이터 전달하기
         Intent intent = new Intent();
         intent.putExtra("result", "다시보지않기");
         setResult(RESULT_OK, intent);
-        //액티비티(팝업) 닫기
-        finish();
-
+        finish(); //액티비티(팝업) 닫기
     }
 
     @Override
@@ -69,5 +63,17 @@ public class Dialog extends AppCompatActivity {
     public void onBackPressed() {
         //안드로이드 백버튼 막기
         return;
+    }
+
+    public void onStop(){
+        super.onStop();
+        tts.ttsStop();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        if (tts != null){
+            tts.ttsDestory();
+        }
     }
 }

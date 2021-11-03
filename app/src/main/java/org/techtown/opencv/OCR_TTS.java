@@ -115,7 +115,7 @@ public class OCR_TTS extends AppCompatActivity {
         tesseract.tessInit(dataPath);
 
         // TTS 객체 초기화
-        tts.initTTS(getApplicationContext());
+        tts.initTTS(this, 0);
 
         // 사진 찍기, 갤러리 버튼
         pictureButton.setOnClickListener(new Button.OnClickListener() {

@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
         camera_image = findViewById(R.id.button3);
         gallery_image = findViewById(R.id.button4);
         web_image = findViewById(R.id.button5);
-        PopDialog="";
+        PopDialog = "";
 
-        pref=getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         editor = pref.edit();
 
         // 카메라 문자 읽기
@@ -49,12 +48,11 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("value", 1);
                 startActivity(intent);
 
-                PopDialog=pref.getString("result","");
+                PopDialog = pref.getString("result","");
 
-                if(PopDialog.equals("") || PopDialog.equals("확인")){
+                if (PopDialog.equals("") || PopDialog.equals("확인")){
                     //데이터 담아서 팝업(액티비티) 호출
                     Intent intent2 = new Intent(getApplicationContext(), Dialog.class);
-                    intent2.putExtra("data", "Test Popup");//xml에서 작성할거면 불필요
                     startActivityForResult(intent2, 1);
                 }
 
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                //데이터 받기
+                // 데이터 받기
                 PopDialog = data.getStringExtra("result");
                 editor.putString("result", PopDialog);
                 editor.apply();
@@ -105,16 +103,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //뒤로가기 눌렀을 때 앱 종료 묻기
+    // 뒤로가기 눌렀을 때 앱 종료 묻기
     public void onBackPressed() {
-        // 2. 다이얼로그를 생성한다.
+        // 다이얼로그 생성
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("알림");
         builder.setMessage("앱을 종료하시겠습니까?");
         builder.setNegativeButton("취소", null);
         builder.setPositiveButton("종료", new DialogInterface.OnClickListener() {
             @Override public void onClick(DialogInterface dialog, int which) {
-                // 3. 다이얼로그의 긍정 이벤트일 경우 종료한다.
+                // 긍정 이벤트일 경우 다이얼로그 종료
                 android.os.Process.killProcess(android.os.Process.myPid());
             }
         });
