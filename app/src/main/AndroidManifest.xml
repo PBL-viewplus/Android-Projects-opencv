@@ -32,6 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OpenCV">
         <activity android:name=".WebBrowser"></activity>
+        <activity android:name=".RegexDialog"
+            android:theme="@style/Theme.AppCompat.Dialog" ></activity>
         <!-- 카메라 메모리초과 오류 -->
         <activity android:name=".AzureImage"></activity>
         <activity

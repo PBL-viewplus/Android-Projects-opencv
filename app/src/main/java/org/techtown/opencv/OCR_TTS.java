@@ -60,6 +60,8 @@ public class OCR_TTS extends AppCompatActivity {
     private ImageButton pictureButton;
     private String dataPath = "";
     private String mCurrentPhotoPath; // 사진 경로
+    private String choiceResult="";
+    private String result="";
 
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
     public String TAG="hello";
@@ -339,8 +341,9 @@ public class OCR_TTS extends AppCompatActivity {
             }
 
 
+
             AsyncTask<InputStream, String, String> ocrTask = new AsyncTask<InputStream, String, String>() {
-                String result;
+                //String result;
                 // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
                 ProgressDialog progressDialog = new ProgressDialog(OCR_TTS.this); // 실시간 진행 상태 알림
 
@@ -356,7 +359,6 @@ public class OCR_TTS extends AppCompatActivity {
 
                     tts.speakOutString("분석중입니다");
                     publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
-
 
                     //창 터치시 중지 방지
                     //progressDialog.setCancelable(false);//뒤로가기도 막음
@@ -379,24 +381,40 @@ public class OCR_TTS extends AppCompatActivity {
                         tts.speakOut(mTextResult);
                     } else {
                         progressDialog.dismiss();
-                        mTextResult.setText(result);
+
+                        //1. result 보고 검열 할게 있으면 팝업창 뜨고.
+                        //2. 네/ 아니오로 검열 여부를 정해야됨.- 그에 맞는 결과 출력
+
+
+                        //검열 묻는 팝업창
+                        Intent regexDialogIntent = new Intent(getApplicationContext(), RegexDialog.class);
+                        startActivityForResult(regexDialogIntent, 3);
+
+                        //분석결과 지우기
+                        mTextResult.setText("");
+
+                        System.out.println("hooo"+ result);
+                        System.out.println("hooo5555"+ choiceResult);
+
 
                         //다시 암호화 실행
-                        try{
-                            if (!AES.isExistKey(alias)) {
-                                AES.generateKey(alias);
-                            }
-                            SecretKey secretKey = AES.getKeyStoreKey(alias);
-                            String[] enc = AES.encByKeyStoreKey(secretKey, result);
-                            result="비어있음";
+//                        try{
+//                            if (!AES.isExistKey(alias)) {
+//                                AES.generateKey(alias);
+//                            }
+//                            SecretKey secretKey = AES.getKeyStoreKey(alias);
+//                            String[] enc = AES.encByKeyStoreKey(secretKey, result);
+//                            result="비어있음";
+//
+//                            Log.d(TAG, "암호화 결과 : " + enc[0]);
+//                            Log.d(TAG, "암호화 IV : " + enc[1]);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
 
-                            Log.d(TAG, "암호화 결과 : " + enc[0]);
-                            Log.d(TAG, "암호화 IV : " + enc[1]);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
 
-                        tts.speakOut(mTextResult);
+                        System.out.println("hooo222222"+ result);
+
                     }
                 }
 
@@ -405,18 +423,9 @@ public class OCR_TTS extends AppCompatActivity {
                     progressDialog.setMessage(values[0]);
                 }
 
-//                @Override
-//                protected void onCancelled() {//액티비티나갈때..
-//                    super.onCancelled();
-//                    System.out.println("hellllllllflag22222222"+flag);
-//
-//                    if (tts != null){
-//                        tts.ttsDestory();
-//                    }
-//
-//                }
             };
             ocrTask.execute();
+
         }
 
 //        if (originBitmap != null) {
@@ -426,6 +435,23 @@ public class OCR_TTS extends AppCompatActivity {
 ////            requestOptions.transform(new RotateTransform(degree));
 ////            Glide.with(this).load(originBitmap).apply(requestOptions).into(originImageView);
 //        }
+
+
+        if (requestCode == 3) { //검열 팝업창 결과 받는 곳
+            if (resultCode == RESULT_OK) {
+                choiceResult = data.getStringExtra("result");
+                System.out.println("hooo33333333"+ choiceResult);
+
+                if(choiceResult.equals("네")){
+                }
+                else if(choiceResult.equals("아니오")){
+                    result=Regex.doRegex(result);
+                }
+
+                mTextResult.setText(result);
+                tts.speakOut(mTextResult);
+            }
+        }
     }
 
     public void onStop() {
@@ -444,38 +470,7 @@ public class OCR_TTS extends AppCompatActivity {
             tts.ttsDestory();
         }
 
-//        if (ocrTask.getStatus() == AsyncTask.Status.RUNNING) {
-//            ocrTask.cancel(true);
-//        }
     }
-
-
-    //progressDialog 중지시킴 (이전 과정 아예 중지)
-//    public void killProgressDialog(ProgressDialog progressDialog){
-//        progressDialog.setCancelable(true);
-//
-//        progressDialog.cancel();
-//        progressDialog.dismiss();
-//    }
-//
-//    @Override
-//    public void onBackPressed() {// 액티비티 벗어날때만 됨.. 헐
-//        Toast.makeText(this, "Back button pressed.", Toast.LENGTH_SHORT).show();
-//
-//        ocrTask.cancel(true);
-//
-//
-//
-//        flag=true;
-//        System.out.println("hellllllllflag333333"+flag);
-//
-//        super.onBackPressed();
-//
-//        //killProgressDialog(progressDialog);
-//
-//        //finish();
-//    }
-
 
 
 }
