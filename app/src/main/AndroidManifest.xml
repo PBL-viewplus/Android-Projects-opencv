@@ -24,22 +24,24 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.OpenCV"
-
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"><!-- 카메라 메모리초과 오류 -->
-        <activity android:name=".AzureImage">
-
-        </activity>
-        <activity android:name=".Intro"
-            android:screenOrientation="portrait"> <!-- 가로 화면 고정-->
+        android:theme="@style/Theme.OpenCV">
+        <activity android:name=".WebBrowser"></activity>
+        <!-- 카메라 메모리초과 오류 -->
+        <activity android:name=".AzureImage"></activity>
+        <activity
+            android:name=".Intro"
+            android:screenOrientation="portrait"> <!-- 가로 화면 고정 -->
 
         </activity>
-        <activity android:name=".Dialog" android:theme="@style/Theme.AppCompat.Dialog"></activity>
+        <activity
+            android:name=".Dialog"
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,8 +49,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OCR_TTS"/>
-        <activity android:name=".AzureImage"
+        <activity android:name=".OCR_TTS" />
+        <activity
+            android:name=".AzureImage"
             tools:ignore="DuplicateActivity" />
 
         <provider

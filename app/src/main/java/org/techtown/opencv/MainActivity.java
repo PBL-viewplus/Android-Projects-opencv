@@ -88,6 +88,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // 웹브라우저 기능
+        web_image.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), WebBrowser.class);
+                startActivity(intent);
+            }
+        });
     }
 
         @Override
