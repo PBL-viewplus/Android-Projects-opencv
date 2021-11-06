@@ -86,8 +86,6 @@ public class Regex {
 //        Matcher cardMasking = maskingPattern.get(6).matcher(inputData);//카드번호. 국내 앞자리 34569
 //        Matcher addressMasking = maskingPattern.get(7).matcher(inputData); //주소
 
-        //초기화해서 다시 넣기
-        confirmMatcher= new ArrayList<>();
 //        confirmMatcher.add(emailMasking);
 //        confirmMatcher.add(phoneNumberMasking);
 //        confirmMatcher.add(phoneBlankMasking);
@@ -97,7 +95,8 @@ public class Regex {
 //        confirmMatcher.add(cardMasking);
 //        confirmMatcher.add(addressMasking);
 
-        //isRegex에서 써서 다시 할당
+        //초기화해서 다시 넣기
+        confirmMatcher= new ArrayList<>();
         confirmMatcher.add(maskingPattern.get(0).matcher(inputData));//이메일
         confirmMatcher.add(maskingPattern.get(1).matcher(inputData));//휴대폰 번호
         confirmMatcher.add(maskingPattern.get(2).matcher(inputData));//휴대폰 번호(띄어쓰기 버전)
@@ -105,7 +104,7 @@ public class Regex {
         confirmMatcher.add(maskingPattern.get(4).matcher(inputData));//전화 번호 -서울이거나 다른지역
         confirmMatcher.add(maskingPattern.get(5).matcher(inputData));//주민등록번호
         confirmMatcher.add(maskingPattern.get(6).matcher(inputData));//카드번호. 국내 앞자리 34569
-        confirmMatcher.add(maskingPattern.get(7).matcher(inputData)); //주소
+        confirmMatcher.add(maskingPattern.get(7).matcher(inputData));//주소
 
         Matcher emailMasking = confirmMatcher.get(0); //이메일
         Matcher phoneNumberMasking = confirmMatcher.get(1);//휴대폰 번호
@@ -114,7 +113,7 @@ public class Regex {
         Matcher houseNumberMasking = confirmMatcher.get(4);//전화 번호 -서울이거나 다른지역
         Matcher personNumberMasking = confirmMatcher.get(5);//주민등록번호
         Matcher cardMasking = confirmMatcher.get(6);//카드번호. 국내 앞자리 34569
-        Matcher addressMasking= confirmMatcher.get(7);
+        Matcher addressMasking= confirmMatcher.get(7);//주소
 
 
         while(emailMasking.find()){//이메일 ex)te*****@naver.com

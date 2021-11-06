@@ -15,8 +15,9 @@ public class TTS_controller {
     private final Bundle params = new Bundle();
     private TextToSpeech tts;
     // 팝업창 tts 내용
-    private String dialogText = "주의사항. 사진은 최대한 가까이하고 정중앙으로 찍어주세요. 그림자가 지지 않게 밝은 곳에서 찍어주세요.";
-
+    private String dialogText = "주의사항 사진은 최대한 가까이하고 정중앙으로 찍어주세요 그림자가 지지 않게 밝은 곳에서 찍어주세요";
+    // 검열 팝업창 내용
+    private String maskingDialogText= "개인정보가 포함될 수도 있습니다 열람하시겠습니까?";
 
     // tts 객체 초기화
     public void initTTS(Context context, int num) {
@@ -28,6 +29,9 @@ public class TTS_controller {
                     tts.setLanguage(Locale.KOREAN);
                     if (num==1){
                         speakOutString(dialogText);
+                    }
+                    if (num==2){
+                        speakOutString(maskingDialogText);
                     }
                 } else {
                     Toast.makeText(context, "TTS 객체 초기화 중 문제가 발생했습니다.", Toast.LENGTH_SHORT).show();

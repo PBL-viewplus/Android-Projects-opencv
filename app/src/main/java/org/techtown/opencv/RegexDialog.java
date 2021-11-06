@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 public class RegexDialog extends AppCompatActivity {
+    TTS_controller tts = new TTS_controller();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class RegexDialog extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setTitle("");
 
+        tts.initTTS(this, 2);
     }
 
     public void yesButton(View v){
@@ -58,5 +60,17 @@ public class RegexDialog extends AppCompatActivity {
     public void onBackPressed() {
         //안드로이드 백버튼 막기
         return;
+    }
+
+    public void onStop(){
+        super.onStop();
+        tts.ttsStop();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        if (tts != null){
+            tts.ttsDestory();
+        }
     }
 }
