@@ -10,21 +10,18 @@ import java.util.regex.Pattern;
 
 public class Regex {
     public static boolean hasRegex=false;
+    public static ArrayList<Pattern> maskingPattern; //정규식 패턴 넣을 동적배열
+    public static ArrayList<Matcher> confirmMatcher; //일치하는지 확인하는 동적배열
+
+    //확인하는거에 스트링넣을거. 그리고 정의 다 내린다음에 정규식 있는지 확인까지 넣음
+    //그 다음 함수 실행하면 와일문들 돌리기
 
     //마스킹할 패턴이 있는지 확인
-    public static void isRegex(ArrayList<Matcher> matcherList){
-        for(int i=0;i<matcherList.size();i++){
-            if(matcherList.get(i).find()){
-                hasRegex=true;
-                break;
-            }
-        }
-    }
-
-    public static String doRegex(String input){
+    public static boolean isRegex(String input){
         String inputData=input;
 
-        ArrayList<Pattern> maskingPattern= new ArrayList<>();
+        //정규식 패턴 넣은 배열
+        maskingPattern= new ArrayList<>();
         maskingPattern.add(Pattern.compile("[a-zA-Z0-9]+@[a-zA-Z0-9]+[a-z]+")); //이메일
         maskingPattern.add(Pattern.compile("01(0|1)-(\\d{3}|\\d{4})-\\d{4}")); //휴대폰 번호
         maskingPattern.add(Pattern.compile("01(0|1) (\\d{3}|\\d{4}) \\d{4}")); //휴대폰 번호(띄어쓰기 버전)
@@ -35,27 +32,90 @@ public class Regex {
         maskingPattern.add(Pattern.compile("(([가-힣]+(시|도)|[서울]|[경기]|[인천]|[강원]|[대구]|[대전]|[충청]|[광주]|[부산]|[울산]|[경상]|[전라]|[제주])( |[가-힣])+(시|군|구))( |)(|([가-힣]+( |\\d|\\d(,|\\.)|\\d |)+(읍|면|동|가|리))(^구|))( |)( |(([가-힣]|\\d(,|\\.)|(\\d+(~|-)\\d)|( |)\\d)+(로|길)))( |)((\\d{1,3}(~|-)\\d{1,3}|\\d{1,3})|)( |)(([가-힣]+(| )((\\d+동( |)\\d+호)|(\\d+호)))|)")); //주소
 
         //형식 일치하는지 확인
-        Matcher emailMasking = maskingPattern.get(0).matcher(inputData); //이메일
-        Matcher phoneNumberMasking = maskingPattern.get(1).matcher(inputData);//휴대폰 번호
-        Matcher phoneBlankMasking = maskingPattern.get(2).matcher(inputData);//휴대폰 번호(띄어쓰기 버전)
-        Matcher phoneNoBlankMasking = maskingPattern.get(3).matcher(inputData);//휴대폰 번호(붙여쓴 버전)
-        Matcher houseNumberMasking = maskingPattern.get(4).matcher(inputData);//전화 번호 -서울이거나 다른지역
-        Matcher personNumberMasking = maskingPattern.get(5).matcher(inputData);//주민등록번호
-        Matcher cardMasking = maskingPattern.get(6).matcher(inputData);//카드번호. 국내 앞자리 34569
-        Matcher addressMasking = maskingPattern.get(7).matcher(inputData); //주소
+//        Matcher emailMasking = maskingPattern.get(0).matcher(inputData); //이메일
+//        Matcher phoneNumberMasking = maskingPattern.get(1).matcher(inputData);//휴대폰 번호
+//        Matcher phoneBlankMasking = maskingPattern.get(2).matcher(inputData);//휴대폰 번호(띄어쓰기 버전)
+//        Matcher phoneNoBlankMasking = maskingPattern.get(3).matcher(inputData);//휴대폰 번호(붙여쓴 버전)
+//        Matcher houseNumberMasking = maskingPattern.get(4).matcher(inputData);//전화 번호 -서울이거나 다른지역
+//        Matcher personNumberMasking = maskingPattern.get(5).matcher(inputData);//주민등록번호
+//        Matcher cardMasking = maskingPattern.get(6).matcher(inputData);//카드번호. 국내 앞자리 34569
+//        Matcher addressMasking = maskingPattern.get(7).matcher(inputData); //주소
 
-        ArrayList<Matcher> confirmMatcher= new ArrayList<>();
-        confirmMatcher.add(emailMasking);
-        confirmMatcher.add(phoneNumberMasking);
-        confirmMatcher.add(phoneBlankMasking);
-        confirmMatcher.add(phoneNoBlankMasking);
-        confirmMatcher.add(houseNumberMasking);
-        confirmMatcher.add(personNumberMasking);
-        confirmMatcher.add(cardMasking);
-        confirmMatcher.add(addressMasking);
+        //형식 일치하는지 확인하는 배열
+        confirmMatcher= new ArrayList<>();
+        confirmMatcher.add(maskingPattern.get(0).matcher(inputData)); //이메일
+        confirmMatcher.add(maskingPattern.get(1).matcher(inputData));//휴대폰 번호
+        confirmMatcher.add(maskingPattern.get(2).matcher(inputData));//휴대폰 번호(띄어쓰기 버전)
+        confirmMatcher.add(maskingPattern.get(3).matcher(inputData));//휴대폰 번호(붙여쓴 버전)
+        confirmMatcher.add(maskingPattern.get(4).matcher(inputData));//전화 번호 -서울이거나 다른지역
+        confirmMatcher.add(maskingPattern.get(5).matcher(inputData));//주민등록번호
+        confirmMatcher.add(maskingPattern.get(6).matcher(inputData));//카드번호. 국내 앞자리 34569
+        confirmMatcher.add(maskingPattern.get(7).matcher(inputData)); //주소
 
-        //마스킹할 패턴이 있는지 확인
-        isRegex(confirmMatcher);
+        //문장에 정규식이 존재하는지 확인
+        for(int i=0;i<confirmMatcher.size();i++){
+            if(confirmMatcher.get(i).find()){
+                hasRegex=true;
+                break;
+            }
+        }
+        return hasRegex;
+    }
+
+    public static String doMasking(String input){
+        String inputData=input;
+        hasRegex=false; //다음 분석을 위해 false로 설정해줌
+
+//        ArrayList<Pattern> maskingPattern= new ArrayList<>();
+//        maskingPattern.add(Pattern.compile("[a-zA-Z0-9]+@[a-zA-Z0-9]+[a-z]+")); //이메일
+//        maskingPattern.add(Pattern.compile("01(0|1)-(\\d{3}|\\d{4})-\\d{4}")); //휴대폰 번호
+//        maskingPattern.add(Pattern.compile("01(0|1) (\\d{3}|\\d{4}) \\d{4}")); //휴대폰 번호(띄어쓰기 버전)
+//        maskingPattern.add(Pattern.compile("010\\d{8}")); //휴대폰 번호(붙여쓴 버전)
+//        maskingPattern.add(Pattern.compile("0(2|[3-6][1-5])-\\d{3,4}-\\d{4}")); //전화 번호 -서울이거나 다른지역
+//        maskingPattern.add(Pattern.compile("\\d{6}-[1-4]\\d{6}")); //주민등록번호
+//        maskingPattern.add(Pattern.compile("[34569][0-9]{3}-[0-9]{4}-[0-9]{4}-[0-9]{4}")); //카드번호. 국내 앞자리 34569
+//        maskingPattern.add(Pattern.compile("(([가-힣]+(시|도)|[서울]|[경기]|[인천]|[강원]|[대구]|[대전]|[충청]|[광주]|[부산]|[울산]|[경상]|[전라]|[제주])( |[가-힣])+(시|군|구))( |)(|([가-힣]+( |\\d|\\d(,|\\.)|\\d |)+(읍|면|동|가|리))(^구|))( |)( |(([가-힣]|\\d(,|\\.)|(\\d+(~|-)\\d)|( |)\\d)+(로|길)))( |)((\\d{1,3}(~|-)\\d{1,3}|\\d{1,3})|)( |)(([가-힣]+(| )((\\d+동( |)\\d+호)|(\\d+호)))|)")); //주소
+
+        //형식 일치하는지 확인
+//        Matcher emailMasking = maskingPattern.get(0).matcher(inputData); //이메일
+//        Matcher phoneNumberMasking = maskingPattern.get(1).matcher(inputData);//휴대폰 번호
+//        Matcher phoneBlankMasking = maskingPattern.get(2).matcher(inputData);//휴대폰 번호(띄어쓰기 버전)
+//        Matcher phoneNoBlankMasking = maskingPattern.get(3).matcher(inputData);//휴대폰 번호(붙여쓴 버전)
+//        Matcher houseNumberMasking = maskingPattern.get(4).matcher(inputData);//전화 번호 -서울이거나 다른지역
+//        Matcher personNumberMasking = maskingPattern.get(5).matcher(inputData);//주민등록번호
+//        Matcher cardMasking = maskingPattern.get(6).matcher(inputData);//카드번호. 국내 앞자리 34569
+//        Matcher addressMasking = maskingPattern.get(7).matcher(inputData); //주소
+
+        //초기화해서 다시 넣기
+        confirmMatcher= new ArrayList<>();
+//        confirmMatcher.add(emailMasking);
+//        confirmMatcher.add(phoneNumberMasking);
+//        confirmMatcher.add(phoneBlankMasking);
+//        confirmMatcher.add(phoneNoBlankMasking);
+//        confirmMatcher.add(houseNumberMasking);
+//        confirmMatcher.add(personNumberMasking);
+//        confirmMatcher.add(cardMasking);
+//        confirmMatcher.add(addressMasking);
+
+        //isRegex에서 써서 다시 할당
+        confirmMatcher.add(maskingPattern.get(0).matcher(inputData));//이메일
+        confirmMatcher.add(maskingPattern.get(1).matcher(inputData));//휴대폰 번호
+        confirmMatcher.add(maskingPattern.get(2).matcher(inputData));//휴대폰 번호(띄어쓰기 버전)
+        confirmMatcher.add(maskingPattern.get(3).matcher(inputData));//휴대폰 번호(붙여쓴 버전)
+        confirmMatcher.add(maskingPattern.get(4).matcher(inputData));//전화 번호 -서울이거나 다른지역
+        confirmMatcher.add(maskingPattern.get(5).matcher(inputData));//주민등록번호
+        confirmMatcher.add(maskingPattern.get(6).matcher(inputData));//카드번호. 국내 앞자리 34569
+        confirmMatcher.add(maskingPattern.get(7).matcher(inputData)); //주소
+
+        Matcher emailMasking = confirmMatcher.get(0); //이메일
+        Matcher phoneNumberMasking = confirmMatcher.get(1);//휴대폰 번호
+        Matcher phoneBlankMasking = confirmMatcher.get(2);//휴대폰 번호(띄어쓰기 버전)
+        Matcher phoneNoBlankMasking = confirmMatcher.get(3);//휴대폰 번호(붙여쓴 버전)
+        Matcher houseNumberMasking = confirmMatcher.get(4);//전화 번호 -서울이거나 다른지역
+        Matcher personNumberMasking = confirmMatcher.get(5);//주민등록번호
+        Matcher cardMasking = confirmMatcher.get(6);//카드번호. 국내 앞자리 34569
+        Matcher addressMasking= confirmMatcher.get(7);
+
 
         while(emailMasking.find()){//이메일 ex)te*****@naver.com
             String target = emailMasking.group(0);
@@ -68,7 +128,6 @@ public class Regex {
                 inputData= inputData.replace(target, target.substring(0, 3) +  String.valueOf(c)+ "@" +emailRight);
             }
             System.out.println(inputData);
-            //isRegex=true;
         }
         while(phoneNumberMasking.find()) {//휴대폰 번호 ex)010-****-3932
             String target = phoneNumberMasking.group(0);

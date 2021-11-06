@@ -38,7 +38,7 @@ public class RegexDialog extends AppCompatActivity {
     public void noButton(View v){
         //데이터 전달하기
         Intent intent = new Intent();
-        intent.putExtra("result", "아니오");
+        intent.putExtra("result", "검열해서 보기");
         setResult(RESULT_OK, intent);
 
         //액티비티(팝업) 닫기

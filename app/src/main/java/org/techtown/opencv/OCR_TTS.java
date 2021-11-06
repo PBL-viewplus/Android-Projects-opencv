@@ -73,6 +73,7 @@ public class OCR_TTS extends AppCompatActivity {
     OpenCV opencv = new OpenCV();
     Camera camera = new Camera();
     TTS_controller tts = new TTS_controller();
+    Regex regex = new Regex();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,7 +242,7 @@ public class OCR_TTS extends AppCompatActivity {
 //            }
 
             AsyncTask<InputStream, String, String> ocrTask = new AsyncTask<InputStream, String, String>() {
-                String result;
+                //String result;
                 // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
                 ProgressDialog progressDialog = new ProgressDialog(OCR_TTS.this); // 실시간 진행 상태 알림
 
@@ -257,7 +258,7 @@ public class OCR_TTS extends AppCompatActivity {
 
                     progressDialog.setCanceledOnTouchOutside(false);
 
-                    //result = tesseract.processImage(changeBitmap);
+                    result = tesseract.processImage(changeBitmap);
                     return result;
                 }
 
@@ -271,9 +272,28 @@ public class OCR_TTS extends AppCompatActivity {
                         tts.speakOut(mTextResult);
                     } else {
                         progressDialog.dismiss();
-                        mTextResult.setText(result);
-                        tts.speakOut(mTextResult);
+
+                        //텍스트에 마스킹할 부분이 있다면
+                        if(regex.isRegex(result)){
+                            //검열 묻는 팝업창
+                            Intent regexDialogIntent = new Intent(getApplicationContext(), RegexDialog.class);
+                            startActivityForResult(regexDialogIntent, 3);
+                            //분석결과 지우기
+                            mTextResult.setText("");
+                            //다음 분석을 위해 셋팅
+                            regex.hasRegex= false;
+                        }else{
+                            //분석결과 지우기
+                            mTextResult.setText("");
+                            //아니면 바로 보여줌
+                            mTextResult.setText(result);
+                            tts.speakOut(mTextResult);
+                            System.out.println("hooonononono"+ result);
+                        }
+
                     }
+
+
                 }
 
                 @Override
@@ -386,16 +406,23 @@ public class OCR_TTS extends AppCompatActivity {
                         //2. 네/ 아니오로 검열 여부를 정해야됨.- 그에 맞는 결과 출력
 
 
-                        //검열 묻는 팝업창
-                        Intent regexDialogIntent = new Intent(getApplicationContext(), RegexDialog.class);
-                        startActivityForResult(regexDialogIntent, 3);
-
-                        //분석결과 지우기
-                        mTextResult.setText("");
-
-                        System.out.println("hooo"+ result);
-                        System.out.println("hooo5555"+ choiceResult);
-
+                        //텍스트에 마스킹할 부분이 있다면
+                        if(regex.isRegex(result)){
+                            //검열 묻는 팝업창
+                            Intent regexDialogIntent = new Intent(getApplicationContext(), RegexDialog.class);
+                            startActivityForResult(regexDialogIntent, 3);
+                            //분석결과 지우기
+                            mTextResult.setText("");
+                            //다음 분석을 위해 셋팅
+                            regex.hasRegex= false;
+                        }else{
+                            //분석결과 지우기
+                            mTextResult.setText("");
+                            //아니면 바로 보여줌
+                            mTextResult.setText(result);
+                            tts.speakOut(mTextResult);
+                            System.out.println("hooonononono"+ result);
+                        }
 
                         //다시 암호화 실행
 //                        try{
@@ -411,9 +438,6 @@ public class OCR_TTS extends AppCompatActivity {
 //                        } catch (Exception e) {
 //                            e.printStackTrace();
 //                        }
-
-
-                        System.out.println("hooo222222"+ result);
 
                     }
                 }
@@ -437,20 +461,16 @@ public class OCR_TTS extends AppCompatActivity {
 //        }
 
 
-        if (requestCode == 3) { //검열 팝업창 결과 받는 곳
-            if (resultCode == RESULT_OK) {
-                choiceResult = data.getStringExtra("result");
-                System.out.println("hooo33333333"+ choiceResult);
+        if (requestCode == 3 && resultCode == RESULT_OK) { //검열 팝업창 결과 받는 곳
+            choiceResult = data.getStringExtra("result");
+            System.out.println("hooo33333333"+ choiceResult);
 
-                if(choiceResult.equals("네")){
-                }
-                else if(choiceResult.equals("아니오")){
-                    result=Regex.doRegex(result);
-                }
-
-                mTextResult.setText(result);
-                tts.speakOut(mTextResult);
+            if(choiceResult.equals("검열해서 보기")){
+                result=regex.doMasking(result);
             }
+
+            mTextResult.setText(result);
+            tts.speakOut(mTextResult);
         }
     }
 
