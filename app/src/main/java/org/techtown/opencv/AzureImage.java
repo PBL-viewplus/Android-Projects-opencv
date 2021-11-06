@@ -49,29 +49,23 @@ import edmt.dev.edmtdevcognitivevision.VisionServiceClient;
 import edmt.dev.edmtdevcognitivevision.VisionServiceRestClient;
 import android.os.Bundle;
 
+
 public class AzureImage extends AppCompatActivity {
-    ImageView imageView;
-    TextView mTextResult;
-    ImageButton pictureButton;
-    Bitmap imgBitmap;
-    ImageButton minusButton;
-    ImageButton plusButton;
-    ImageButton backButton;
-
-
+    private ImageView imageView;
+    private TextView mTextResult;
+    private ImageButton pictureButton;
+    private Bitmap imgBitmap;
+    private ImageButton minusButton;
+    private ImageButton plusButton;
+    private ImageButton backButton;
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
 
     VisionServiceClient visionServiceClient = new VisionServiceRestClient(API_KEY,API_LINK);
-
-    // tts 객체 생성
     TTS_controller tts = new TTS_controller();
-
-    // 카메라 객체 생성
     Camera camera = new Camera();
-
-    // 갤러리 객체 생성
     Gallery gallery = new Gallery();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,33 +91,9 @@ public class AzureImage extends AppCompatActivity {
         Bitmap sample = BitmapFactory.decodeResource(getResources(),R.drawable.sample);
         imageView.setImageBitmap(sample);
 
-
-        minusButton.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
-            }
-        });
-
-        plusButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
-            }
-        });
-
-        // 뒤로가기 버튼
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         //인텐트 받기
         Intent intent = getIntent();
         int value = intent.getExtras().getInt("value");
-
         if (value == 3){
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.picturebutton));
         }
@@ -149,6 +119,27 @@ public class AzureImage extends AppCompatActivity {
             }
         });
 
+        minusButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+            }
+        });
+
+        plusButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+            }
+        });
+
+        // 뒤로가기 버튼
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
