@@ -62,10 +62,11 @@ public class WebBrowser extends AppCompatActivity {
     private Button mPreButton;
     private Button mAnalyzeButton;
     private TextView mAnalyzeResult;
+    private Boolean flag = false; // 분석버튼 실행 관련 변수
 
-    private String url = "https://www.naver.com"; // url담을 변수 선언
+    //    private String url = "https://www.naver.com"; // url담을 변수 선언
+    private String url = "";
     private List<String> image_src = new ArrayList<>();
-    private List <String> image_data_src = new ArrayList<>();
     private int index = 0;
 
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
@@ -113,7 +114,8 @@ public class WebBrowser extends AppCompatActivity {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                url = mText.getText().toString();
+                image_src.clear();
+                url = mText.getText().toString();
                 if (url != null) {
                     openUrl();
                 }
@@ -135,7 +137,8 @@ public class WebBrowser extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(index < image_src.size()){
+                tts.ttsStop();
+                if(index < image_src.size()-1){
                     index++;
                     new DownloadFilesTask().execute(image_src.get(index));
                 }
@@ -146,82 +149,9 @@ public class WebBrowser extends AppCompatActivity {
         mAnalyzeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                BitmapDrawable drawable = (BitmapDrawable)mImageView.getDrawable();
-                Bitmap bitmap = drawable.getBitmap();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
-                final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-                AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
-                    // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
-                    ProgressDialog progressDialog = new ProgressDialog(WebBrowser.this); // 실시간 진행 상태 알림
-
-                    @Override // 작업시작
-                    protected void onPreExecute() {
-                        progressDialog.show();
-                    } // progressdialog 생성
-
-                    @Override // 진행중
-                    protected String doInBackground(InputStream... inputStreams) {
-                        try
-                        {
-                            tts.speakOutString("분석중입니다");
-                            publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
-                            String[] features = {"Description"};
-                            String[] details = {};
-
-                            AnalysisResult result = visionServiceClient.analyzeImage(inputStreams[0],features,details);
-
-                            String jsonResult = new Gson().toJson(result);
-                            return jsonResult;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (VisionServiceException e) {
-                            e.printStackTrace();
-                        }
-                        return "";
-                    }
-
-                    @SuppressLint("StaticFieldLeak")
-                    @Override // 종료
-                    protected void onPostExecute(String s){
-
-                        if(TextUtils.isEmpty(s)){
-                            mAnalyzeResult.setText("인식할 수 없습니다");
-                            Toast.makeText(WebBrowser.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
-                            tts.speakOut(mAnalyzeResult);
-                        }
-                        else {
-                            progressDialog.dismiss();
-                            AnalysisResult result = new Gson().fromJson(s, AnalysisResult.class);
-                            StringBuilder result_Text = new StringBuilder();
-                            for (Caption caption : result.description.captions)
-                                result_Text.append(caption.text);
-
-                            //파파고 번역
-                            new Thread() {
-                                @Override
-                                public void run() {
-                                    String word = result_Text.toString();
-                                    Papago_translate papago = new Papago_translate();
-                                    String resultWord = papago.getTranslation(word, "en", "ko");
-
-                                    Bundle papagoBundle = new Bundle();
-                                    papagoBundle.putString("resultWord", resultWord);
-
-                                    Message msg = papago_handler.obtainMessage();
-                                    msg.setData(papagoBundle);
-                                    papago_handler.sendMessage(msg);
-                                }
-                            }.start();
-                        }
-                    }
-
-                    @Override
-                    protected void onProgressUpdate(String... values){
-                        progressDialog.setMessage(values[0]);
-                    }
-                };
-                visionTask.execute(inputStream);
+                if (flag) {
+                    webAnalyze();
+                }
             }
         });
     }
@@ -266,21 +196,30 @@ public class WebBrowser extends AppCompatActivity {
         public void getHtml(String html) {
             //위 자바스크립트가 호출되면 여기로 html이 반환됨
             //html확인 방법이지만 아래 로그에러를 동반할 수 있음. //textView.setText(html);
-            //text를 doc로 파싱
-            Document doc = Jsoup.parse(html);
-//            Log.d("result: ", "doc= " + doc);
-            //img 태그만 선별
-            Elements imgs = doc.select("img");
-            Log.d("result: ", "doc= " + imgs);
+            Document doc = Jsoup.parse(html); // html을 doc로 파싱
+            Elements imgs = doc.select("img"); //img 태그만 선별
 
             for(Element img : imgs) {
-                image_src.add(img.attr("abs:src"));
-            }
-            for(Element img : imgs) {
-                image_data_src.add(img.attr("abs:data-src"));
+                if(img.attr("abs:src") != "" ){
+                    image_src.add(img.attr("abs:src"));
+                    Log.e("src",img.attr("abs:src"));
+                }
+                if(img.attr("abs:data-src") != ""){
+                    image_src.add(img.attr("abs:data-src"));
+                    Log.e("src",img.attr("abs:data-src"));
+                }
             }
 
-            new DownloadFilesTask().execute(image_src.get(0));
+            if (image_src.isEmpty()){ // 해당 url에 이미지가 없을 경우
+                flag = false; // 분석 버튼 불가
+                mAnalyzeResult.setText("이미지 검색결과가 없습니다.");
+                tts.speakOutString("이미지 검색결과가 없습니다.");
+                Bitmap tempimg = BitmapFactory.decodeResource(getResources(),R.drawable.sample);
+                mImageView.setImageBitmap(tempimg);
+            } else{
+                flag = true; // 분석 버튼 가능
+                new DownloadFilesTask().execute(image_src.get(0));
+            }
         }
     }
 
@@ -312,6 +251,84 @@ public class WebBrowser extends AppCompatActivity {
         }
     }
 
+    protected void webAnalyze(){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Bitmap imgBitmap = ((BitmapDrawable)((mImageView)).getDrawable()).getBitmap();
+        imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
+        final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
+            // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
+            ProgressDialog progressDialog = new ProgressDialog(WebBrowser.this); // 실시간 진행 상태 알림
+
+            @Override // 작업시작
+            protected void onPreExecute() {
+                progressDialog.show();
+            } // progressdialog 생성
+
+            @Override // 진행중
+            protected String doInBackground(InputStream... inputStreams) {
+                try
+                {
+                    tts.speakOutString("분석중입니다");
+                    publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
+                    String[] features = {"Description"};
+                    String[] details = {};
+
+                    AnalysisResult result = visionServiceClient.analyzeImage(inputStreams[0],features,details);
+
+                    String jsonResult = new Gson().toJson(result);
+                    return jsonResult;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (VisionServiceException e) {
+                    e.printStackTrace();
+                }
+                return "";
+            }
+
+            @SuppressLint("StaticFieldLeak")
+            @Override // 종료
+            protected void onPostExecute(String s){
+
+                if(TextUtils.isEmpty(s)){
+                    mAnalyzeResult.setText("인식할 수 없습니다");
+                    Toast.makeText(WebBrowser.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
+                    tts.speakOut(mAnalyzeResult);
+                }
+                else {
+                    progressDialog.dismiss();
+                    AnalysisResult result = new Gson().fromJson(s, AnalysisResult.class);
+                    StringBuilder result_Text = new StringBuilder();
+                    for (Caption caption : result.description.captions)
+                        result_Text.append(caption.text);
+
+                    //파파고 번역
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            String word = result_Text.toString();
+                            Papago_translate papago = new Papago_translate();
+                            String resultWord = papago.getTranslation(word, "en", "ko");
+
+                            Bundle papagoBundle = new Bundle();
+                            papagoBundle.putString("resultWord", resultWord);
+
+                            Message msg = papago_handler.obtainMessage();
+                            msg.setData(papagoBundle);
+                            papago_handler.sendMessage(msg);
+                        }
+                    }.start();
+                }
+            }
+
+            @Override
+            protected void onProgressUpdate(String... values){
+                progressDialog.setMessage(values[0]);
+            }
+        };
+        visionTask.execute(inputStream);
+    }
+
     //파파고 번역에 필요한 핸들러
     @SuppressLint("HandlerLeak")
     Handler papago_handler = new Handler(){
@@ -324,4 +341,16 @@ public class WebBrowser extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(),resultWord,Toast.LENGTH_SHORT).show();
         }
     };
+
+    public void onStop(){
+        super.onStop();
+        tts.ttsStop();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        if (tts != null){
+            tts.ttsDestory();
+        }
+    }
 }
