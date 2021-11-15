@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.techtown.opencv">
+    package="com.pbl.viewplus">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -31,34 +31,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OpenCV">
-        <activity android:name=".WebBrowser"></activity>
-        <activity android:name=".RegexDialog"
+        <activity android:name="com.pbl.viewplus.WebBrowser"></activity>
+        <activity android:name="com.pbl.viewplus.RegexDialog"
             android:theme="@style/Theme.AppCompat.Dialog" ></activity>
         <!-- 카메라 메모리초과 오류 -->
-        <activity android:name=".AzureImage"></activity>
+        <activity android:name="com.pbl.viewplus.AzureImage"></activity>
         <activity
-            android:name=".Intro"
+            android:name="com.pbl.viewplus.Intro"
             android:screenOrientation="portrait"> <!-- 가로 화면 고정 -->
 
         </activity>
         <activity
-            android:name=".Dialog"
+            android:name="com.pbl.viewplus.Dialog"
             android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.pbl.viewplus.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OCR_TTS" />
+        <activity android:name="com.pbl.viewplus.OCR_TTS" />
         <activity
-            android:name=".AzureImage"
+            android:name="com.pbl.viewplus.AzureImage"
             tools:ignore="DuplicateActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="org.techtown.opencv.fileprovider"
+            android:authorities="com.pbl.viewplus.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

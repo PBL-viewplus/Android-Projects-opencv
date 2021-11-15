@@ -3,12 +3,10 @@
 //
 package org.opencv.dnn;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.opencv.core.Mat;
-import org.opencv.dnn.Model;
-import org.opencv.dnn.Net;
-import org.opencv.dnn.TextRecognitionModel;
+
+import java.util.List;
+
 import org.opencv.utils.Converters;
 
 // C++: class TextRecognitionModel

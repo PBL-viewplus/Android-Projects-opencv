@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".OCR_TTS">
+    tools:context="com.pbl.viewplus.OCR_TTS">
 
     <ScrollView
         android:layout_width="match_parent"

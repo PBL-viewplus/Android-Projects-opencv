@@ -5,7 +5,7 @@
     android:background="#eeeeee"
     android:orientation="vertical"
     android:layout_width="300dp"
-    tools:context=".RegexDialog"
+    tools:context="com.pbl.viewplus.RegexDialog"
     android:layout_height="wrap_content">
 
     <!-- 타이틀바 -->

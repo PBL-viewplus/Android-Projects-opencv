@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+
+
 /**
  * This is a basic class, implementing the interaction with Camera and OpenCV library.
  * The main responsibility of it - is to control when camera can be enabled, process the frame,

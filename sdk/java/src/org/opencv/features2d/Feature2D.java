@@ -3,11 +3,13 @@
 //
 package org.opencv.features2d;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.opencv.core.Algorithm;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.opencv.utils.Converters;
 
 // C++: class Feature2D

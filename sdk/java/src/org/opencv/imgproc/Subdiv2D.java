@@ -3,8 +3,6 @@
 //
 package org.opencv.imgproc;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat4;
 import org.opencv.core.MatOfFloat6;
@@ -12,6 +10,9 @@ import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
+
+import java.util.List;
+
 import org.opencv.utils.Converters;
 
 // C++: class Subdiv2D

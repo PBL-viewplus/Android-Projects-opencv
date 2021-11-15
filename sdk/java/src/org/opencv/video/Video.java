@@ -3,8 +3,6 @@
 //
 package org.opencv.video;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfFloat;
@@ -13,9 +11,10 @@ import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Size;
 import org.opencv.core.TermCriteria;
+
+import java.util.List;
+
 import org.opencv.utils.Converters;
-import org.opencv.video.BackgroundSubtractorKNN;
-import org.opencv.video.BackgroundSubtractorMOG2;
 
 // C++: class Video
 
