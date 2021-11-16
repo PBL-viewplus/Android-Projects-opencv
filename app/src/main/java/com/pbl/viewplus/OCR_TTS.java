@@ -34,12 +34,15 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import org.opencv.android.OpenCVLoader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,7 +73,7 @@ public class OCR_TTS extends AppCompatActivity {
     public String TAG="hello";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private FirebaseAuth mAuth;
 //    private boolean flag = false;
 
     Tesseract tesseract = new Tesseract();
@@ -92,6 +95,8 @@ public class OCR_TTS extends AppCompatActivity {
         plusButton = findViewById(R.id.btn_plus);
         backButton = findViewById(R.id.btn_back);
         pictureButton = findViewById(R.id.btn_picture);
+
+        mAuth = FirebaseAuth.getInstance();
 
         // Mainactivity의 intent value값 받아 버튼 종류 결정
         Intent intent = getIntent();
@@ -448,21 +453,35 @@ public class OCR_TTS extends AppCompatActivity {
                         Map<String, Object> user = new HashMap<>();
                         user.put("text", result);
 
+                        //컬렉션 이메일, uid 둘중 하나로 구별.
+//                        String userId = mAuth.getCurrentUser().getEmail();
+//                        String target = "@";
+//                        int target_num = userId.indexOf(target);
+//                        String uid = userId.substring(0, target_num);
+//                        String hhh = uid + "oooo";
+
+                        //현재 날짜로 문서 생성
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date= new Date();
+                        String getTime = sdf.format(date);
+
+                        db.collection("ooo").document(getTime).set(user);
+
                         // Add a new document with a generated ID
-                        db.collection("users")
-                                .add(user)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error adding document", e);
-                                    }
-                                });
+//                        db.collection("users")
+//                                .add(user)
+//                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                                    @Override
+//                                    public void onSuccess(DocumentReference documentReference) {
+//                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+//                                    }
+//                                })
+//                                .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Log.w(TAG, "Error adding document", e);
+//                                    }
+//                                });
 
 
                     }

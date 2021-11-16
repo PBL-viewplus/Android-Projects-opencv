@@ -31,29 +31,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OpenCV">
-        <activity android:name="com.pbl.viewplus.WebBrowser"></activity>
-        <activity android:name="com.pbl.viewplus.RegexDialog"
-            android:theme="@style/Theme.AppCompat.Dialog" ></activity>
-        <!-- 카메라 메모리초과 오류 -->
-        <activity android:name="com.pbl.viewplus.AzureImage"></activity>
-        <activity
-            android:name="com.pbl.viewplus.Intro"
-            android:screenOrientation="portrait"> <!-- 가로 화면 고정 -->
-
-        </activity>
-        <activity
-            android:name="com.pbl.viewplus.Dialog"
-            android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name="com.pbl.viewplus.MainActivity">
+        <activity android:name=".History">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.pbl.viewplus.OCR_TTS" />
+        <activity android:name=".WebBrowser" />
         <activity
-            android:name="com.pbl.viewplus.AzureImage"
+            android:name=".RegexDialog"
+            android:theme="@style/Theme.AppCompat.Dialog" /> <!-- 카메라 메모리초과 오류 -->
+        <activity android:name=".AzureImage" />
+        <activity
+            android:name=".Intro"
+            android:screenOrientation="portrait"> <!-- 가로 화면 고정 -->
+
+        </activity>
+        <activity
+            android:name=".Dialog"
+            android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".OCR_TTS" />
+        <activity
+            android:name=".AzureImage"
             tools:ignore="DuplicateActivity" />
 
         <provider
