@@ -12,14 +12,8 @@ import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -27,17 +21,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import org.opencv.android.OpenCVLoader;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,9 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-
-import com.bumptech.glide.request.RequestOptions;
 
 import javax.crypto.SecretKey;
 
@@ -144,8 +136,8 @@ public class OCR_TTS extends AppCompatActivity {
                 }
                 if (value == 2) {
                     Intent intent = new Intent(Intent.ACTION_PICK);
-                    intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-                    intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
                 }
             }
@@ -460,7 +452,7 @@ public class OCR_TTS extends AppCompatActivity {
                                 AES.generateKey(alias);
                             }
                             SecretKey secretKey = AES.getKeyStoreKey(alias);
-                            String[] enc = AES.encByKeyStoreKey(secretKey, key.toString());
+                            String[] enc = AES.encByKeyStoreKey(secretKey, key);
 
                             user.put("k", enc[0]); //암호화된 키를 보낸다.
                             user.put("iv2", enc[1]); //암호화된 키의 벡터를 보낸다.

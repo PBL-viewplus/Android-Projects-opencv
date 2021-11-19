@@ -1,14 +1,12 @@
 package com.pbl.viewplus;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,8 +14,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import javax.crypto.SecretKey;
 
@@ -53,15 +49,15 @@ public class historyDetail extends AppCompatActivity {
 
                     if (document.exists()) {
 
+                        String text=document.get("text").toString();
 
-                        hd_text_result.setText(document.get("text").toString());
+                        hd_text_result.setText(text);
                         String k=document.get("k").toString();
                         String iv2=document.get("iv2").toString();
                         Log.d("No  document", k );
                         try {
                             if (AES.isExistKey(alias)) {//있음.
                                 SecretKey secretKey = AES.getKeyStoreKey(alias);
-                                //지금뭘하든10개만나옴
                                 String enc = AES.decByKeyStoreKey(secretKey, k, iv2); //keystore키로 복호화한 우리키
                                 //k=enc[0].substring(0,32); //16, 32개로 맞추기
                                 Log.d("No  document", iv2 );
@@ -70,13 +66,13 @@ public class historyDetail extends AppCompatActivity {
 
                                 //우리키로 암호문 복호화 진행
                                 //. enc 길이가 16, 32 안맞춰져서..?
-                                String decText = AES.decByKey(enc, document.get("text").toString(),document.get("iv1").toString());
+                                String decText = AES.decByKey(enc, text,document.get("iv1").toString());
                                 Log.d("No  document", document.get("text").toString() );
                                 Log.d("No  document", document.get("iv1").toString() );
 
 
                                 hd_text_result.setText(decText);
-                                Log.d("No such document", decText );
+                                Log.d("No such document", decText);
 
                             }
 

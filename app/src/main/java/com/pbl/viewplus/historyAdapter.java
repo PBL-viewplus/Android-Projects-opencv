@@ -34,23 +34,23 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
 
     //onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴. viewType 형태의 아이템 뷰를 위한 뷰홀더 객체 생성.
     @Override
-    public historyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context=parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
 
         View view = inflater.inflate(R.layout.hdata_item, parent, false) ;
-        historyAdapter.ViewHolder vh = new historyAdapter.ViewHolder(view) ;
+        ViewHolder vh = new ViewHolder(view) ;
 
         return vh;
     }
 
     //position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시
     @Override
-    public void onBindViewHolder(historyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         hDataitem item = hData.get(position) ;
 
         String date= item.getDate();
-        holder.text.setText(item.getText());
+        holder.text.setText(item.getIv1());
 
         holder.hdata_linearLayout.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -62,6 +62,8 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
                 v.getContext().startActivity(intent);
             }
         });
+
+        //삭제 버튼 구현할때 위에코드 참고!!!!!!!!!!!!!!!!!!!!!!!!!!!(hdata_linearLayout)
 
     }
 
