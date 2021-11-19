@@ -20,6 +20,16 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AES {
 
+    // 우리 키 랜덤 생성 함수
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static byte[] generateRandomBase64Token(int byteLength) {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] token = new byte[byteLength];
+        secureRandom.nextBytes(token);
+        //return java.util.Base64.getEncoder().withoutPadding().encodeToString(token); //base64 encoding
+        return token;
+    }
+
     // 키스토어 키 존재 여부 확인
     public static boolean isExistKey(String alias) throws Exception {
         //AndroidKeyStore 프로바이더를 통해 Android KeyStore 인스턴스를 로드
@@ -37,7 +47,6 @@ public class AES {
     }
 
     // 키스토어 키 생성
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public static void generateKey(String alias) throws Exception {
         //AES암호화 사용
         final KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
@@ -98,9 +107,10 @@ public class AES {
     // 사용자 지정 키로 AES256 암호화
     public static String[] encByKey(byte[] key, String value) throws Exception {
         SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES"); // AES를 사용해서 만든 key를 secretKeySpec 변수 선언
-        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding"); // 평문 암호화 해야되니까 cipher 지정
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); // 평문 암호화 해야되니까 cipher 지정
         //랜덤 벡터 초기화 추가 -gcm은 12바이트 권장
-        byte[] iv = new byte[12]; // 암호문에 사용될 벡터 저장할 iv 초기화
+        //암호알고리즘 바꿔서 16으로 설정
+        byte[] iv = new byte[16]; // 암호문에 사용될 벡터 저장할 iv 초기화
         new SecureRandom().nextBytes(iv); // keystore키를 사용하지 않고 우리 키를 사용해서 암호화 진행하여 직접 벡터 생성
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, new IvParameterSpec(iv)); //secretKeySpec와 벡터를 사용하여 암호화 모드로 cipher 초기화
         byte[] randomKey = cipher.doFinal(value.getBytes()); // cipher 사용하여 value를 AES 암호화
@@ -120,19 +130,10 @@ public class AES {
     // 사용자 지정 키로 AES256 복호화
     public static String decByKey(byte[] key, String encText, String iv) throws Exception {
         SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES"); // AES를 사용해서 만든 key를 secretKeySpec 변수 저장
-        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding"); // 평문 복호화 해야되니까 cipher 지정
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); // 평문 복호화 해야되니까 cipher 지정
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(Base64.decode(iv.getBytes(), 0))); //secretKeySpec와 벡터를 사용하여 복호화 모드로 cipher 초기화
         byte[] secureKey = cipher.doFinal(Base64.decode(encText, 0)); // cipher 사용하여 encText를 AES 복호화
         return new String(secureKey);
-    }
-
-    // 우리 키 랜덤 생성 함수
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String generateRandomBase64Token(int byteLength) {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] token = new byte[byteLength];
-        secureRandom.nextBytes(token);
-        return java.util.Base64.getEncoder().withoutPadding().encodeToString(token); //base64 encoding
     }
 
 }

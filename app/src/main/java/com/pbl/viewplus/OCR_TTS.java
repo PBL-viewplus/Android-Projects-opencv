@@ -54,6 +54,7 @@ import javax.crypto.SecretKey;
 import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class OCR_TTS extends AppCompatActivity {
 
     private Bitmap originBitmap;
@@ -69,8 +70,10 @@ public class OCR_TTS extends AppCompatActivity {
     private String choiceResult="";
     private String result="";
 
+    //암호화
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
     public String TAG="hello";
+    public byte[] key = AES.generateRandomBase64Token(16);
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
@@ -148,15 +151,18 @@ public class OCR_TTS extends AppCompatActivity {
             }
         });
 
-        // 돋보기 +버튼
+        // 돋보기 -버튼
         minusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                Intent ent= new Intent(v.getContext(), History.class);
+                startActivity(ent);
+
+                //mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
             }
         });
 
-        // 돋보기 -버튼
+        // 돋보기 +버튼
         plusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -382,7 +388,7 @@ public class OCR_TTS extends AppCompatActivity {
                     progressDialog.show();
                 } // progressdialog 생성
 
-                @RequiresApi(api = Build.VERSION_CODES.M) //버전 23까지 가야됨
+                //버전 23까지 가야됨 -26암호화
                 @SuppressLint("StaticFieldLeak")
                 @Override // 진행중
                 protected String doInBackground(InputStream... inputStreams) {
@@ -414,7 +420,6 @@ public class OCR_TTS extends AppCompatActivity {
                         //1. result 보고 검열 할게 있으면 팝업창 뜨고.
                         //2. 네/ 아니오로 검열 여부를 정해야됨.- 그에 맞는 결과 출력
 
-
                         //텍스트에 마스킹할 부분이 있다면
                         if(regex.isRegex(result)){
                             //검열 묻는 팝업창
@@ -433,25 +438,59 @@ public class OCR_TTS extends AppCompatActivity {
                             System.out.println("hooonononono"+ result);
                         }
 
-
-                        //다시 암호화 실행
-//                        try{
-//                            if (!AES.isExistKey(alias)) {
-//                                AES.generateKey(alias);
-//                            }
-//                            SecretKey secretKey = AES.getKeyStoreKey(alias);
-//                            String[] enc = AES.encByKeyStoreKey(secretKey, result);
-//                            result="비어있음";
-//
-//                            Log.d(TAG, "암호화 결과 : " + enc[0]);
-//                            Log.d(TAG, "암호화 IV : " + enc[1]);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-
-                        //서버 연결
+                        //서버에 보낼 데이터들을 담을 맵
                         Map<String, Object> user = new HashMap<>();
-                        user.put("text", result);
+
+                        String[] encText = null;
+
+                        // 암호화 실행
+                        try{
+                            //System.out.println("hooono"+ key.length());
+                            System.out.println("hooonokey"+ key);
+
+                            //우리키로 평문 암호화
+                            encText= AES.encByKey(key, result);
+                            user.put("text", encText[0]);//암호화 된 평문
+                            user.put("iv1", encText[1]);//평문의 벡터
+
+                            System.out.println("hooonokey"+ encText[0]);
+                            System.out.println("hooonokey"+ encText[1]);
+                            //암호화 완료했으면 keystore키로 우리키 암호화하기
+                            if (!AES.isExistKey(alias)) {
+                                AES.generateKey(alias);
+                            }
+                            SecretKey secretKey = AES.getKeyStoreKey(alias);
+                            String[] enc = AES.encByKeyStoreKey(secretKey, key.toString());
+
+                            user.put("k", enc[0]); //암호화된 키를 보낸다.
+                            user.put("iv2", enc[1]); //암호화된 키의 벡터를 보낸다.
+                            System.out.println("hooonokey"+ enc[0]);
+                            System.out.println("hooonokey"+ enc[1]);
+
+//                            key=enc[0].substring(0,32); //16, 32개로 맞추기
+//                            encText = AES.encByKey(key, result);
+                            //서버로 보낼 암호문 encText[0], iv encText[1]
+
+                            //복호화 필요없음- 히스토리기능에서 구현
+                            // String decText = AES.decByKey(key, encText[0],encText[1]);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("hooono"+ result.length());
+
+                        }
+
+                        //현재 날짜로 문서 생성
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date= new Date();
+                        String getTime = sdf.format(date);
+
+//                        String collection=getTime.substring(0,10);
+//                        String document=getTime.substring(11,19);
+
+                        //서버 보낼 데이터
+                        user.put("date", getTime);
+
 
                         //컬렉션 이메일, uid 둘중 하나로 구별.
 //                        String userId = mAuth.getCurrentUser().getEmail();
@@ -460,29 +499,8 @@ public class OCR_TTS extends AppCompatActivity {
 //                        String uid = userId.substring(0, target_num);
 //                        String hhh = uid + "oooo";
 
-                        //현재 날짜로 문서 생성
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date= new Date();
-                        String getTime = sdf.format(date);
 
                         db.collection("ooo").document(getTime).set(user);
-
-                        // Add a new document with a generated ID
-//                        db.collection("users")
-//                                .add(user)
-//                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                                    @Override
-//                                    public void onSuccess(DocumentReference documentReference) {
-//                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-//                                    }
-//                                })
-//                                .addOnFailureListener(new OnFailureListener() {
-//                                    @Override
-//                                    public void onFailure(@NonNull Exception e) {
-//                                        Log.w(TAG, "Error adding document", e);
-//                                    }
-//                                });
-
 
                     }
                 }
