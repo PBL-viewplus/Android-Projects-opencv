@@ -1,0 +1,2 @@
+ninja: Entering directory `C:\Users\USER\Documents\git\20211120_down\Android-Projects-opencv-master\sdk\.cxx\cmake\debug\armeabi-v7a'
+ninja: no work to do.

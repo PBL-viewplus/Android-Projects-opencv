@@ -1,0 +1,3 @@
+C:/Users/USER/Documents/git/20211120_down/Android-Projects-opencv-master/sdk/.cxx/cmake/debug/x86/CMakeFiles/opencv_jni_shared.dir
+C:/Users/USER/Documents/git/20211120_down/Android-Projects-opencv-master/sdk/.cxx/cmake/debug/x86/CMakeFiles/edit_cache.dir
+C:/Users/USER/Documents/git/20211120_down/Android-Projects-opencv-master/sdk/.cxx/cmake/debug/x86/CMakeFiles/rebuild_cache.dir
