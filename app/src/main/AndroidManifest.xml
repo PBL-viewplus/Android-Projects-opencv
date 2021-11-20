@@ -36,6 +36,7 @@
 
         </activity>
         <activity android:name=".WebBrowser" />
+        <activity android:name=".WebResult" />
         <activity
             android:name=".RegexDialog"
             android:theme="@style/Theme.AppCompat.Dialog" /> <!-- 카메라 메모리초과 오류 -->

@@ -130,7 +130,7 @@ public class WebBrowser extends AppCompatActivity {
                 //입력받은 url을 url에 넣음
                 url = mText.getText().toString();
                 //입력이 있으면 띄워줌
-                flag = true;
+
 
                 //http://나 https://를 안붙였을때 http://를 추가함.
                 // https는 http로 연결시 자동으로 접속됨
@@ -149,7 +149,7 @@ public class WebBrowser extends AppCompatActivity {
         mClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mText.setText(null);
+                mText.setText("");
             }
         });
 
@@ -194,6 +194,7 @@ public class WebBrowser extends AppCompatActivity {
         mAnalyzeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                flag = true;
                 Intent intent = new Intent(getApplicationContext(), WebResult.class);
                 //intent.putExtra("ResultImage", intentImage);
                 //intent.putExtra("ResultText", intentText);
