@@ -6,10 +6,13 @@ import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,26 +55,32 @@ import edmt.dev.edmtdevcognitivevision.VisionServiceRestClient;
 
 public class WebBrowser extends AppCompatActivity {
 
-    private WebView mWebView;
-    private WebSettings mWebSettings;
-    private EditText mText;
+    private WebView mWebView; // 웹뷰 선언
+    private WebSettings mWebSettings; // 웹뷰세팅
+    private EditText mText; // Url 입력 받을 PlainText 선언
     private Button mSearchButton;
     private ImageView mImageView;
     private Button mNextButton;
     private Button mPreButton;
     private Button mAnalyzeButton;
+    private Button mClearButton;
     private TextView mAnalyzeResult;
-    private Boolean flag = false; // 분석버튼 실행 관련 변수
+    private Button mCopyButton;
+    private Boolean flag = false; //분석버튼 실행 변수
 
-    //    private String url = "https://www.naver.com"; // url담을 변수 선언
-    private String url = "";
+    private String url = "https://www.naver.com"; // url담을 변수 선언
+    //private String url = "";
     private List<String> image_src = new ArrayList<>();
     private int index = 0;
+    private String resultText="";
+    Bitmap resultBitmap;
+    String intentUrl = "";
 
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
 
     VisionServiceClient visionServiceClient = new VisionServiceRestClient(API_KEY,API_LINK);
+    // tts 객체 생성
     TTS_controller tts = new TTS_controller();
 
 
@@ -89,10 +98,12 @@ public class WebBrowser extends AppCompatActivity {
         mText = (EditText) findViewById(R.id.urlText);
         mSearchButton = (Button) findViewById(R.id.searchButton);
         mImageView = (ImageView) findViewById(R.id.imageView);
-        mNextButton = (Button) findViewById(R.id.nextButton);
-        mPreButton = (Button) findViewById(R.id.preButton);
+        /*mNextButton = (Button) findViewById(R.id.nextButton);
+        mPreButton = (Button) findViewById(R.id.preButton);*/
         mAnalyzeButton = (Button) findViewById(R.id.analyzeButton);
         mAnalyzeResult = (TextView) findViewById(R.id.analyzeResult);
+        mClearButton = (Button) findViewById(R.id.clearButton);
+        mCopyButton = (Button) findViewById(R.id.copyButton);
 
         // TTS 객체 초기화
         tts.initTTS(this, 0);
@@ -108,20 +119,55 @@ public class WebBrowser extends AppCompatActivity {
         settings.setDomStorageEnabled(true);
         settings.setLoadWithOverviewMode(true);
         WebView.enableSlowWholeDocumentDraw();
+        //첫 세팅 웹뷰
+        openUrl();
 
         // 검색버튼
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 image_src.clear();
+                //입력받은 url을 url에 넣음
                 url = mText.getText().toString();
+                //입력이 있으면 띄워줌
+                flag = true;
+
+                //http://나 https://를 안붙였을때 http://를 추가함.
+                // https는 http로 연결시 자동으로 접속됨
                 if (url != null) {
+                    if(!url.startsWith("http://") && !url.startsWith("https://") ){
+                        System.out.println("url2:" + url);
+                        url = "http://" + url;
+                    }
+                    //웹뷰에 띄워줌
                     openUrl();
                 }
             }
         });
 
-        // 이전 버튼
+        // 지우기 버튼
+        mClearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mText.setText(null);
+            }
+        });
+
+        // 붙여넣기 버튼
+        mCopyButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                System.out.println("!!!!!!"+clipboardManager.getPrimaryClip());
+
+                // 클립보드에 데이터가 있고 그 데이터가 텍스트 타입인 경우
+                ClipData clip = clipboardManager.getPrimaryClip();
+                ClipData.Item item = clip.getItemAt(0);
+                mText.setText(item.getText());
+            }
+        });
+
+/*        // 이전 버튼
         mPreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -142,18 +188,123 @@ public class WebBrowser extends AppCompatActivity {
                     new DownloadFilesTask().execute(image_src.get(index));
                 }
             }
-        });
+        });*/
 
         // 분석 버튼
         mAnalyzeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if (flag) {
-                    webAnalyze();
+                Intent intent = new Intent(getApplicationContext(), WebResult.class);
+                //intent.putExtra("ResultImage", intentImage);
+                //intent.putExtra("ResultText", intentText);
+                intent.putExtra("ResultUrl", intentUrl);
+                Log.e("짜증나3","왜안돼?");
+                startActivity(intent);
+                //if (flag) {
+                //webAnalyze();
+
+                //인텐트로 분석이미지와 분석결과를 던져주고 보여줌.
+/*
+                    //분석이미지
+                    //BitmapDrawable d = (BitmapDrawable)mImageView.getDrawable();
+                    //Bitmap intentImage = d.getBitmap();
+                    Bitmap intentImage = resultBitmap;
+                    //Log.e("짜증나1","왜안돼?");
+                    //while(TextUtils.isEmpty(resultText)){
+                    //sleep(1000);
+                    //}
+                    //분석결과
+                    String intentText = resultText;
+                    //Log.e("짜증나2","왜안돼?");
+*/
+                //Intent intent = new Intent(getApplicationContext(), WebSample.class);
+
+                //Log.e("짜증나4","왜안돼?");
+                //}
+            }
+        });
+
+        //롱 클릭 활성화 후 리스너
+        mWebView.setLongClickable(true);
+        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                //Toast.makeText(WebBrowser.this, "LongClick", Toast.LENGTH_SHORT).show();
+
+                WebView.HitTestResult result = mWebView.getHitTestResult();
+                //Toast.makeText(WebBrowser.this, result.toString(), Toast.LENGTH_LONG).show();
+
+                switch(result.getType()){
+                    case WebView.HitTestResult.IMAGE_TYPE: //그냥 img태그 //뉴스기사에서 사진만 있을 때
+                        String url = result.getExtra();
+                        copyText(url);
+                        //Toast.makeText(WebBrowser.this, "case1: " + url, Toast.LENGTH_LONG).show();
+                        break;
+                    case WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE: //a태그의 img태그 //거의 여기 걸림
+                        String url2 = result.getExtra();
+                        copyText(url2);
+                        //Toast.makeText(WebBrowser.this, "case2: " + url2, Toast.LENGTH_LONG).show();
+                        break;
+                    case WebView.HitTestResult.SRC_ANCHOR_TYPE: //a태그의 http일 때
+                        String link = result.getExtra();
+                        copyText(link);
+                        //Toast.makeText(WebBrowser.this, "case3: " + link, Toast.LENGTH_LONG).show();
+                        break;
                 }
+
+                //copyToClipboard(link, AppConstants.URL_TO_COPY);
+
+
+                /*//안걸림
+                if (result != null) {
+                    if (result.getType() == WebView.HitTestResult.SRC_ANCHOR_TYPE) {
+                        String linkToCopy = result.getExtra();
+                        Toast.makeText(WebBrowser.this, "linkToCopy:" + linkToCopy, Toast.LENGTH_LONG).show();
+                        //copyToClipboard(linkToCopy, AppConstants.URL_TO_COPY);
+                    }
+                }*/
+
+                return true;
             }
         });
     }
+    void copyText(String text){
+        intentUrl = text;
+        if(text.length() != 0){
+            //문자열을 클립보드에 넣는수 있는 클립데이터 형태로 포장
+            ClipData clip = ClipData.newPlainText("text", text);
+
+            //클립보드 관리자 객체를 가져옴
+            ClipboardManager cm = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(clip);//클립보드에 저장하는 부분
+
+            //Toast.makeText(this, "Text Copied", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+/*    void pasteText(){
+        //클립보드 관리자 객체를 가져옴
+        ClipboardManager cm = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+
+        //클립보드에 값이 없으면
+        if(cm.hasPrimaryClip() == false){
+            Toast.makeText(this, "clipboard empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //클립보드의 값이 텍스트가 아니면?
+        if(cm.getPrimaryClipDescription().hasMimeType(
+                ClipDescription.MIMETYPE_TEXT_PLAIN)==false){
+            Toast.makeText(this, "clip is not text", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //클립데이터를 읽는다.
+        ClipData clip = cm.getPrimaryClip();
+        ClipData.Item item = clip.getItemAt(0);//첫번째 데이터를 가져옴
+        TextView pastetext = (TextView)findViewById(R.id.pastetext);
+        pastetext.setText(item.getText());//텍스트뷰에 세팅해줌
+    }*/
 
     //웹뷰 띄워주는 메서드
     private void openUrl() {
@@ -195,30 +346,31 @@ public class WebBrowser extends AppCompatActivity {
         public void getHtml(String html) {
             //위 자바스크립트가 호출되면 여기로 html이 반환됨
             //html확인 방법이지만 아래 로그에러를 동반할 수 있음. //textView.setText(html);
-            Document doc = Jsoup.parse(html); // html을 doc로 파싱
-            Elements imgs = doc.select("img"); //img 태그만 선별
+            //text를 doc로 파싱
+            Document doc = Jsoup.parse(html);
 
-            for(Element img : imgs) {
-                if(img.attr("abs:src") != "" ){
+//          Log.d("result: ", "doc= " + doc);
+            //img 태그만 선별
+            Elements imgs = doc.select("img");
+            Log.d("result: ", "doc= " + imgs);
+
+            for (Element img : imgs) {
+
+                if (img.attr("abs:src") != "") {
                     image_src.add(img.attr("abs:src"));
-                    Log.e("src",img.attr("abs:src"));
+                    Log.e("src", img.attr("abs:src"));
                 }
-                if(img.attr("abs:data-src") != ""){
+
+                if (img.attr("abs:data-src") != "") {
                     image_src.add(img.attr("abs:data-src"));
-                    Log.e("src",img.attr("abs:data-src"));
+                    Log.e("src", img.attr("abs:data-src"));
                 }
             }
 
-            if (image_src.isEmpty()){ // 해당 url에 이미지가 없을 경우
-                flag = false; // 분석 버튼 불가
-                mAnalyzeResult.setText("이미지 검색결과가 없습니다.");
-                tts.speakOutString("이미지 검색결과가 없습니다.");
-                Bitmap tempimg = BitmapFactory.decodeResource(getResources(),R.drawable.sample);
-                mImageView.setImageBitmap(tempimg);
-            } else{
-                flag = true; // 분석 버튼 가능
-                new DownloadFilesTask().execute(image_src.get(0));
-            }
+            System.out.println("!!!!!!!!!!!!" + image_src); // 이미지 URL들
+
+            new DownloadFilesTask().execute(image_src.get(0));
+
         }
     }
 
@@ -246,16 +398,22 @@ public class WebBrowser extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap result) {
             // doInBackground 에서 받아온 total 값 사용 장소
+            resultBitmap = result;
             mImageView.setImageBitmap(result);
         }
     }
 
     protected void webAnalyze(){
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Bitmap imgBitmap = ((BitmapDrawable)((mImageView)).getDrawable()).getBitmap();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();/*
+        BitmapDrawable drawable = (BitmapDrawable)mImageView.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();*/
+        //bitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        //.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
+        //Bitmap imgBitmap = ((BitmapDrawable)((mImageView)).getDrawable()).getBitmap();
+        Bitmap imgBitmap = resultBitmap;
         imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
+        AsyncTask<InputStream, String, String> visionTask = new AsyncTask<InputStream, String, String>() {
             // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
             ProgressDialog progressDialog = new ProgressDialog(WebBrowser.this); // 실시간 진행 상태 알림
 
@@ -266,14 +424,13 @@ public class WebBrowser extends AppCompatActivity {
 
             @Override // 진행중
             protected String doInBackground(InputStream... inputStreams) {
-                try
-                {
+                try {
                     tts.speakOutString("분석중입니다");
                     publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
                     String[] features = {"Description"};
                     String[] details = {};
 
-                    AnalysisResult result = visionServiceClient.analyzeImage(inputStreams[0],features,details);
+                    AnalysisResult result = visionServiceClient.analyzeImage(inputStreams[0], features, details);
 
                     String jsonResult = new Gson().toJson(result);
                     return jsonResult;
@@ -287,14 +444,13 @@ public class WebBrowser extends AppCompatActivity {
 
             @SuppressLint("StaticFieldLeak")
             @Override // 종료
-            protected void onPostExecute(String s){
+            protected void onPostExecute(String s) {
 
-                if(TextUtils.isEmpty(s)){
+                if (TextUtils.isEmpty(s)) {
                     mAnalyzeResult.setText("인식할 수 없습니다");
-                    Toast.makeText(WebBrowser.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WebBrowser.this, "API Return Empty Result", Toast.LENGTH_SHORT).show();
                     tts.speakOut(mAnalyzeResult);
-                }
-                else {
+                } else {
                     progressDialog.dismiss();
                     AnalysisResult result = new Gson().fromJson(s, AnalysisResult.class);
                     StringBuilder result_Text = new StringBuilder();
@@ -321,7 +477,7 @@ public class WebBrowser extends AppCompatActivity {
             }
 
             @Override
-            protected void onProgressUpdate(String... values){
+            protected void onProgressUpdate(String... values) {
                 progressDialog.setMessage(values[0]);
             }
         };
@@ -335,6 +491,7 @@ public class WebBrowser extends AppCompatActivity {
         public void handleMessage(Message msg) {
             Bundle bundle = msg.getData();
             String resultWord = bundle.getString("resultWord");
+            resultText = resultWord;
             mAnalyzeResult.setText(resultWord);
             tts.speakOut(mAnalyzeResult);
             //Toast.makeText(getApplicationContext(),resultWord,Toast.LENGTH_SHORT).show();
