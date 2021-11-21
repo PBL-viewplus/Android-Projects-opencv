@@ -1,1 +1,1 @@
-C:\Users\Jiwoon Kim\Documents\GitHub\Android-Projects\sdk\libcxx_helper\CMakeLists.txt
+C:\Users\USER\Documents\Android-Projects-opencv\TempFile\Android-Projects-opencv-master\sdk\libcxx_helper\CMakeLists.txt

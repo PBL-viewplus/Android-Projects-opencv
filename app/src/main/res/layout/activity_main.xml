@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EBE5DA"
+    android:background="@drawable/main_background"
     tools:context="com.pbl.viewplus.OCR_TTS">
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="403dp"
+        android:layout_height="206dp"
         android:orientation="vertical"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
@@ -19,13 +19,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <!-- <ImageView
             android:id="@+id/logo"
             android:layout_width="100dp"
             android:layout_height="80dp"
-            android:layout_gravity="center"
+            android:layout_gravity="right"
             android:background="@drawable/logo" />
-    </LinearLayout>
+    --></LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -39,44 +39,81 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <ImageButton
-            android:id="@+id/button1"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/button1" />
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="85dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/button2" />
 
-        <ImageButton
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="85dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/button3" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="글자\n분석" />
 
-        <ImageButton
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="85dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/button4" />
+            <ImageButton
+                android:id="@+id/button1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/camera" />
 
-        <ImageButton
-            android:id="@+id/button5"
+            <ImageButton
+                android:id="@+id/button2"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gallery" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginBottom="25dp"
-            android:background="@drawable/button5" />
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="이미지 \n분석" />
+
+            <ImageButton
+                android:id="@+id/button3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/camera" />
+
+            <ImageButton
+                android:id="@+id/button4"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gallery" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/button5"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button5" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

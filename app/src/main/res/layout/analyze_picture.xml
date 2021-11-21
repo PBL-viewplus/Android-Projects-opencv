@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EBE5DA"
-    android:weightSum="10"
-    android:orientation="vertical">
+    android:background="@drawable/analyze_background"
+    android:orientation="vertical"
+    android:weightSum="10">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,22 +20,22 @@
 
             <ImageButton
                 android:id="@+id/btn_back"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
-                android:background="@drawable/backarrow"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/back"
                 android:text="Button" />
 
             <ImageButton
                 android:id="@+id/btn_picture"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="13dp"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/picturebutton"/>
+                android:layout_marginTop="13dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/picturebutton" />
 
         </RelativeLayout>
 
@@ -66,28 +66,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:weightSum="2"
-            android:orientation="horizontal">
+            android:gravity="center">
 
             <ImageButton
                 android:id="@+id/btn_minus"
-                android:layout_marginTop="10dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@drawable/minus"
                 android:text="-" />
 
             <ImageButton
                 android:id="@+id/btn_plus"
-                android:layout_marginTop="10dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@drawable/plus"
                 android:text="+" />
 
@@ -104,13 +101,13 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff"
-            android:layout_margin="10dp">
+            android:layout_margin="20dp"
+            android:background="#ffffff">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/text_result"
