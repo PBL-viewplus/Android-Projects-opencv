@@ -36,11 +36,9 @@
     <output-test url="file://$MODULE_DIR$/../../../app/build/intermediates/javac/debugUnitTest/classes" />
     <exclude-output />
     <content url="file://$USER_HOME$/AndroidStudioProjects-Kotlin202106/Android-Projects-opencv-master/OpenCV/app/src/main/cpp">
-      <sourceFolder url="file://$USER_HOME$/AndroidStudioProjects-Kotlin202106/Android-Projects-opencv-master/OpenCV/app/src/main/cpp" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME$/AndroidStudioProjects-Kotlin202106/Android-Projects-opencv-master/OpenCV/app/src/main/cpp" />
     </content>
     <content url="file://$USER_HOME$/AndroidStudioProjects-Kotlin202106/Android-Projects-opencv-master/OpenCV/sdk/native/jni/include">
-      <sourceFolder url="file://$USER_HOME$/AndroidStudioProjects-Kotlin202106/Android-Projects-opencv-master/OpenCV/sdk/native/jni/include" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME$/AndroidStudioProjects-Kotlin202106/Android-Projects-opencv-master/OpenCV/sdk/native/jni/include" />
     </content>
     <content url="file://$MODULE_DIR$/../../../app">

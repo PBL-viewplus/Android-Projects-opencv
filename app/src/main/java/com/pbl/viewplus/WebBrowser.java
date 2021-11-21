@@ -62,6 +62,7 @@ public class WebBrowser extends AppCompatActivity {
     private ImageView mImageView;
     private Button mNextButton;
     private Button mPreButton;
+    private Button mOCRButton;
     private Button mAnalyzeButton;
     private Button mClearButton;
     private TextView mAnalyzeResult;
@@ -100,10 +101,12 @@ public class WebBrowser extends AppCompatActivity {
         mImageView = (ImageView) findViewById(R.id.imageView);
         /*mNextButton = (Button) findViewById(R.id.nextButton);
         mPreButton = (Button) findViewById(R.id.preButton);*/
-        mAnalyzeButton = (Button) findViewById(R.id.analyzeButton);
+        mAnalyzeButton = (Button) findViewById(R.id.AzureButton);
+        mOCRButton = (Button) findViewById(R.id.OCRButton);
         mAnalyzeResult = (TextView) findViewById(R.id.analyzeResult);
         mClearButton = (Button) findViewById(R.id.clearButton);
         mCopyButton = (Button) findViewById(R.id.copyButton);
+
 
         // TTS 객체 초기화
         tts.initTTS(this, 0);
@@ -190,7 +193,7 @@ public class WebBrowser extends AppCompatActivity {
             }
         });*/
 
-        // 분석 버튼
+        // 이미지 분석 버튼
         mAnalyzeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -221,6 +224,17 @@ public class WebBrowser extends AppCompatActivity {
 
                 //Log.e("짜증나4","왜안돼?");
                 //}
+            }
+        });
+
+        // 글자 분석 버튼
+        mOCRButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), WebOCRResult.class);
+                intent.putExtra("ResultUrl", intentUrl);
+                Log.e("짜증나3","왜안돼?");
+                startActivity(intent);
             }
         });
 

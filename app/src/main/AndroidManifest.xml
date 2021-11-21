@@ -31,10 +31,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OpenCV">
-        <activity android:name=".historyDetail"></activity>
-        <activity android:name=".History">
-
-        </activity>
+        <activity android:name=".WebOCRResult"></activity>
+        <activity android:name=".historyDetail" />
+        <activity android:name=".History"></activity>
         <activity android:name=".WebBrowser" />
         <activity android:name=".WebResult" />
         <activity
