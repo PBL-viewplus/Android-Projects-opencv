@@ -7,6 +7,9 @@ public class hDataitem {
     private String iv2;
     private String date;
     private String k;
+    private String pic;
+    private String piciv;
+
 
     public hDataitem(){}
 
@@ -25,6 +28,15 @@ public class hDataitem {
         this.k=k;
     }
 
+    public hDataitem(String date, String text, String iv1, String iv2, String k,  String piciv) {
+        this.date=date;
+        this.text=text;
+        this.iv1=iv1;
+        this.iv2=iv2;
+        this.k=k;
+        this.piciv=piciv;
+    }
+
     public void setText(String t){
         text=t;
     }
@@ -38,6 +50,14 @@ public class hDataitem {
 
     public void setIv2(String iv2) {
         this.iv2 = iv2;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public void setPiciv(String piciv) {
+        this.piciv = piciv;
     }
 
     public String getText() {
@@ -60,5 +80,11 @@ public class hDataitem {
         return iv2;
     }
 
+    public String getPic() {
+        return pic;
+    }
 
+    public String getPiciv() {
+        return piciv;
+    }
 }

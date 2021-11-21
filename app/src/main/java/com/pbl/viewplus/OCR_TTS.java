@@ -14,12 +14,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +30,13 @@ import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.opencv.android.OpenCVLoader;
 
@@ -61,6 +68,7 @@ public class OCR_TTS extends AppCompatActivity {
     private String mCurrentPhotoPath; // 사진 경로
     private String choiceResult="";
     private String result="";
+    private String getTime;
 
     //암호화
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
@@ -68,6 +76,9 @@ public class OCR_TTS extends AppCompatActivity {
     public byte[] key = AES.generateRandomBase64Token(16);
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+
     private FirebaseAuth mAuth;
 //    private boolean flag = false;
 
@@ -360,8 +371,9 @@ public class OCR_TTS extends AppCompatActivity {
                     originBitmap = rotatedBitmap;
                     changeBitmap = rotatedBitmap;
                     //opencv.detectEdgeUsingJNI(originBitmap, changeBitmap);
+                    //showbitmap 삭제
 
-                    originImageView.setImageBitmap(showBitmap);
+                    originImageView.setImageBitmap(changeBitmap);
                 }
 
             } catch (Exception e) {
@@ -434,6 +446,8 @@ public class OCR_TTS extends AppCompatActivity {
                         Map<String, Object> user = new HashMap<>();
 
                         String[] encText = null;
+                        //암호화한 사진 담을곳
+                        String[] pic=null;
 
                         // 암호화 실행
                         try{
@@ -444,6 +458,11 @@ public class OCR_TTS extends AppCompatActivity {
                             encText= AES.encByKey(key, result);
                             user.put("text", encText[0]);//암호화 된 평문
                             user.put("iv1", encText[1]);//평문의 벡터
+
+                            //비트맵 암호화
+                            pic= AES.encByKey(key, AES.BitmapToString(changeBitmap));
+                            user.put("piciv", pic[1]);//비트맵의 벡터
+
 
                             System.out.println("hooonokey"+ encText[0]);
                             System.out.println("hooonokey"+ encText[1]);
@@ -475,13 +494,15 @@ public class OCR_TTS extends AppCompatActivity {
                         //현재 날짜로 문서 생성
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date= new Date();
-                        String getTime = sdf.format(date);
+                        getTime = sdf.format(date);
 
 //                        String collection=getTime.substring(0,10);
 //                        String document=getTime.substring(11,19);
 
-                        //서버 보낼 데이터
                         user.put("date", getTime);
+
+                        //스토리지에 보내기
+                        uploadStream(pic[0],getTime);
 
 
                         //컬렉션 이메일, uid 둘중 하나로 구별.
@@ -492,6 +513,7 @@ public class OCR_TTS extends AppCompatActivity {
 //                        String hhh = uid + "oooo";
 
 
+                        //서버로 보내기
                         db.collection("ooo").document(getTime).set(user);
 
                     }
@@ -529,6 +551,8 @@ public class OCR_TTS extends AppCompatActivity {
         }
     }
 
+
+
     public void onStop() {
         super.onStop();
         tts.ttsStop();
@@ -547,5 +571,32 @@ public class OCR_TTS extends AppCompatActivity {
 
     }
 
+
+    //스토리지에 보내기
+    public void uploadStream(String pic, String getTime){
+        //경로, 이름 지정
+        StorageReference mountainImagesRef = storageRef.child("ooo/"+ getTime +".txt");
+        byte[] data = Base64.decode(pic,0);
+
+        UploadTask uploadTask = mountainImagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                System.out.println("6644ooooiii");
+
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+                System.out.println("47888844ooooiii");
+
+            }
+        });
+
+
+    }
 
 }

@@ -1,1 +1,1 @@
-C:\Users\USER\Documents\git\20211120_down\Android-Projects-opencv-master\app\src\main\cpp\CMakeLists.txt
+C:\Users\Jiwoon Kim\Documents\GitHub\Android-Projects\app\src\main\cpp\CMakeLists.txt

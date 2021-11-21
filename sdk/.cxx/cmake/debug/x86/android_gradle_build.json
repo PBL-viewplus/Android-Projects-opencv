@@ -1,34 +1,34 @@
 {
   "stringTable": {},
   "buildFiles": [
-    "C:\\Users\\USER\\Documents\\git\\20211120_down\\Android-Projects-opencv-master\\sdk\\libcxx_helper\\CMakeLists.txt"
+    "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\libcxx_helper\\CMakeLists.txt"
   ],
   "cleanCommandsComponents": [
     [
-      "C:\\Users\\USER\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+      "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
       "-C",
-      "C:\\Users\\USER\\Documents\\git\\20211120_down\\Android-Projects-opencv-master\\sdk\\.cxx\\cmake\\debug\\x86",
+      "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\x86",
       "clean"
     ]
   ],
   "buildTargetsCommandComponents": [
-    "C:\\Users\\USER\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+    "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
     "-C",
-    "C:\\Users\\USER\\Documents\\git\\20211120_down\\Android-Projects-opencv-master\\sdk\\.cxx\\cmake\\debug\\x86",
+    "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\x86",
     "{LIST_OF_TARGETS_TO_BUILD}"
   ],
   "libraries": {
     "opencv_jni_shared-Debug-x86": {
       "buildCommandComponents": [
-        "C:\\Users\\USER\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+        "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
         "-C",
-        "C:\\Users\\USER\\Documents\\git\\20211120_down\\Android-Projects-opencv-master\\sdk\\.cxx\\cmake\\debug\\x86",
+        "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\x86",
         "opencv_jni_shared"
       ],
       "buildType": "debug",
       "abi": "x86",
       "artifactName": "opencv_jni_shared",
-      "output": "C:\\Users\\USER\\Documents\\git\\20211120_down\\Android-Projects-opencv-master\\sdk\\.cxx\\cmake\\debug\\x86\\libopencv_jni_shared.a"
+      "output": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\x86\\libopencv_jni_shared.a"
     }
   },
   "toolchains": {},

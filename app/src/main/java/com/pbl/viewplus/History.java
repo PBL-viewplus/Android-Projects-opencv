@@ -30,7 +30,7 @@ public class History extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     //삭제
-    ArrayList<String> docName = new ArrayList<String>();
+    ArrayList<String> docName = new ArrayList<>();
 
     //이전결과 볼 수 있는 액티비티
     @Override
@@ -53,7 +53,9 @@ public class History extends AppCompatActivity {
                                         document.get("text").toString(),
                                         document.get("iv1").toString(),
                                         document.get("iv2").toString(),
-                                        document.get("k").toString()
+                                        document.get("k").toString(),
+//                                        document.get("pic").toString(),
+                                        document.get("piciv").toString()
                                 ));
 
                                 mRecyclerView = findViewById(R.id.hdata_recycler) ;
@@ -72,7 +74,7 @@ public class History extends AppCompatActivity {
 
     }
 
-    public void addItem(String date, String text,String iv1,String iv2,String k ) {
+    public void addItem(String date, String text,String iv1,String iv2,String k,String piciv) {
         hDataitem item = new hDataitem();
 
         item.setText(text);
@@ -80,6 +82,9 @@ public class History extends AppCompatActivity {
         item.setIv1(iv1);
         item.setIv2(iv2);
         item.setK(k);
+//        item.setPic(pic);
+        item.setPic(piciv);
+//,String pic,String piciv
 
         mList.add(item);
     }

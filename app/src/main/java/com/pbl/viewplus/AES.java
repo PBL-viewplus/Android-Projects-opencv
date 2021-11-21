@@ -1,5 +1,7 @@
 package com.pbl.viewplus;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
@@ -8,6 +10,7 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.ByteArrayOutputStream;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.util.Enumeration;
@@ -27,9 +30,9 @@ public class AES {
         SecureRandom secureRandom = new SecureRandom();
         byte[] token = new byte[byteLength];
         secureRandom.nextBytes(token);
-        Log.d("hello" ," 결과333 : " + token[0]);//암호문
-        Log.d("hello" ," 결과333 : " + token[1]);//벡터
-        Log.d("hello" ," 결과333 : " + token.length);//벡터
+//        Log.d("hello" ," 결과333 : " + token[0]);//암호문
+//        Log.d("hello" ," 결과333 : " + token[1]);//벡터
+//        Log.d("hello" ," 결과333 : " + token.length);//벡터
         return token;
         //return Base64.encodeToString(token,0);
         //return java.util.Base64.getEncoder().withoutPadding().encodeToString(token); //base64 encoding
@@ -171,6 +174,7 @@ public class AES {
         return result;
     }
 
+
     // 사용자 지정 키로 AES256 복호화
     public static String decByKey(String key, String plainText, String iv) throws Exception {
         return decByKey(Base64.decode(key,0), plainText, iv);
@@ -184,5 +188,28 @@ public class AES {
         byte[] secureKey = cipher.doFinal(Base64.decode(encText, 0));
         return new String(secureKey);
     }
+
+
+    // String형을 BitMap으로 변환시켜주는 함수
+    public static Bitmap StringToBitmap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
+    // Bitmap을 String형으로 변환
+    public static String BitmapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 70, baos);
+        byte[] bytes = baos.toByteArray();
+        String temp = Base64.encodeToString(bytes, Base64.DEFAULT);
+        return temp;
+    }
+
 
 }
