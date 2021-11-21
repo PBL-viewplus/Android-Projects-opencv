@@ -1,1 +1,0 @@
-C:\Users\Jiwoon Kim\Documents\GitHub\Android-Projects\app\src\main\cpp\CMakeLists.txt

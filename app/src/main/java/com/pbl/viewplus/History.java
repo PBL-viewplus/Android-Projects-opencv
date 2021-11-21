@@ -57,15 +57,12 @@ public class History extends AppCompatActivity {
 //                                        document.get("pic").toString(),
                                         document.get("piciv").toString()
                                 ));
-
-                                mRecyclerView = findViewById(R.id.hdata_recycler) ;
-                                mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false)) ;
-
-                                mAdapter=new historyAdapter(mList);
-                                mRecyclerView.setAdapter(mAdapter);
-
-                                Log.d("TAG", document.getId() + " => " + document.getData());
                             }
+                            mRecyclerView = findViewById(R.id.hdata_recycler);
+                            mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                            mAdapter = new historyAdapter(mList);
+                            mRecyclerView.setAdapter(mAdapter);
+
                         } else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
                         }
