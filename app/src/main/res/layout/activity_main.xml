@@ -19,6 +19,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/btn_history"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
         <!-- <ImageView
             android:id="@+id/logo"
             android:layout_width="100dp"

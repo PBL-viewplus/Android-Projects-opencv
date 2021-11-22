@@ -159,10 +159,7 @@ public class OCR_TTS extends AppCompatActivity {
         minusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ent= new Intent(v.getContext(), History.class);
-                startActivity(ent);
-
-                //mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
             }
         });
 

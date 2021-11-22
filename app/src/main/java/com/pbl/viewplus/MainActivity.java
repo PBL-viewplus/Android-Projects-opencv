@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton camera_image;
     private ImageButton gallery_image;
     private ImageButton web_image;
+    private ImageButton btn_history;
     public String PopDialog;
 
     SharedPreferences pref;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
+
+//    History history = new History();
 
 
     @Override
@@ -56,10 +59,14 @@ public class MainActivity extends AppCompatActivity {
         camera_image = findViewById(R.id.button3);
         gallery_image = findViewById(R.id.button4);
         web_image = findViewById(R.id.button5);
+        btn_history = findViewById(R.id.btn_history);
         PopDialog = "";
 
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         editor = pref.edit();
+
+        // 히스토리 자동 삭제
+//        history.deleteDocument();
 
         //구글 연동 ->버튼생성해서 안에 넣기
 //        mAuth = FirebaseAuth.getInstance();
@@ -73,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
 
         //로그아웃
         //FirebaseAuth.getInstance().signOut();
+
+        // 히스토리 버튼
+        btn_history.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(v.getContext(), History.class);
+                startActivity(intent);
+            }
+        });
 
         // 카메라 문자 읽기
         camera_text.setOnClickListener(new Button.OnClickListener(){
