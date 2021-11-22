@@ -176,8 +176,8 @@ public class History extends AppCompatActivity {
         // 삭제할 날짜 생성
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 표시 포맷
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -5);
-        String delDate = sdf.format(cal.getTime()) + " 00:00:00"; // 현재 날짜로부터 5일전 00:00:00 로 삭제 날짜 지정
+        cal.add(Calendar.DATE, -4);
+        String delDate = sdf.format(cal.getTime()) + " 00:00:00"; // 현재 날짜로부터 4일전 00:00:00 로 삭제 날짜 지정
 
         // 해당 user의 문서 이름 가져옴
         db.collection("ooo")

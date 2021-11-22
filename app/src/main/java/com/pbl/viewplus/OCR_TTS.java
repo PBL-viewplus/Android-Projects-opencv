@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -495,6 +496,10 @@ public class OCR_TTS extends AppCompatActivity {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date= new Date();
                         getTime = sdf.format(date);
+                        // 지난 날짜로 문서 생성 (테스트용)
+//                        Calendar cal = Calendar.getInstance();
+//                        cal.add(Calendar.DATE, -5);
+//                        getTime = sdf.format(cal.getTime());
 
 //                        String collection=getTime.substring(0,10);
 //                        String document=getTime.substring(11,19);
