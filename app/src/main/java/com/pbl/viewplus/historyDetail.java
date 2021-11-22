@@ -60,7 +60,6 @@ public class historyDetail extends AppCompatActivity {
                     if (document.exists()) {
 
                         String text=document.get("text").toString();
-
                         String k=document.get("k").toString();
                         String iv2=document.get("iv2").toString();
                         Log.d("No  document", k );
@@ -115,15 +114,12 @@ public class historyDetail extends AppCompatActivity {
                                     }
                                 });
 
-
                             }
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
 
-
-                        //Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         //Log.d(TAG, "No such document");
                     }
@@ -132,25 +128,6 @@ public class historyDetail extends AppCompatActivity {
                 }
             }
         });
-
-
-//        db.collection("ooo")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                //Log.d(TAG, document.getId() + " => " + document.getData());
-//                            }
-//                        } else {
-//                            //Log.w(TAG, "Error getting documents.", task.getException());
-//                        }
-//                    }
-//                });
-
-
-
 
     }
 }
