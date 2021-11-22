@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,8 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
     private Intent intent;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
     //아이템 뷰 저장하는 뷰 홀더 클래스
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -70,7 +74,6 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         holder.itemText.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //버튼을 쓰레기로 바꿀거면 분석과정 안일어나게 하던지 아님 새로 액티비티 파던지. -간단하게 파자..
                 //결과 창으로 이동
                 intent= new Intent(v.getContext(), historyDetail.class);
                 intent.putExtra("date", date);
@@ -99,6 +102,22 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
 
                 hData.remove(position);
                 notifyItemRemoved(position);
+                notifyItemRangeChanged(position, hData.size());
+
+                //스토리지 사진파일 삭제
+                StorageReference desertRef = storageRef.child("ooo/"+ date +".txt");
+                desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // File deleted successfully
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Uh-oh, an error occurred!
+                    }
+                });
+
             }
         });
     }

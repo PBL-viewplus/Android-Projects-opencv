@@ -10,73 +10,104 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp">
-
-        <EditText
-            android:id="@+id/urlText"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:ems="10"
-            android:hint="URL"
-            android:inputType="textPersonName" />
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/searchButton"
+            android:id="@+id/AzureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이미지 분석" />
+
+        <Button
+            android:id="@+id/OCRButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="검색" />
+            android:text="글자 분석" />
 
-        <Button
-            android:id="@+id/clearButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="지우기" />
-
-        <Button
-            android:id="@+id/copyButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="붙여넣기" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/AzureButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="이미지 분석" />
-
-            <Button
-                android:id="@+id/OCRButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:text="글자 분석" />
-
-        </LinearLayout>
 
         <WebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible" />
+            android:layout_height="550dp"
+            android:visibility="visible">
+
+        </WebView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/urlText"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="URL"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="검색" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지우기" />
+
+            <Button
+                android:id="@+id/copyButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="붙여넣기" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--android:layout_height="match_parent"-->
+
+        <TextView
+            android:id="@+id/analyzeResult"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="분석 결과"
+            android:visibility="invisible" />
+        <!--android:layout_height="100dp"-->
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:scaleType="fitCenter"
+            tools:srcCompat="@tools:sample/avatars" />
+        <!--android:layout_height= 400dp로 바꾸기-->
     </LinearLayout>
 
     <!--
@@ -102,28 +133,5 @@
                     android:text="다음" />
             </LinearLayout>
     -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <!--android:layout_height="match_parent"-->
-
-        <TextView
-            android:visibility="invisible"
-            android:id="@+id/analyzeResult"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:text="분석 결과" />
-        <!--android:layout_height="100dp"-->
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:scaleType="fitCenter"
-            tools:srcCompat="@tools:sample/avatars" />
-        <!--android:layout_height= 400dp로 바꾸기-->
-    </LinearLayout>
 
 </LinearLayout>

@@ -1,1 +1,1 @@
-C:\Users\USER\Documents\Android-Projects-opencv\TempFile\Android-Projects-opencv-master\sdk\build\intermediates\cmake\debug\obj\armeabi-v7a
+C:\Users\Jiwoon Kim\Documents\GitHub\Android-Projects\sdk\build\intermediates\cmake\debug\obj\armeabi-v7a

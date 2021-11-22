@@ -3,6 +3,7 @@ package com.pbl.viewplus;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,6 +21,8 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,9 +61,13 @@ import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotate
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class WebOCRResult extends AppCompatActivity {
 
-    ImageView imageView;
-    TextView textView;
-    WebView webView;
+    private ImageView imageView;
+    private TextView textView;
+    private WebView webView;
+    private ImageButton minusButton;
+    private ImageButton plusButton;
+    private ImageButton backButton;
+
     private WebSettings mWebSettings; // 웹뷰세팅
     private String dataPath = "";
 
@@ -114,6 +121,9 @@ public class WebOCRResult extends AppCompatActivity {
         imageView = findViewById(R.id.webResultView);
         textView = findViewById(R.id.webResultTextView);
         webView = findViewById(R.id.webResultWebView);
+        minusButton = findViewById(R.id.btn_minus);
+        plusButton = findViewById(R.id.btn_plus);
+        backButton = findViewById(R.id.btn_back);
 
         webView.setVisibility(View.VISIBLE); // 웹뷰는 불러오기위해 VISIBLE로 설정
         WebSettings settings = webView.getSettings();
@@ -129,6 +139,30 @@ public class WebOCRResult extends AppCompatActivity {
 
         //첫 세팅 웹뷰
         openUrl();
+
+        // 돋보기 -버튼
+        minusButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textView.setTextSize(textView.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+            }
+        });
+
+        // 돋보기 +버튼
+        plusButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textView.setTextSize(textView.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+            }
+        });
+
+        // 뒤로가기 버튼
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     //웹뷰 띄워주는 메서드

@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -124,6 +125,21 @@ public class WebBrowser extends AppCompatActivity {
         WebView.enableSlowWholeDocumentDraw();
         //첫 세팅 웹뷰
         openUrl();
+
+
+        /*mText.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                System.out.println("!!!!!!"+clipboardManager.getPrimaryClip());
+
+                // 클립보드에 데이터가 있고 그 데이터가 텍스트 타입인 경우
+                ClipData clip = clipboardManager.getPrimaryClip();
+                ClipData.Item item = clip.getItemAt(0);
+                mText.setText(item.getText());
+                return false;
+            }
+        });*/
 
         // 검색버튼
         mSearchButton.setOnClickListener(new View.OnClickListener() {
