@@ -6,12 +6,12 @@
     "deprecated": false,
     "default": true
   },
-  "originalCxxBuildFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\x86",
-  "cxxBuildFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\x86",
+  "originalCxxBuildFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\.cxx\\cmake\\debug\\x86",
+  "cxxBuildFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\.cxx\\cmake\\debug\\x86",
   "abiPlatformVersion": 21,
   "cmake": {
-    "cmakeWrappingBaseFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cxx\\debug\\x86",
-    "cmakeArtifactsBaseFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\x86",
+    "cmakeWrappingBaseFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\.cxx\\cxx\\debug\\x86",
+    "cmakeArtifactsBaseFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\.cxx\\cmake\\debug\\x86",
     "effectiveConfiguration": {
       "name": "traditional-android-studio-cmake-environment",
       "description": "Composite reified CMakeSettings configuration",
@@ -19,13 +19,13 @@
       "inheritEnvironments": [
         "ndk"
       ],
-      "buildRoot": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\x86",
-      "cmakeToolchain": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
-      "cmakeExecutable": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
+      "buildRoot": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\.cxx\\cmake\\debug\\x86",
+      "cmakeToolchain": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
+      "cmakeExecutable": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
       "variables": [
         {
           "name": "CMAKE_FIND_ROOT_PATH",
-          "value": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\prefab\\x86\\prefab"
+          "value": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\.cxx\\cmake\\debug\\prefab\\x86\\prefab"
         },
         {
           "name": "CMAKE_BUILD_TYPE",
@@ -33,7 +33,7 @@
         },
         {
           "name": "CMAKE_TOOLCHAIN_FILE",
-          "value": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake"
+          "value": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake"
         },
         {
           "name": "ANDROID_ABI",
@@ -41,7 +41,7 @@
         },
         {
           "name": "ANDROID_NDK",
-          "value": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529"
+          "value": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529"
         },
         {
           "name": "ANDROID_PLATFORM",
@@ -53,7 +53,7 @@
         },
         {
           "name": "CMAKE_ANDROID_NDK",
-          "value": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529"
+          "value": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529"
         },
         {
           "name": "CMAKE_EXPORT_COMPILE_COMMANDS",
@@ -61,15 +61,15 @@
         },
         {
           "name": "CMAKE_LIBRARY_OUTPUT_DIRECTORY",
-          "value": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\build\\intermediates\\cmake\\debug\\obj\\x86"
+          "value": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\build\\intermediates\\cmake\\debug\\obj\\x86"
         },
         {
           "name": "CMAKE_RUNTIME_OUTPUT_DIRECTORY",
-          "value": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\build\\intermediates\\cmake\\debug\\obj\\x86"
+          "value": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\build\\intermediates\\cmake\\debug\\obj\\x86"
         },
         {
           "name": "CMAKE_MAKE_PROGRAM",
-          "value": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe"
+          "value": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe"
         },
         {
           "name": "CMAKE_SYSTEM_NAME",
@@ -85,7 +85,7 @@
         }
       ]
     },
-    "cmakeServerLogFile": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\x86\\cmake_server_log.txt"
+    "cmakeServerLogFile": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\.cxx\\cmake\\debug\\x86\\cmake_server_log.txt"
   },
   "variant": {
     "buildSystemArgumentList": [
@@ -94,8 +94,8 @@
     "cFlagsList": [],
     "cppFlagsList": [],
     "variantName": "debug",
-    "objFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\build\\intermediates\\cmake\\debug\\obj",
-    "soFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\build\\intermediates\\cmake\\debug\\lib",
+    "objFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\build\\intermediates\\cmake\\debug\\obj",
+    "soFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\build\\intermediates\\cmake\\debug\\lib",
     "isDebuggableEnabled": true,
     "validAbiList": [
       "ARMEABI_V7A",
@@ -109,15 +109,15 @@
     "implicitBuildTargetSet": [],
     "cmakeSettingsConfiguration": "android-gradle-plugin-predetermined-name",
     "module": {
-      "cxxFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx",
+      "cxxFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\.cxx",
       "splitsAbiFilterSet": [],
-      "intermediatesFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\build\\intermediates",
+      "intermediatesFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\build\\intermediates",
       "gradleModulePathName": ":sdk",
-      "moduleRootFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk",
-      "moduleBuildFile": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\build.gradle",
-      "makeFile": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\libcxx_helper\\CMakeLists.txt",
+      "moduleRootFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk",
+      "moduleBuildFile": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\build.gradle",
+      "makeFile": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\libcxx_helper\\CMakeLists.txt",
       "buildSystem": "CMAKE",
-      "ndkFolder": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529",
+      "ndkFolder": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529",
       "ndkVersion": "21.4.7075529",
       "ndkSupportedAbiList": [
         "ARMEABI_V7A",
@@ -180,31 +180,31 @@
           "default": true
         }
       ],
-      "originalCmakeToolchainFile": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
-      "cmakeToolchainFile": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
+      "originalCmakeToolchainFile": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
+      "cmakeToolchainFile": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
       "cmake": {
         "isValidCmakeAvailable": true,
-        "cmakeExe": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
+        "cmakeExe": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
         "minimumCmakeVersion": "3.10.2",
-        "ninjaExe": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+        "ninjaExe": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
         "isPreferCmakeFileApiEnabled": true
       },
       "stlSharedObjectMap": {
         "LIBCXX_SHARED": {
-          "ARMEABI_V7A": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
-          "ARM64_V8A": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
-          "X86": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
-          "X86_64": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
+          "ARMEABI_V7A": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
+          "ARM64_V8A": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
+          "X86": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
+          "X86_64": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
         },
         "LIBCXX_STATIC": {},
         "NONE": {},
         "SYSTEM": {}
       },
       "project": {
-        "rootBuildGradleFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects",
-        "cxxFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\.cxx",
-        "compilerSettingsCacheFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\.cxx",
-        "sdkFolder": "C:\\Users\\Jiwoon Kim\\AppData\\Local\\Android\\Sdk",
+        "rootBuildGradleFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv",
+        "cxxFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\.cxx",
+        "compilerSettingsCacheFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\.cxx",
+        "sdkFolder": "C:\\Users\\heewon\\AppData\\Local\\Android\\Sdk",
         "isNativeCompilerSettingsCacheEnabled": false,
         "isBuildOnlyTargetAbiEnabled": true,
         "isCmakeBuildCohabitationEnabled": false,
@@ -213,10 +213,10 @@
       },
       "nativeBuildOutputLevel": "QUIET"
     },
-    "prefabDirectory": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\prefab"
+    "prefabDirectory": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\.cxx\\cmake\\debug\\prefab"
   },
   "buildSettings": {
     "environmentVariables": []
   },
-  "prefabFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\sdk\\.cxx\\cmake\\debug\\prefab\\x86"
+  "prefabFolder": "C:\\Users\\heewon\\Desktop\\PBL\\Android-Projects\\Android-Projects-opencv\\sdk\\.cxx\\cmake\\debug\\prefab\\x86"
 }

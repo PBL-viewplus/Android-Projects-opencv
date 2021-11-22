@@ -102,6 +102,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
 
                 hData.remove(position);
                 notifyItemRemoved(position);
+                notifyItemRangeChanged(position, hData.size());
 
                 //스토리지 사진파일 삭제
                 StorageReference desertRef = storageRef.child("ooo/"+ date +".txt");

@@ -171,13 +171,13 @@ public class History extends AppCompatActivity {
 
     }
 
-    //해당날짜 자동으로 삭제
+    // 해당 날짜 자동으로 삭제
     public void deleteDocument() {
         // 삭제할 날짜 생성
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 표시 포맷
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -6); // 현재 날짜로부터 6일전
-        String delDate = sdf.format(cal.getTime());
+        cal.add(Calendar.DATE, -5);
+        String delDate = sdf.format(cal.getTime()) + " 00:00:00"; // 현재 날짜로부터 5일전 00:00:00 로 삭제 날짜 지정
 
         // 해당 user의 문서 이름 가져옴
         db.collection("ooo")
@@ -194,7 +194,7 @@ public class History extends AppCompatActivity {
 
                         // 삭제할 날짜에 해당하는 문서 삭제
                         for (String name : docName){
-                            if (name.startsWith(delDate)){ // delName으로 시작하면 문서 삭제
+                            if (name.compareTo(delDate) <= 0){ // delDate 보다 지난 날짜면 문서 삭제
                                 db.collection("ooo").document(name)
                                         .delete()
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
