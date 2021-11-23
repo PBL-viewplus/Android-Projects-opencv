@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/heewon/Desktop/PBL/Android-Projects/Android-Projects-opencv/sdk/libcxx_helper
+# Install script for directory: C:/Users/Jiwoon Kim/Documents/GitHub/Android-Projects/sdk/libcxx_helper
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/heewon/Desktop/PBL/Android-Projects/Android-Projects-opencv/sdk/.cxx/cmake/debug/x86/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Jiwoon Kim/Documents/GitHub/Android-Projects/sdk/.cxx/cmake/debug/x86/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
