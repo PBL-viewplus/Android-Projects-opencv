@@ -88,9 +88,8 @@ public class History extends AppCompatActivity {
                                             document.get("piciv").toString()
                                     ));
 
-                                    mRecyclerView = findViewById(R.id.hdata_recycler);
+                                    mRecyclerView = findViewById(R.id.hDataRecycler0);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
                                     mAdapter = new historyAdapter(mList[0]);
                                     mRecyclerView.setAdapter(mAdapter);
 
@@ -106,9 +105,8 @@ public class History extends AppCompatActivity {
                                             document.get("piciv").toString()
                                     ));
 
-                                    mRecyclerView = findViewById(R.id.hdata_recycler1);
+                                    mRecyclerView = findViewById(R.id.hDataRecycler1);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
                                     mAdapter = new historyAdapter(mList[1]);
                                     mRecyclerView.setAdapter(mAdapter);
 
@@ -124,9 +122,8 @@ public class History extends AppCompatActivity {
                                             document.get("piciv").toString()
                                     ));
 
-                                    mRecyclerView = findViewById(R.id.hdata_recycler2);
+                                    mRecyclerView = findViewById(R.id.hDataRecycler2);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
                                     mAdapter = new historyAdapter(mList[2]);
                                     mRecyclerView.setAdapter(mAdapter);
 
@@ -142,9 +139,8 @@ public class History extends AppCompatActivity {
                                             document.get("piciv").toString()
                                     ));
 
-                                    mRecyclerView = findViewById(R.id.hdata_recycler3);
+                                    mRecyclerView = findViewById(R.id.hDataRecycler3);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
                                     mAdapter = new historyAdapter(mList[3]);
                                     mRecyclerView.setAdapter(mAdapter);
 
@@ -160,9 +156,8 @@ public class History extends AppCompatActivity {
                                             document.get("piciv").toString()
                                     ));
 
-                                    mRecyclerView = findViewById(R.id.hdata_recycler4);
+                                    mRecyclerView = findViewById(R.id.hDataRecycler4);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
                                     mAdapter = new historyAdapter(mList[4]);
                                     mRecyclerView.setAdapter(mAdapter);
 
