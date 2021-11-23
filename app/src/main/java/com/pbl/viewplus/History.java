@@ -1,6 +1,5 @@
 package com.pbl.viewplus;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -28,17 +27,13 @@ import java.util.Calendar;
 public class History extends AppCompatActivity {
     public RecyclerView mRecyclerView;
     historyAdapter mAdapter = null ;
-    ArrayList<hDataitem> mList = new ArrayList<>(); //오늘
-    ArrayList<hDataitem> mList1 = new ArrayList<>(); //1일전
-    ArrayList<hDataitem> mList2 = new ArrayList<>(); //2일전
-    ArrayList<hDataitem> mList3 = new ArrayList<>(); //3일전
-    ArrayList<hDataitem> mList4 = new ArrayList<>(); //4일전
-
-
+    ArrayList<hDataitem> mList[];
+    private String date[]= new String[5];
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private String userEmail;
     private FirebaseAuth mAuth;
     private Button del_hbutton;
-    private String date;
 
     //삭제
     ArrayList<String> docName = new ArrayList<>();
@@ -49,22 +44,33 @@ public class History extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        Intent intent = getIntent();
+        //사용자 구분
+        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        userEmail= userEmail.split("@")[0];
+
+        mList=new ArrayList[5]; //필드 정보 담을 배열
+        for(int i=0;i<5;i++){
+            mList[i]=new ArrayList<>();
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 표시 포맷
         Calendar cal = Calendar.getInstance();
-        String today = sdf.format(cal.getTime()); //현재 날짜
-        cal.add(Calendar.DATE, -1); // 현재 날짜로부터 1일전
-        String date1 = sdf.format(cal.getTime());
-        cal.add(Calendar.DATE, -1); // 현재 날짜로부터 2일전
-        String date2 = sdf.format(cal.getTime());
-        cal.add(Calendar.DATE, -1); // 현재 날짜로부터 3일전
-        String date3 = sdf.format(cal.getTime());
-        cal.add(Calendar.DATE, -1); // 현재 날짜로부터 4일전
-        String date4 = sdf.format(cal.getTime());
+        for(int i=0;i<5;i++){//현재 날짜, 1일전, 2일전...
+            date[i] = sdf.format(cal.getTime());
+            cal.add(Calendar.DATE, -1);
+        }
+//        date[0] = sdf.format(cal.getTime()); //현재 날짜
+//        cal.add(Calendar.DATE, -1); // 현재 날짜로부터 1일전
+//        date[1] = sdf.format(cal.getTime());
+//        cal.add(Calendar.DATE, -1); // 현재 날짜로부터 2일전
+//        date[2] = sdf.format(cal.getTime());
+//        cal.add(Calendar.DATE, -1); // 현재 날짜로부터 3일전
+//        date[3] = sdf.format(cal.getTime());
+//        cal.add(Calendar.DATE, -1); // 현재 날짜로부터 4일전
+//        date[4] = sdf.format(cal.getTime());
 
         //컬렉션이름은 유저 정보로 수정
-        db.collection("ooo")
+        db.collection(userEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -72,8 +78,8 @@ public class History extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //오늘
-                                if (document.getId().startsWith(today)) {
-                                    mList.add(new hDataitem(
+                                if (document.getId().startsWith(date[0])) {
+                                    mList[0].add(new hDataitem(
                                             document.get("date").toString(),
                                             document.get("text").toString(),
                                             document.get("iv1").toString(),
@@ -82,16 +88,15 @@ public class History extends AppCompatActivity {
                                             document.get("piciv").toString()
                                     ));
 
-                                    mRecyclerView = findViewById(R.id.hdata_recycler);
+                                    mRecyclerView = findViewById(R.id.hDataRecycler0);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
-                                    mAdapter = new historyAdapter(mList);
+                                    mAdapter = new historyAdapter(mList[0]);
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
                                 //1일전
-                                else if (document.getId().startsWith(date1)) {
-                                    mList1.add(new hDataitem(
+                                else if (document.getId().startsWith(date[1])) {
+                                    mList[1].add(new hDataitem(
                                             document.get("date").toString(),
                                             document.get("text").toString(),
                                             document.get("iv1").toString(),
@@ -100,16 +105,15 @@ public class History extends AppCompatActivity {
                                             document.get("piciv").toString()
                                     ));
 
-                                    mRecyclerView = findViewById(R.id.hdata_recycler1);
+                                    mRecyclerView = findViewById(R.id.hDataRecycler1);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
-                                    mAdapter = new historyAdapter(mList1);
+                                    mAdapter = new historyAdapter(mList[1]);
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
                                 //2일전
-                                else if (document.getId().startsWith(date2)) {
-                                    mList2.add(new hDataitem(
+                                else if (document.getId().startsWith(date[2])) {
+                                    mList[2].add(new hDataitem(
                                             document.get("date").toString(),
                                             document.get("text").toString(),
                                             document.get("iv1").toString(),
@@ -118,16 +122,15 @@ public class History extends AppCompatActivity {
                                             document.get("piciv").toString()
                                     ));
 
-                                    mRecyclerView = findViewById(R.id.hdata_recycler2);
+                                    mRecyclerView = findViewById(R.id.hDataRecycler2);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
-                                    mAdapter = new historyAdapter(mList2);
+                                    mAdapter = new historyAdapter(mList[2]);
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
                                 //3일전
-                                else if (document.getId().startsWith(date3)) {
-                                    mList3.add(new hDataitem(
+                                else if (document.getId().startsWith(date[3])) {
+                                    mList[3].add(new hDataitem(
                                             document.get("date").toString(),
                                             document.get("text").toString(),
                                             document.get("iv1").toString(),
@@ -136,16 +139,15 @@ public class History extends AppCompatActivity {
                                             document.get("piciv").toString()
                                     ));
 
-                                    mRecyclerView = findViewById(R.id.hdata_recycler3);
+                                    mRecyclerView = findViewById(R.id.hDataRecycler3);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
-                                    mAdapter = new historyAdapter(mList3);
+                                    mAdapter = new historyAdapter(mList[3]);
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
                                 //4일전
-                                else if (document.getId().startsWith(date4)) {
-                                    mList4.add(new hDataitem(
+                                else if (document.getId().startsWith(date[4])) {
+                                    mList[4].add(new hDataitem(
                                             document.get("date").toString(),
                                             document.get("text").toString(),
                                             document.get("iv1").toString(),
@@ -154,10 +156,9 @@ public class History extends AppCompatActivity {
                                             document.get("piciv").toString()
                                     ));
 
-                                    mRecyclerView = findViewById(R.id.hdata_recycler4);
+                                    mRecyclerView = findViewById(R.id.hDataRecycler4);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
-                                    mAdapter = new historyAdapter(mList4);
+                                    mAdapter = new historyAdapter(mList[4]);
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
@@ -180,7 +181,7 @@ public class History extends AppCompatActivity {
         String delDate = sdf.format(cal.getTime()) + " 00:00:00"; // 현재 날짜로부터 4일전 00:00:00 로 삭제 날짜 지정
 
         // 해당 user의 문서 이름 가져옴
-        db.collection("ooo")
+        db.collection(userEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -195,7 +196,7 @@ public class History extends AppCompatActivity {
                         // 삭제할 날짜에 해당하는 문서 삭제
                         for (String name : docName){
                             if (name.compareTo(delDate) <= 0){ // delDate 보다 지난 날짜면 문서 삭제
-                                db.collection("ooo").document(name)
+                                db.collection(userEmail).document(name)
                                         .delete()
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
@@ -213,7 +214,7 @@ public class History extends AppCompatActivity {
                                 //스토리지 삭제
                                 FirebaseStorage storage = FirebaseStorage.getInstance();
                                 StorageReference storageRef = storage.getReference();
-                                StorageReference desertRef = storageRef.child("ooo/"+ name +".txt");
+                                StorageReference desertRef = storageRef.child(userEmail+"/"+ name +".txt");
                                 desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {

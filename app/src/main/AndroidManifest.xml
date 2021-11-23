@@ -31,6 +31,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OpenCV">
+        <activity android:name=".Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".WebOCRResult"></activity>
         <activity android:name=".historyDetail" />
         <activity android:name=".History"></activity>
@@ -49,11 +56,7 @@
             android:name=".Dialog"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".OCR_TTS" />
         <activity

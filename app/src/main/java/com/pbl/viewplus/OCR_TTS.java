@@ -44,7 +44,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,6 +80,9 @@ public class OCR_TTS extends AppCompatActivity {
     StorageReference storageRef = storage.getReference();
 
     private FirebaseAuth mAuth;
+    private String userEmail;
+    private String uid;
+
 //    private boolean flag = false;
 
     Tesseract tesseract = new Tesseract();
@@ -104,6 +106,15 @@ public class OCR_TTS extends AppCompatActivity {
         pictureButton = findViewById(R.id.btn_picture);
 
         mAuth = FirebaseAuth.getInstance();
+
+        //사용자 구분
+        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        userEmail= userEmail.split("@")[0];
+
+        //현재 날짜로 문서 생성
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date= new Date();
+        getTime = sdf.format(date);
 
         // Mainactivity의 intent value값 받아 버튼 종류 결정
         Intent intent = getIntent();
@@ -159,10 +170,7 @@ public class OCR_TTS extends AppCompatActivity {
         minusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ent= new Intent(v.getContext(), History.class);
-                startActivity(ent);
-
-                //mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
             }
         });
 
@@ -445,16 +453,12 @@ public class OCR_TTS extends AppCompatActivity {
 
                         //서버에 보낼 데이터들을 담을 맵
                         Map<String, Object> user = new HashMap<>();
-
                         String[] encText = null;
                         //암호화한 사진 담을곳
                         String[] pic=null;
 
                         // 암호화 실행
                         try{
-                            //System.out.println("hooono"+ key.length());
-                            System.out.println("hooonokey"+ key);
-
                             //우리키로 평문 암호화
                             encText= AES.encByKey(key, result);
                             user.put("text", encText[0]);//암호화 된 평문
@@ -464,9 +468,6 @@ public class OCR_TTS extends AppCompatActivity {
                             pic= AES.encByKey(key, AES.BitmapToString(changeBitmap));
                             user.put("piciv", pic[1]);//비트맵의 벡터
 
-
-                            System.out.println("hooonokey"+ encText[0]);
-                            System.out.println("hooonokey"+ encText[1]);
                             //암호화 완료했으면 keystore키로 우리키 암호화하기
                             if (!AES.isExistKey(alias)) {
                                 AES.generateKey(alias);
@@ -476,15 +477,6 @@ public class OCR_TTS extends AppCompatActivity {
 
                             user.put("k", enc[0]); //암호화된 키를 보낸다.
                             user.put("iv2", enc[1]); //암호화된 키의 벡터를 보낸다.
-                            System.out.println("hooonokey"+ enc[0]);
-                            System.out.println("hooonokey"+ enc[1]);
-
-//                            key=enc[0].substring(0,32); //16, 32개로 맞추기
-//                            encText = AES.encByKey(key, result);
-                            //서버로 보낼 암호문 encText[0], iv encText[1]
-
-                            //복호화 필요없음- 히스토리기능에서 구현
-                            // String decText = AES.decByKey(key, encText[0],encText[1]);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -492,10 +484,7 @@ public class OCR_TTS extends AppCompatActivity {
 
                         }
 
-                        //현재 날짜로 문서 생성
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date= new Date();
-                        getTime = sdf.format(date);
+
                         // 지난 날짜로 문서 생성 (테스트용)
 //                        Calendar cal = Calendar.getInstance();
 //                        cal.add(Calendar.DATE, -5);
@@ -509,17 +498,8 @@ public class OCR_TTS extends AppCompatActivity {
                         //스토리지에 보내기
                         uploadStream(pic[0],getTime);
 
-
-                        //컬렉션 이메일, uid 둘중 하나로 구별.
-//                        String userId = mAuth.getCurrentUser().getEmail();
-//                        String target = "@";
-//                        int target_num = userId.indexOf(target);
-//                        String uid = userId.substring(0, target_num);
-//                        String hhh = uid + "oooo";
-
-
                         //서버로 보내기
-                        db.collection("ooo").document(getTime).set(user);
+                        db.collection(userEmail).document(getTime).set(user);
 
                     }
                 }
@@ -580,7 +560,7 @@ public class OCR_TTS extends AppCompatActivity {
     //스토리지에 보내기
     public void uploadStream(String pic, String getTime){
         //경로, 이름 지정
-        StorageReference mountainImagesRef = storageRef.child("ooo/"+ getTime +".txt");
+        StorageReference mountainImagesRef = storageRef.child(userEmail+"/"+ getTime +".txt");
         byte[] data = Base64.decode(pic,0);
 
         UploadTask uploadTask = mountainImagesRef.putBytes(data);
