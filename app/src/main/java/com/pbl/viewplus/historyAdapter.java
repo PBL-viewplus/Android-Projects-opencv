@@ -2,44 +2,54 @@ package com.pbl.viewplus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+import javax.crypto.SecretKey;
+
 public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHolder>{
 
     private ArrayList<hDataitem> hData = null;
     private Intent intent;
+    public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
+
     //아이템 뷰 저장하는 뷰 홀더 클래스
     public class ViewHolder extends RecyclerView.ViewHolder{
         LinearLayout hDataLinearLayout;
-        TextView itemText;
+        ImageView itemImg;
         Button delButton;
 
         ViewHolder(View itemView){
             super(itemView);
             hDataLinearLayout = itemView.findViewById(R.id.hdata_linearLayout);
-            itemText = itemView.findViewById(R.id.itemtext);
+            itemImg = itemView.findViewById(R.id.itemImg);
             delButton = itemView.findViewById(R.id.delButton);
         }
     }
@@ -68,10 +78,56 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         hDataitem item = hData.get(position) ;
         String date = item.getDate();
-        holder.itemText.setText(item.getIv1());
 
-        // item 의 text
-        holder.itemText.setOnClickListener(new View.OnClickListener(){
+        db.collection("ooo").document(date).
+                get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    // 복호화를 위한 준비 과정
+                    String k = item.getK();
+                    String iv2 = item.getIv2();
+                    String piciv = item.getPiciv();
+
+                    try {
+                        if (AES.isExistKey(alias)) {
+                            SecretKey secretKey = AES.getKeyStoreKey(alias);
+                            String enc = AES.decByKeyStoreKey(secretKey, k, iv2);
+
+                            // 스토리지에서 사진 가져오기
+                            StorageReference storageRef = storage.getReference();
+                            StorageReference pathReference = storageRef.child("ooo/"+ date +".txt");
+
+                            final long ONE_MEGABYTE = 2048 * 2048; // 약 4.1MB
+                            pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                @Override
+                                public void onSuccess(byte[] bytes) {
+                                    // 이미지 복호화
+                                    try {
+                                        String decPic = AES.decByKey(enc, Base64.encodeToString(bytes,0), piciv);
+                                        Bitmap bitmap= AES.StringToBitmap(decPic);
+                                        holder.itemImg.setImageBitmap(bitmap);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    //.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+        // item 의 이미지
+        holder.itemImg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 //결과 창으로 이동
