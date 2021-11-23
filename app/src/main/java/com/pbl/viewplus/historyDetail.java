@@ -31,6 +31,7 @@ public class historyDetail extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
+    private String userEmail;
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
@@ -48,7 +49,11 @@ public class historyDetail extends AppCompatActivity {
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
 
-        DocumentReference docRef = db.collection("ooo").document(date);
+        //사용자 구분
+        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        userEmail= userEmail.split("@")[0];
+
+        DocumentReference docRef = db.collection(userEmail).document(date);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -87,7 +92,7 @@ public class historyDetail extends AppCompatActivity {
 
                                 //스토리지에서 사진 가져오기
                                 StorageReference storageRef = storage.getReference();
-                                StorageReference pathReference = storageRef.child("ooo/"+ date +".txt");
+                                StorageReference pathReference = storageRef.child(userEmail+"/"+ date +".txt");
 
                                 final long ONE_MEGABYTE = 2048 * 2048; //약 4.1MB
                                 pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {

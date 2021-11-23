@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,6 +35,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
     private Intent intent;
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
 
+    private String userEmail;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
@@ -79,7 +80,12 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         hDataitem item = hData.get(position) ;
         String date = item.getDate();
 
-        db.collection("ooo").document(date).
+        //사용자 구분
+        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        userEmail= userEmail.split("@")[0];
+
+
+        db.collection(userEmail).document(date).
                 get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -96,7 +102,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
 
                             // 스토리지에서 사진 가져오기
                             StorageReference storageRef = storage.getReference();
-                            StorageReference pathReference = storageRef.child("ooo/"+ date +".txt");
+                            StorageReference pathReference = storageRef.child(userEmail+"/"+ date +".txt");
 
                             final long ONE_MEGABYTE = 2048 * 2048; // 약 4.1MB
                             pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -141,7 +147,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         holder.delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.collection("ooo").document(date)
+                db.collection(userEmail).document(date)
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -161,7 +167,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
                 notifyItemRangeChanged(position, hData.size());
 
                 //스토리지 사진파일 삭제
-                StorageReference desertRef = storageRef.child("ooo/"+ date +".txt");
+                StorageReference desertRef = storageRef.child(userEmail+"/"+ date +".txt");
                 desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
