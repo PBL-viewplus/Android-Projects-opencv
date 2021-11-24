@@ -9,10 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
 
 //    History history = new History();
 
@@ -47,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
         //임시 로그아웃
         hoo = findViewById(R.id.hoo);
+        mAuth = FirebaseAuth.getInstance();
+
         PopDialog = "";
 
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
@@ -56,7 +67,13 @@ public class MainActivity extends AppCompatActivity {
         hoo.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build();
+                mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
+
+                signOut();
                 finish();
 
                 //로그인화면으로 이동
@@ -137,6 +154,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    
+    private void updateUI(FirebaseUser user) { //update ui code here
+        if (user != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+    private void signOut() {
+        mAuth.signOut(); // Firebase sign out
+
+        // Google sign out
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        updateUI(null);
+                    }
+                });
+    }
+
 
         @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -49,24 +49,37 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        //없다면 로그인
-        else{
-            signInButton.setOnClickListener(new Button.OnClickListener(){
+//        //없다면 로그인
+//        else{
+//            signInButton.setOnClickListener(new Button.OnClickListener(){
+//                @Override
+//                public void onClick(View v) {
+//                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                            .requestIdToken(getString(R.string.default_web_client_id))
+//                            .requestEmail()
+//                            .build();
+//                    mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
+//                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//                    startActivityForResult(signInIntent, RC_SIGN_IN);
+//                }
+//            });
+//        }
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
+
+        signInButton.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                            .requestIdToken(getString(R.string.default_web_client_id))
-                            .requestEmail()
-                            .build();
-                    mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
                     Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                     startActivityForResult(signInIntent, RC_SIGN_IN);
                 }
-            });
-        }
+        });
 
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -90,7 +103,6 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) { //로그인 성공
                             user = mAuth.getCurrentUser();
-
                             if (user!=null){
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
@@ -103,5 +115,6 @@ public class Login extends AppCompatActivity {
                     }
                 });
     }
+
 
 }
