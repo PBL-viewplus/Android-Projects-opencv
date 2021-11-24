@@ -3,6 +3,7 @@ package com.pbl.viewplus;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import javax.crypto.SecretKey;
@@ -32,7 +34,6 @@ import javax.crypto.SecretKey;
 public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHolder>{
 
     private ArrayList<hDataitem> hData = null;
-    private Intent intent;
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
 
     private String userEmail;
@@ -136,8 +137,16 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         holder.itemImg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Intent intent= new Intent(v.getContext(), historyDetail.class);
+                // imageview 에 있는 사진을 bitmap 으로 변경
+                BitmapDrawable drawable = (BitmapDrawable) holder.itemImg.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+                // 1mb의 크기 제한으로 인해 활동간에 번들에서 파싱 가능한 bitmap 을 전달하는 것은 좋지 않음
+                // bitmap 을 stream 형태로 byteArray 로 넘기는 방법 사용
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 //결과 창으로 이동
-                intent= new Intent(v.getContext(), historyDetail.class);
+                intent.putExtra("image", stream.toByteArray());
                 intent.putExtra("date", date);
                 v.getContext().startActivity(intent);
             }

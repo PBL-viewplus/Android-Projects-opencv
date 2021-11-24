@@ -2,6 +2,7 @@ package com.pbl.viewplus;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -42,85 +43,41 @@ public class historyDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_detail);
 
-        hd_text_result=findViewById(R.id.hd_text_result);
-        hd_origin_iv=findViewById(R.id.hd_origin_iv);
+        hd_text_result = findViewById(R.id.hd_text_result);
+        hd_origin_iv = findViewById(R.id.hd_origin_iv);
         db = FirebaseFirestore.getInstance();
 
+        // intent 로 해당 사진의 날짜와 사진을 받음
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
+        byte[] arr = intent.getByteArrayExtra("image");
+        Bitmap bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+        hd_origin_iv.setImageBitmap(bitmap);
 
         //사용자 구분
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        userEmail= userEmail.split("@")[0];
+        userEmail = userEmail.split("@")[0];
 
         DocumentReference docRef = db.collection(userEmail).document(date);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    //문서안의 필드를 가져와서 복호화 시작.
-                    //hDataitem item=
+                    // 문서안의 필드를 가져와서 복호화 시작
                     DocumentSnapshot document = task.getResult();
 
                     if (document.exists()) {
-
                         String text=document.get("text").toString();
                         String k=document.get("k").toString();
                         String iv2=document.get("iv2").toString();
-                        Log.d("No  document", k );
+
                         try {
-                            if (AES.isExistKey(alias)) {//있음.
+                            if (AES.isExistKey(alias)) {
                                 SecretKey secretKey = AES.getKeyStoreKey(alias);
-                                String enc = AES.decByKeyStoreKey(secretKey, k, iv2); //keystore키로 복호화한 우리키
-                                //k=enc[0].substring(0,32); //16, 32개로 맞추기
-                                Log.d("No  document", iv2 );
-                                Log.d("No  document", String.valueOf(enc.getBytes()));
-                                Log.d("No  document", String.valueOf(enc.length()));
-
-                                //우리키로 암호문 복호화 진행
-                                String decText = AES.decByKey(enc, text,document.get("iv1").toString());
-                                Log.d("No  document", document.get("text").toString() );
-                                Log.d("No  document", document.get("iv1").toString() );
-
+                                String enc = AES.decByKeyStoreKey(secretKey, k, iv2); // keystore키로 복호화한 우리키
+                                String decText = AES.decByKey(enc, text,document.get("iv1").toString()); // 우리키로 암호문 복호화 진행
                                 hd_text_result.setText(decText);
-
-                                //비트맵 복호화
-//                                String decPic = AES.decByKey(enc, document.get("pic").toString(),document.get("piciv").toString());
-//                                Bitmap bb= AES.StringToBitmap(decPic);
-//
-//                                hd_origin_iv.setImageBitmap(bb);
-
-                                //스토리지에서 사진 가져오기
-                                StorageReference storageRef = storage.getReference();
-                                StorageReference pathReference = storageRef.child(userEmail+"/"+ date +".txt");
-
-                                final long ONE_MEGABYTE = 2048 * 2048; //약 4.1MB
-                                pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                    @Override
-                                    public void onSuccess(byte[] bytes) {
-                                        // Data for "images/island.jpg" is returns, use this as needed
-
-                                        try {
-                                            String decPic = AES.decByKey(enc, Base64.encodeToString(bytes,0),document.get("piciv").toString());
-                                            Bitmap bb= AES.StringToBitmap(decPic);
-                                            hd_origin_iv.setImageBitmap(bb);
-
-                                            Log.d("No  document", "mpppppp222222" );
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception exception) {
-                                        // Handle any errors
-                                        Log.d("No  document", "mpppppp" );
-
-                                    }
-                                });
-
                             }
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
