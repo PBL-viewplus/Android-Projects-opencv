@@ -1,19 +1,26 @@
 package com.pbl.viewplus;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -33,7 +40,10 @@ public class History extends AppCompatActivity {
 
     private String userEmail;
     private FirebaseAuth mAuth;
-    private Button del_hbutton;
+    private GoogleSignInClient mGoogleSignInClient;
+    private Button btn_logout;
+    private TextView userEmailText;
+
 
     //삭제
     ArrayList<String> docName = new ArrayList<>();
@@ -44,9 +54,36 @@ public class History extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
+        btn_logout=findViewById(R.id.btn_logout);
+        userEmailText=findViewById(R.id.userEmailText);
+
         //사용자 구분
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        //사용자 이메일 먼저 텍스트뷰에 지정
+        userEmailText.setText(userEmail);
         userEmail= userEmail.split("@")[0];
+
+
+        mAuth=FirebaseAuth.getInstance();
+        //로그아웃
+        btn_logout.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build();
+                mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
+
+                signOut();
+                finish();
+
+                //로그인화면으로 이동
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //메인화면도 종료필요
+                startActivity(intent);
+            }
+        });
 
         mList=new ArrayList[5]; //필드 정보 담을 배열
         for(int i=0;i<5;i++){
@@ -234,6 +271,24 @@ public class History extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void updateUI(FirebaseUser user) { //update ui code here
+        if (user != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+    private void signOut() {
+        mAuth.signOut();
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        updateUI(null);
+                    }
+                });
     }
 
 }
