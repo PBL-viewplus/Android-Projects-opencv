@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
+    public static Activity MainAct;
 
 //    History history = new History();
 
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         editor = pref.edit();
 
+        //로그아웃 시 종료를 위함
+        MainAct = this;
 
         // 히스토리 자동 삭제
 //        history.deleteDocument();

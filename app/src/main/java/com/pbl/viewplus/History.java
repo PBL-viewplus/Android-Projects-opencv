@@ -80,7 +80,7 @@ public class History extends AppCompatActivity {
 
                 //로그인화면으로 이동
                 Intent intent = new Intent(getApplicationContext(), Login.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //메인화면도 종료필요
+                MainActivity.MainAct.finish();
                 startActivity(intent);
             }
         });
