@@ -23,6 +23,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+
 import javax.crypto.SecretKey;
 
 public class historyDetail extends AppCompatActivity {
@@ -50,8 +52,10 @@ public class historyDetail extends AppCompatActivity {
         // intent 로 해당 사진의 날짜와 사진을 받음
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
-        byte[] arr = intent.getByteArrayExtra("image");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+        String filePath = intent.getStringExtra("filePath");
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+        File file = new File(filePath);
+        file.delete();
         hd_origin_iv.setImageBitmap(bitmap);
 
         //사용자 구분

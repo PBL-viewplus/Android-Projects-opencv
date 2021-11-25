@@ -27,6 +27,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.crypto.SecretKey;
@@ -137,16 +140,24 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         holder.itemImg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(v.getContext(), historyDetail.class);
                 // imageview 에 있는 사진을 bitmap 으로 변경
                 BitmapDrawable drawable = (BitmapDrawable) holder.itemImg.getDrawable();
                 Bitmap bitmap = drawable.getBitmap();
-                // 1mb의 크기 제한으로 인해 활동간에 번들에서 파싱 가능한 bitmap 을 전달하는 것은 좋지 않음
-                // bitmap 을 stream 형태로 byteArray 로 넘기는 방법 사용
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                //결과 창으로 이동
-                intent.putExtra("image", stream.toByteArray());
+
+                File storage = v.getContext().getCacheDir(); // 내부 저장소의 캐시 경로 // /data/user/0/com.pbl.viewplus/cache
+                File tempFile = new File(storage, date); // 파일 객체 생성
+                String filePath = storage + "/" + date; // 저장할 파일 이름
+                try{
+                    tempFile.createNewFile(); // 자동으로 빈 파일 생성
+                    FileOutputStream stream = new FileOutputStream(tempFile); // 파일 쓸 수 있는 스트림 준비
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); // compress 함수를 사용해 스트림에 bitmap 저장
+                    stream.close(); // 스트림 사용 후 닫음
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Intent intent = new Intent(v.getContext(), historyDetail.class);
+                intent.putExtra("filePath", filePath);
                 intent.putExtra("date", date);
                 v.getContext().startActivity(intent);
             }
