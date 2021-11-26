@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
 public class RegexDialog extends AppCompatActivity {
+    private TextView maskingDialogText;
+
     TTS_controller tts = new TTS_controller();
 
     @Override
@@ -23,7 +26,8 @@ public class RegexDialog extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setTitle("");
 
-        tts.initTTS(this, 2);
+        maskingDialogText = findViewById(R.id.txtText);
+        tts.initTTS(this, maskingDialogText.getText().toString());
     }
 
     public void yesButton(View v){

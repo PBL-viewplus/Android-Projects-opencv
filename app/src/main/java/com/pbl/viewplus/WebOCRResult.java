@@ -116,7 +116,7 @@ public class WebOCRResult extends AppCompatActivity {
         tesseract.tessInit(dataPath);
 
         // TTS 객체 초기화
-        tts.initTTS(this, 0);
+        tts.initTTS(this, null);
 
         imageView = findViewById(R.id.webResultView);
         textView = findViewById(R.id.webResultTextView);
@@ -279,7 +279,7 @@ public class WebOCRResult extends AppCompatActivity {
 
             @Override // 진행중
             protected String doInBackground(InputStream... inputStreams) {
-                tts.speakOutString("분석중입니다");
+                tts.speakOut("분석중입니다");
                 publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
 
                 progressDialog.setCanceledOnTouchOutside(false);
@@ -295,7 +295,7 @@ public class WebOCRResult extends AppCompatActivity {
                 if (TextUtils.isEmpty(s)) {
                     progressDialog.dismiss();
                     textView.setText("인식할 수 없습니다");
-                    tts.speakOut(textView);
+                    tts.speakOut(textView.getText().toString());
                 } else {
                     progressDialog.dismiss();
 
@@ -320,7 +320,7 @@ public class WebOCRResult extends AppCompatActivity {
                     textView.setText("");
                     //아니면 바로 보여줌
                     textView.setText(result);
-                    tts.speakOut(textView);
+                    tts.speakOut(textView.getText().toString());
 
                 }
 
@@ -343,7 +343,7 @@ public class WebOCRResult extends AppCompatActivity {
             Bundle bundle = msg.getData();
             String resultWord = bundle.getString("resultWord");
             textView.setText(resultWord);
-            tts.speakOut(textView);
+            tts.speakOut(textView.getText().toString());
             //Toast.makeText(getApplicationContext(),resultWord,Toast.LENGTH_SHORT).show();
         }
     };

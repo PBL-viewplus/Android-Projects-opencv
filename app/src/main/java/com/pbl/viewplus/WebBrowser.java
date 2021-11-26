@@ -110,7 +110,7 @@ public class WebBrowser extends AppCompatActivity {
 
 
         // TTS 객체 초기화
-        tts.initTTS(this, 0);
+        tts.initTTS(this, null);
 
         mWebView.setVisibility(View.VISIBLE); // 웹뷰는 불러오기위해 VISIBLE로 설정
         WebSettings settings = mWebView.getSettings();
@@ -455,7 +455,7 @@ public class WebBrowser extends AppCompatActivity {
             @Override // 진행중
             protected String doInBackground(InputStream... inputStreams) {
                 try {
-                    tts.speakOutString("분석중입니다");
+                    tts.speakOut("분석중입니다");
                     publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
                     String[] features = {"Description"};
                     String[] details = {};
@@ -479,7 +479,7 @@ public class WebBrowser extends AppCompatActivity {
                 if (TextUtils.isEmpty(s)) {
                     mAnalyzeResult.setText("인식할 수 없습니다");
                     Toast.makeText(WebBrowser.this, "API Return Empty Result", Toast.LENGTH_SHORT).show();
-                    tts.speakOut(mAnalyzeResult);
+                    tts.speakOut(mAnalyzeResult.getText().toString());
                 } else {
                     progressDialog.dismiss();
                     AnalysisResult result = new Gson().fromJson(s, AnalysisResult.class);
@@ -523,7 +523,7 @@ public class WebBrowser extends AppCompatActivity {
             String resultWord = bundle.getString("resultWord");
             resultText = resultWord;
             mAnalyzeResult.setText(resultWord);
-            tts.speakOut(mAnalyzeResult);
+            tts.speakOut(mAnalyzeResult.getText().toString());
             //Toast.makeText(getApplicationContext(),resultWord,Toast.LENGTH_SHORT).show();
         }
     };

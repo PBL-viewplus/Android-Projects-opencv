@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Dialog extends AppCompatActivity {
     private TextView title;
     private TextView content;
+    private String dialogText = "주의사항 사진은 최대한 가까이하고 정중앙으로 찍어주세요 그림자가 지지 않게 밝은 곳에서 찍어주세요";
 
     TTS_controller tts = new TTS_controller();
 
@@ -32,7 +33,7 @@ public class Dialog extends AppCompatActivity {
         title = findViewById(R.id.title);
         content = findViewById(R.id.content);
 
-        tts.initTTS(this, 1);
+        tts.initTTS(this, dialogText);
     }
 
     //확인 버튼 클릭

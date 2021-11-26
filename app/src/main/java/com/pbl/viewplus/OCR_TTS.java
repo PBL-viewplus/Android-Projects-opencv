@@ -146,7 +146,7 @@ public class OCR_TTS extends AppCompatActivity {
         tesseract.tessInit(dataPath);
 
         // TTS 객체 초기화
-        tts.initTTS(this, 0);
+        tts.initTTS(this, null);
 
         // 사진 찍기, 갤러리 버튼
         pictureButton.setOnClickListener(new Button.OnClickListener() {
@@ -281,7 +281,7 @@ public class OCR_TTS extends AppCompatActivity {
 
                 @Override // 진행중
                 protected String doInBackground(InputStream... inputStreams) {
-                    tts.speakOutString("분석중입니다");
+                    tts.speakOut("분석중입니다");
                     publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
 
                     progressDialog.setCanceledOnTouchOutside(false);
@@ -297,7 +297,7 @@ public class OCR_TTS extends AppCompatActivity {
                     if (TextUtils.isEmpty(s)) {
                         progressDialog.dismiss();
                         mTextResult.setText("인식할 수 없습니다");
-                        tts.speakOut(mTextResult);
+                        tts.speakOut(mTextResult.getText().toString());
                     } else {
                         progressDialog.dismiss();
 
@@ -315,7 +315,7 @@ public class OCR_TTS extends AppCompatActivity {
                             mTextResult.setText("");
                             //아니면 바로 보여줌
                             mTextResult.setText(result);
-                            tts.speakOut(mTextResult);
+                            tts.speakOut(mTextResult.getText().toString());
                             System.out.println("hooonononono"+ result);
                         }
 
@@ -406,7 +406,7 @@ public class OCR_TTS extends AppCompatActivity {
                 @Override // 진행중
                 protected String doInBackground(InputStream... inputStreams) {
 
-                    tts.speakOutString("분석중입니다");
+                    tts.speakOut("분석중입니다");
                     publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
 
                     //창 터치시 중지 방지
@@ -426,7 +426,7 @@ public class OCR_TTS extends AppCompatActivity {
                     if (TextUtils.isEmpty(s)) {
                         progressDialog.dismiss();
                         mTextResult.setText("인식할 수 없습니다");
-                        tts.speakOut(mTextResult);
+                        tts.speakOut(mTextResult.getText().toString());
                     } else {
                         progressDialog.dismiss();
 
@@ -447,7 +447,7 @@ public class OCR_TTS extends AppCompatActivity {
                             mTextResult.setText("");
                             //아니면 바로 보여줌
                             mTextResult.setText(result);
-                            tts.speakOut(mTextResult);
+                            tts.speakOut(mTextResult.getText().toString());
                             System.out.println("hooonononono"+ result);
                         }
 
@@ -532,7 +532,7 @@ public class OCR_TTS extends AppCompatActivity {
             }
 
             mTextResult.setText(result);
-            tts.speakOut(mTextResult);
+            tts.speakOut(mTextResult.getText().toString());
         }
     }
 

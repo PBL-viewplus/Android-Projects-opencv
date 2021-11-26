@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,13 +33,15 @@ public class historyDetail extends AppCompatActivity {
     private String date;
     private TextView hd_text_result;
     private ImageView hd_origin_iv;
+    private ImageButton backButton;
 
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private String userEmail;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    TTS_controller tts = new TTS_controller();
 
 
     @Override
@@ -47,7 +51,16 @@ public class historyDetail extends AppCompatActivity {
 
         hd_text_result = findViewById(R.id.hd_text_result);
         hd_origin_iv = findViewById(R.id.hd_origin_iv);
+        backButton = findViewById(R.id.hd_btn_back);
         db = FirebaseFirestore.getInstance();
+
+        // 뒤로가기 버튼
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // intent 로 해당 사진의 날짜와 사진을 받음
         Intent intent = getIntent();
@@ -81,6 +94,7 @@ public class historyDetail extends AppCompatActivity {
                                 String enc = AES.decByKeyStoreKey(secretKey, k, iv2); // keystore키로 복호화한 우리키
                                 String decText = AES.decByKey(enc, text,document.get("iv1").toString()); // 우리키로 암호문 복호화 진행
                                 hd_text_result.setText(decText);
+                                tts.initTTS(getApplicationContext(), decText);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -94,6 +108,12 @@ public class historyDetail extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void onDestroy() {
+        super.onDestroy();
+        if (tts != null) {
+            tts.ttsDestory();
+        }
     }
 }

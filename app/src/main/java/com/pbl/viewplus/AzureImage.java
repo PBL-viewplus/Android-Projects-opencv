@@ -75,7 +75,7 @@ public class AzureImage extends AppCompatActivity {
         permission.permissioncheck(getApplicationContext());
 
         // TTS 객체 초기화
-        tts.initTTS(this, 0);
+        tts.initTTS(this, null);
 
         // 초기 imageView 설정
         Bitmap sample = BitmapFactory.decodeResource(getResources(),R.drawable.sample);
@@ -172,7 +172,7 @@ public class AzureImage extends AppCompatActivity {
                     protected String doInBackground(InputStream... inputStreams) {
                         try
                         {
-                            tts.speakOutString("분석중입니다");
+                            tts.speakOut("분석중입니다");
                             publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
                             String[] features = {"Description"};
                             String[] details = {};
@@ -197,7 +197,7 @@ public class AzureImage extends AppCompatActivity {
 
                             mTextResult.setText("인식할 수 없습니다");
                             Toast.makeText(AzureImage.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
-                            tts.speakOut(mTextResult);
+                            tts.speakOut(mTextResult.getText().toString());
                         }
                         else {
                             progressDialog.dismiss();
@@ -275,7 +275,7 @@ public class AzureImage extends AppCompatActivity {
                     protected String doInBackground(InputStream... inputStreams) {
                         try
                         {
-                            tts.speakOutString("분석중입니다");
+                            tts.speakOut("분석중입니다");
                             publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
                             String[] features = {"Description"};
                             String[] details = {};
@@ -300,7 +300,7 @@ public class AzureImage extends AppCompatActivity {
 
                             mTextResult.setText("인식할 수 없습니다");
                             Toast.makeText(AzureImage.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
-                            tts.speakOut(mTextResult);
+                            tts.speakOut(mTextResult.getText().toString());
                         }
                         else {
                             progressDialog.dismiss();
@@ -364,7 +364,7 @@ public class AzureImage extends AppCompatActivity {
             Bundle bundle = msg.getData();
             String resultWord = bundle.getString("resultWord");
             mTextResult.setText(resultWord);
-            tts.speakOut(mTextResult);
+            tts.speakOut(mTextResult.getText().toString());
             //Toast.makeText(getApplicationContext(),resultWord,Toast.LENGTH_SHORT).show();
         }
     };
