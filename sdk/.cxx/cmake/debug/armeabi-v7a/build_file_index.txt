@@ -1,1 +1,0 @@
-C:\Users\Jiwoon Kim\Documents\GitHub\Android-Projects\sdk\libcxx_helper\CMakeLists.txt
