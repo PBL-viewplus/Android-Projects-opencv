@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.http.SslError;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,7 +23,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -32,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.base.MoreObjects;
 import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
@@ -61,8 +68,6 @@ public class WebBrowser extends AppCompatActivity {
     private EditText mText; // Url 입력 받을 PlainText 선언
     private Button mSearchButton;
     private ImageView mImageView;
-    private Button mNextButton;
-    private Button mPreButton;
     private Button mOCRButton;
     private Button mAnalyzeButton;
     private Button mClearButton;
@@ -100,8 +105,6 @@ public class WebBrowser extends AppCompatActivity {
         mText = (EditText) findViewById(R.id.urlText);
         mSearchButton = (Button) findViewById(R.id.searchButton);
         mImageView = (ImageView) findViewById(R.id.imageView);
-        /*mNextButton = (Button) findViewById(R.id.nextButton);
-        mPreButton = (Button) findViewById(R.id.preButton);*/
         mAnalyzeButton = (Button) findViewById(R.id.AzureButton);
         mOCRButton = (Button) findViewById(R.id.OCRButton);
         mAnalyzeResult = (TextView) findViewById(R.id.analyzeResult);
@@ -110,10 +113,10 @@ public class WebBrowser extends AppCompatActivity {
 
 
         // TTS 객체 초기화
-        tts.initTTS(this, null);
+        tts.initTTS(this, 0);
 
         mWebView.setVisibility(View.VISIBLE); // 웹뷰는 불러오기위해 VISIBLE로 설정
-        WebSettings settings = mWebView.getSettings();
+        /*WebSettings settings = mWebView.getSettings();
         settings.setBuiltInZoomControls(true);
         settings.setUseWideViewPort(false);
         settings.setJavaScriptEnabled(true);
@@ -121,38 +124,25 @@ public class WebBrowser extends AppCompatActivity {
         settings.setLoadsImagesAutomatically(true);
         settings.setLightTouchEnabled(true);
         settings.setDomStorageEnabled(true);
-        settings.setLoadWithOverviewMode(true);
+        settings.setLoadWithOverviewMode(true);*/
         WebView.enableSlowWholeDocumentDraw();
         //첫 세팅 웹뷰
         openUrl();
-
-
-        /*mText.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                System.out.println("!!!!!!"+clipboardManager.getPrimaryClip());
-
-                // 클립보드에 데이터가 있고 그 데이터가 텍스트 타입인 경우
-                ClipData clip = clipboardManager.getPrimaryClip();
-                ClipData.Item item = clip.getItemAt(0);
-                mText.setText(item.getText());
-                return false;
-            }
-        });*/
 
         // 검색버튼
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                image_src.clear();
+                //이미지 소스들 저장한거 지움
+                //image_src.clear();
                 //입력받은 url을 url에 넣음
                 url = mText.getText().toString();
-                //입력이 있으면 띄워줌
-                flag = true;
+
+                //검색 버튼 누르면, 키보드 숨기기
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mText.getWindowToken(),0);
 
                 //http://나 https://를 안붙였을때 http://를 추가함.
-                // https는 http로 연결시 자동으로 접속됨
                 if (url != null) {
                     if(!url.startsWith("http://") && !url.startsWith("https://") ){
                         System.out.println("url2:" + url);
@@ -160,6 +150,9 @@ public class WebBrowser extends AppCompatActivity {
                     }
                     //웹뷰에 띄워줌
                     openUrl();
+                }
+                if(url.equals("")){
+                    Toast.makeText(WebBrowser.this,"url을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -196,7 +189,6 @@ public class WebBrowser extends AppCompatActivity {
                 }
             }
         });
-
         // 다음 버튼
         mNextButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -214,32 +206,14 @@ public class WebBrowser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), WebResult.class);
-                //intent.putExtra("ResultImage", intentImage);
-                //intent.putExtra("ResultText", intentText);
                 intent.putExtra("ResultUrl", intentUrl);
-                Log.e("짜증나3","왜안돼?");
                 startActivity(intent);
-                //if (flag) {
-                //webAnalyze();
 
                 //인텐트로 분석이미지와 분석결과를 던져주고 보여줌.
-/*
-                    //분석이미지
-                    //BitmapDrawable d = (BitmapDrawable)mImageView.getDrawable();
-                    //Bitmap intentImage = d.getBitmap();
-                    Bitmap intentImage = resultBitmap;
-                    //Log.e("짜증나1","왜안돼?");
-                    //while(TextUtils.isEmpty(resultText)){
-                    //sleep(1000);
-                    //}
-                    //분석결과
-                    String intentText = resultText;
-                    //Log.e("짜증나2","왜안돼?");
-*/
-                //Intent intent = new Intent(getApplicationContext(), WebSample.class);
-
-                //Log.e("짜증나4","왜안돼?");
-                //}
+                //분석이미지
+                Bitmap intentImage = resultBitmap;
+                //분석결과
+                String intentText = resultText;
             }
         });
 
@@ -249,7 +223,6 @@ public class WebBrowser extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), WebOCRResult.class);
                 intent.putExtra("ResultUrl", intentUrl);
-                Log.e("짜증나3","왜안돼?");
                 startActivity(intent);
             }
         });
@@ -307,38 +280,71 @@ public class WebBrowser extends AppCompatActivity {
             //클립보드 관리자 객체를 가져옴
             ClipboardManager cm = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
             cm.setPrimaryClip(clip);//클립보드에 저장하는 부분
-
             //Toast.makeText(this, "Text Copied", Toast.LENGTH_SHORT).show();
         }
     }
 
-/*    void pasteText(){
-        //클립보드 관리자 객체를 가져옴
-        ClipboardManager cm = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-
-        //클립보드에 값이 없으면
-        if(cm.hasPrimaryClip() == false){
-            Toast.makeText(this, "clipboard empty", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        //클립보드의 값이 텍스트가 아니면?
-        if(cm.getPrimaryClipDescription().hasMimeType(
-                ClipDescription.MIMETYPE_TEXT_PLAIN)==false){
-            Toast.makeText(this, "clip is not text", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        //클립데이터를 읽는다.
-        ClipData clip = cm.getPrimaryClip();
-        ClipData.Item item = clip.getItemAt(0);//첫번째 데이터를 가져옴
-        TextView pastetext = (TextView)findViewById(R.id.pastetext);
-        pastetext.setText(item.getText());//텍스트뷰에 세팅해줌
-    }*/
-
     //웹뷰 띄워주는 메서드
     private void openUrl() {
-        mWebView.setWebViewClient(new WebViewClient()); // 클릭시 새창 안뜨게
+        mWebView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                super.onReceivedError(view, request, error);
+
+                int errorCode = error.getErrorCode();
+                switch (errorCode) {
+                    case ERROR_AUTHENTICATION: // 서버에서 사용자 인증 실패
+                        break;
+                    case ERROR_BAD_URL: // 잘못된 URL
+                        break;
+                    case ERROR_CONNECT: // 서버로 연결 실패
+                        break;
+                    case ERROR_FAILED_SSL_HANDSHAKE: // SSL handshake 수행 실패
+                        break;
+                    case ERROR_FILE: // 일반 파일 오류
+                        break;
+                    case ERROR_FILE_NOT_FOUND: // 파일을 찾을 수 없습니다
+                        break;
+                    case ERROR_HOST_LOOKUP: // 서버 또는 프록시 호스트 이름 조회 실패
+                        break;
+                    case ERROR_IO: // 서버에서 읽거나 서버로 쓰기 실패
+                        break;
+                    case ERROR_PROXY_AUTHENTICATION: // 프록시에서 사용자 인증 실패
+                        break;
+                    case ERROR_REDIRECT_LOOP: // 너무 많은 리디렉션
+                        break;
+                    case ERROR_TIMEOUT: // 연결 시간 초과
+                        break;
+                    case ERROR_TOO_MANY_REQUESTS: // 페이지 로드중 너무 많은 요청 발생
+                        break;
+                    case ERROR_UNKNOWN: // 일반 오류
+                        break;
+                    case ERROR_UNSUPPORTED_AUTH_SCHEME: // 지원되지 않는 인증 체계
+                        break;
+                    case ERROR_UNSUPPORTED_SCHEME: // URI가 지원되지 않는 방식
+                        break;
+                }
+                view.loadUrl("about:blank");
+                Log.d("onReceivedError", errorCode+"!!!" );
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+
+                view.loadUrl("about:blank");
+                Log.d("onReceivedHttpError", "onReceivedHttpError" );
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+
+                view.loadUrl("about:blank");
+                Log.d("onReceivedSslError", "onReceivedSslError" );
+            }
+        }); // 클릭시 새창 안뜨게
+
         mWebSettings = mWebView.getSettings(); //세부 세팅 등록
         if (mWebSettings != null && url != null) {
             mWebSettings.setJavaScriptEnabled(true); // 웹페이지 자바스클비트 허용 여부
@@ -383,18 +389,15 @@ public class WebBrowser extends AppCompatActivity {
             //img 태그만 선별
             Elements imgs = doc.select("img");
             Log.d("result: ", "doc= " + imgs);
+            Element img = imgs.first();
+            if (img.attr("abs:src") != "") {
+                image_src.add(img.attr("abs:src"));
+                Log.e("src", img.attr("abs:src"));
+            }
 
-            for (Element img : imgs) {
-
-                if (img.attr("abs:src") != "") {
-                    image_src.add(img.attr("abs:src"));
-                    Log.e("src", img.attr("abs:src"));
-                }
-
-                if (img.attr("abs:data-src") != "") {
-                    image_src.add(img.attr("abs:data-src"));
-                    Log.e("src", img.attr("abs:data-src"));
-                }
+            if (img.attr("abs:data-src") != "") {
+                image_src.add(img.attr("abs:data-src"));
+                Log.e("src", img.attr("abs:data-src"));
             }
 
             System.out.println("!!!!!!!!!!!!" + image_src); // 이미지 URL들
@@ -433,101 +436,6 @@ public class WebBrowser extends AppCompatActivity {
         }
     }
 
-    protected void webAnalyze(){
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();/*
-        BitmapDrawable drawable = (BitmapDrawable)mImageView.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();*/
-        //bitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        //.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
-        //Bitmap imgBitmap = ((BitmapDrawable)((mImageView)).getDrawable()).getBitmap();
-        Bitmap imgBitmap = resultBitmap;
-        imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
-        final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        AsyncTask<InputStream, String, String> visionTask = new AsyncTask<InputStream, String, String>() {
-            // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
-            ProgressDialog progressDialog = new ProgressDialog(WebBrowser.this); // 실시간 진행 상태 알림
-
-            @Override // 작업시작
-            protected void onPreExecute() {
-                progressDialog.show();
-            } // progressdialog 생성
-
-            @Override // 진행중
-            protected String doInBackground(InputStream... inputStreams) {
-                try {
-                    tts.speakOut("분석중입니다");
-                    publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
-                    String[] features = {"Description"};
-                    String[] details = {};
-
-                    AnalysisResult result = visionServiceClient.analyzeImage(inputStreams[0], features, details);
-
-                    String jsonResult = new Gson().toJson(result);
-                    return jsonResult;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (VisionServiceException e) {
-                    e.printStackTrace();
-                }
-                return "";
-            }
-
-            @SuppressLint("StaticFieldLeak")
-            @Override // 종료
-            protected void onPostExecute(String s) {
-
-                if (TextUtils.isEmpty(s)) {
-                    mAnalyzeResult.setText("인식할 수 없습니다");
-                    Toast.makeText(WebBrowser.this, "API Return Empty Result", Toast.LENGTH_SHORT).show();
-                    tts.speakOut(mAnalyzeResult.getText().toString());
-                } else {
-                    progressDialog.dismiss();
-                    AnalysisResult result = new Gson().fromJson(s, AnalysisResult.class);
-                    StringBuilder result_Text = new StringBuilder();
-                    for (Caption caption : result.description.captions)
-                        result_Text.append(caption.text);
-
-                    //파파고 번역
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            String word = result_Text.toString();
-                            Papago_translate papago = new Papago_translate();
-                            String resultWord = papago.getTranslation(word, "en", "ko");
-
-                            Bundle papagoBundle = new Bundle();
-                            papagoBundle.putString("resultWord", resultWord);
-
-                            Message msg = papago_handler.obtainMessage();
-                            msg.setData(papagoBundle);
-                            papago_handler.sendMessage(msg);
-                        }
-                    }.start();
-                }
-            }
-
-            @Override
-            protected void onProgressUpdate(String... values) {
-                progressDialog.setMessage(values[0]);
-            }
-        };
-        visionTask.execute(inputStream);
-    }
-
-    //파파고 번역에 필요한 핸들러
-    @SuppressLint("HandlerLeak")
-    Handler papago_handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            Bundle bundle = msg.getData();
-            String resultWord = bundle.getString("resultWord");
-            resultText = resultWord;
-            mAnalyzeResult.setText(resultWord);
-            tts.speakOut(mAnalyzeResult.getText().toString());
-            //Toast.makeText(getApplicationContext(),resultWord,Toast.LENGTH_SHORT).show();
-        }
-    };
-
 
     //나는 뒤로가기 버튼을 누르면 나가지지 않고, 웹뷰에서 뒤로가기로 기능을 넣고싶다.
     private long backBtnTime = 0;
@@ -543,7 +451,6 @@ public class WebBrowser extends AppCompatActivity {
             backBtnTime = curTime;
             Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
-
     }
 
 
@@ -557,5 +464,25 @@ public class WebBrowser extends AppCompatActivity {
         if (tts != null){
             tts.ttsDestory();
         }
+
+        //연관 리소스를 clear해서 메모리 누수 줄이기
+        mWebView.removeJavascriptInterface("bridge");
+        mWebView.loadUrl("about:blank");
+        mWebView.destroyDrawingCache();
+        mWebView.removeAllViews();
+        mWebView.removeAllViewsInLayout();
+        mWebView.setVisibility(View.GONE);
+        mWebView = null;
+        //jsInterface = null;
+        //mJSCallback = null;
+        //mWebView.clearHistory();
+        //mWebView.destroyDrawingCache();
+        //mWebView.setWebViewClient(null);
+        //mWebView.setWebChromeClient(null);
+        //mWebView.removeAllViews();
+        //mWebView.clearCache(true);
+        //mWebView.removeAllViewsInLayout();
+        //mWebView.setVisibility(View.GONE);
+        //mWebView.destroy();
     }
 }
