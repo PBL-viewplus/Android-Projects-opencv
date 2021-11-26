@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_weight="1"
+        android:layout_weight="0.8"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#FFF324"
@@ -18,35 +18,39 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="4"
+            android:weightSum="7"
             android:orientation="horizontal">
 
             <ImageView
+                android:layout_weight="1"
                 android:id="@+id/userProfile"
-                android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
 
             <TextView
+                android:layout_weight="6"
+                android:gravity="center_vertical"
                 android:id="@+id/userEmailText"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="10dp"
+                android:textSize="15dp"
                 android:text="eef@na.com"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="logout" />
+                android:text="로그아웃" />
 
         </LinearLayout>
     </LinearLayout>
@@ -54,7 +58,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="14">
+        android:layout_weight="14.2">
 
         <ScrollView
             android:layout_width="match_parent"

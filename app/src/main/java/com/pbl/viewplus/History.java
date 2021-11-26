@@ -1,10 +1,12 @@
 package com.pbl.viewplus;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -43,6 +46,7 @@ public class History extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private Button btn_logout;
     private TextView userEmailText;
+    private ImageView userProfile;
 
 
     //삭제
@@ -56,13 +60,19 @@ public class History extends AppCompatActivity {
 
         btn_logout=findViewById(R.id.btn_logout);
         userEmailText=findViewById(R.id.userEmailText);
+        userProfile=findViewById(R.id.userProfile);
 
         //사용자 구분
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         //사용자 이메일 먼저 텍스트뷰에 지정
         userEmailText.setText(userEmail);
         userEmail= userEmail.split("@")[0];
-
+        //사용자 프로필 가져오기
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            Uri photoUrl = user.getPhotoUrl();
+            Glide.with(this).load(photoUrl).into(userProfile);
+        }
 
         mAuth=FirebaseAuth.getInstance();
         //로그아웃
@@ -290,5 +300,6 @@ public class History extends AppCompatActivity {
                     }
                 });
     }
+
 
 }
