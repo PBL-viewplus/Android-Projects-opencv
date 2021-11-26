@@ -1,5 +1,7 @@
 package com.pbl.viewplus;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -11,11 +13,13 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -26,12 +30,21 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
+
+import javax.crypto.SecretKey;
 
 import edmt.dev.edmtdevcognitivevision.Contract.AnalysisResult;
 import edmt.dev.edmtdevcognitivevision.Contract.Caption;
@@ -40,6 +53,7 @@ import edmt.dev.edmtdevcognitivevision.VisionServiceClient;
 import edmt.dev.edmtdevcognitivevision.VisionServiceRestClient;
 
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class AzureImage extends AppCompatActivity {
     private ImageView imageView;
     private TextView mTextResult;
@@ -50,6 +64,21 @@ public class AzureImage extends AppCompatActivity {
     private ImageButton backButton;
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
+
+    private String getTime;
+
+    //암호화
+    public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
+    public byte[] key = AES.generateRandomBase64Token(16);
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+
+    private String userEmail;
+    public Map<String, Object> user;
+    public String[] encText;
+    public String[] pic;
 
     VisionServiceClient visionServiceClient = new VisionServiceRestClient(API_KEY,API_LINK);
     TTS_controller tts = new TTS_controller();
@@ -154,7 +183,7 @@ public class AzureImage extends AppCompatActivity {
                 degree = camera.exifDegree;
                 camera.fileOpen(getApplicationContext(), imgBitmap);
 
-                imgBitmap = camera.getResizedBitmap(imgBitmap); // 해상도 조절
+                //imgBitmap = camera.getResizedBitmap(imgBitmap); // 해상도 조절
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
                 final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
@@ -236,6 +265,10 @@ public class AzureImage extends AppCompatActivity {
                 // 사진 회전
                 requestOptions.transform(new RotateTransform(degree));
                 Glide.with(this).load(imgBitmap).apply(requestOptions).into(imageView);
+
+                //비트맵 암호화
+                pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
+                user.put("piciv", pic[1]);//비트맵의 벡터
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -340,6 +373,10 @@ public class AzureImage extends AppCompatActivity {
                 requestOptions.transform(new RotateTransform(degree));
                 Glide.with(this).load(imgBitmap).apply(requestOptions).into(imageView);
 
+                //비트맵 암호화
+                pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
+                user.put("piciv", pic[1]);//비트맵의 벡터
+
                 //imageView.setImageBitmap(imgBitmap);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -364,8 +401,36 @@ public class AzureImage extends AppCompatActivity {
             Bundle bundle = msg.getData();
             String resultWord = bundle.getString("resultWord");
             mTextResult.setText(resultWord);
+
+            // 암호화 실행
+            try{
+                //우리키로 평문 암호화
+                encText= AES.encByKey(key, resultWord);
+                user.put("text", encText[0]);//암호화 된 평문
+                user.put("iv1", encText[1]);//평문의 벡터
+
+
+                //암호화 완료했으면 keystore키로 우리키 암호화하기
+                if (!AES.isExistKey(alias)) {
+                    AES.generateKey(alias);
+                }
+                SecretKey secretKey = AES.getKeyStoreKey(alias);
+                String[] enc = AES.encByKeyStoreKey(secretKey, key);
+
+                user.put("k", enc[0]); //암호화된 키를 보낸다.
+                user.put("iv2", enc[1]); //암호화된 키의 벡터를 보낸다.
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            user.put("date", getTime);
+            //스토리지에 보내기
+            uploadStream(pic[0],getTime);
+            //서버로 보내기
+            db.collection(userEmail).document(getTime).set(user);
+
             tts.speakOut(mTextResult.getText().toString());
-            //Toast.makeText(getApplicationContext(),resultWord,Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -376,6 +441,30 @@ public class AzureImage extends AppCompatActivity {
         if(tts != null){
             tts.ttsDestory();
         }
+    }
+
+    //스토리지에 보내기
+    public void uploadStream(String pic, String getTime){
+        //경로, 이름 지정
+        StorageReference mountainImagesRef = storageRef.child(userEmail+"/"+ getTime +".txt");
+        byte[] data = Base64.decode(pic,0);
+
+        UploadTask uploadTask = mountainImagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+            }
+        });
+
+
     }
 
 }

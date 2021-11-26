@@ -316,9 +316,47 @@ public class OCR_TTS extends AppCompatActivity {
                             //아니면 바로 보여줌
                             mTextResult.setText(result);
                             tts.speakOut(mTextResult.getText().toString());
-                            System.out.println("hooonononono"+ result);
                         }
 
+                        //서버에 보낼 데이터들을 담을 맵
+                        Map<String, Object> user = new HashMap<>();
+                        String[] encText = null;
+                        //암호화한 사진 담을곳
+                        String[] pic=null;
+
+                        // 암호화 실행
+                        try{
+                            //우리키로 평문 암호화
+                            encText= AES.encByKey(key, result);
+                            user.put("text", encText[0]);//암호화 된 평문
+                            user.put("iv1", encText[1]);//평문의 벡터
+
+                            //비트맵 암호화
+                            pic= AES.encByKey(key, AES.BitmapToString(changeBitmap));
+                            user.put("piciv", pic[1]);//비트맵의 벡터
+
+                            //암호화 완료했으면 keystore키로 우리키 암호화하기
+                            if (!AES.isExistKey(alias)) {
+                                AES.generateKey(alias);
+                            }
+                            SecretKey secretKey = AES.getKeyStoreKey(alias);
+                            String[] enc = AES.encByKeyStoreKey(secretKey, key);
+
+                            user.put("k", enc[0]); //암호화된 키를 보낸다.
+                            user.put("iv2", enc[1]); //암호화된 키의 벡터를 보낸다.
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+
+                        }
+
+                        user.put("date", getTime);
+
+                        //스토리지에 보내기
+                        uploadStream(pic[0],getTime);
+
+                        //서버로 보내기
+                        db.collection(userEmail).document(getTime).set(user);
                     }
 
 
@@ -568,7 +606,6 @@ public class OCR_TTS extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
-                System.out.println("6644ooooiii");
 
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -576,8 +613,6 @@ public class OCR_TTS extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
-                System.out.println("47888844ooooiii");
-
             }
         });
 
