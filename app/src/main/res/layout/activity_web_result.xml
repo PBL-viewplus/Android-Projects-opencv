@@ -59,7 +59,8 @@
         android:background="#FFFFFF"
         android:padding="10dp"
         android:layout_margin="10dp"
-        android:text="분석 결과" />
+        android:text="분석 결과"
+        android:textSize="25sp" />
 
     <WebView
         android:id="@+id/webResultWebView"

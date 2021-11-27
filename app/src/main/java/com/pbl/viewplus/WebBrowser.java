@@ -457,5 +457,6 @@ public class WebBrowser extends AppCompatActivity {
     public void speakCopy(){
         String copyStr = "사진을 복사했습니다.";
         tts.speakOut(copyStr);
+        Toast.makeText(WebBrowser.this, copyStr, Toast.LENGTH_SHORT).show();
     }
 }
