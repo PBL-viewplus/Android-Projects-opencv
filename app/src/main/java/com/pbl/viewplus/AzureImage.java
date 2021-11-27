@@ -1,10 +1,5 @@
 package com.pbl.viewplus;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,11 +23,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -42,6 +43,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.crypto.SecretKey;
@@ -51,6 +55,8 @@ import edmt.dev.edmtdevcognitivevision.Contract.Caption;
 import edmt.dev.edmtdevcognitivevision.Rest.VisionServiceException;
 import edmt.dev.edmtdevcognitivevision.VisionServiceClient;
 import edmt.dev.edmtdevcognitivevision.VisionServiceRestClient;
+
+import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -65,7 +71,7 @@ public class AzureImage extends AppCompatActivity {
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
 
-    private String getTime;
+    public String getTime;
 
     //암호화
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
@@ -75,10 +81,10 @@ public class AzureImage extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
-    private String userEmail;
-    public Map<String, Object> user;
-    public String[] encText;
-    public String[] pic;
+    public String userEmail;
+    public Map<String, Object> user=new HashMap<>();;
+    public String[] encText=null;
+    public String[] pic=null;
 
     VisionServiceClient visionServiceClient = new VisionServiceRestClient(API_KEY,API_LINK);
     TTS_controller tts = new TTS_controller();
@@ -99,6 +105,15 @@ public class AzureImage extends AppCompatActivity {
         plusButton=(ImageButton) findViewById(R.id.btn_plus);
         backButton=(ImageButton) findViewById(R.id.btn_back);
 
+        //사용자 구분
+        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        userEmail= userEmail.split("@")[0];
+
+        //현재 날짜로 문서 생성
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date= new Date();
+        getTime = sdf.format(date);
+
         // 카메라 권한 체크
         Permission permission = new Permission();
         permission.permissioncheck(getApplicationContext());
@@ -107,7 +122,7 @@ public class AzureImage extends AppCompatActivity {
         tts.initTTS(this, null);
 
         // 초기 imageView 설정
-        Bitmap sample = BitmapFactory.decodeResource(getResources(),R.drawable.sample);
+        Bitmap sample = BitmapFactory.decodeResource(getResources(), R.drawable.sample);
         imageView.setImageBitmap(sample);
 
         //인텐트 받기
@@ -131,8 +146,8 @@ public class AzureImage extends AppCompatActivity {
                 }
                 if (value == 4){
                     Intent intent = new Intent(Intent.ACTION_PICK);
-                    intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-                    intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 4);
                 }
             }
@@ -179,14 +194,51 @@ public class AzureImage extends AppCompatActivity {
                 options.inSampleSize = 4;
 
                 imgBitmap = BitmapFactory.decodeFile(path, options);
-                camera.exifInterface();
-                degree = camera.exifDegree;
+                //camera.exifInterface();
+                //degree = camera.exifDegree;
                 camera.fileOpen(getApplicationContext(), imgBitmap);
+
+                Bitmap rotatedBitmap = null;
+
+                // 회전된 사진을 원래대로 돌려 표시한다.
+                if (imgBitmap != null) {
+                    ExifInterface ei = new ExifInterface(path);
+                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+
+                    switch (orientation) {
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            rotatedBitmap = rotateImage(imgBitmap, 90);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotatedBitmap = rotateImage(imgBitmap, 180);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotatedBitmap = rotateImage(imgBitmap, 270);
+                            break;
+
+                        case ExifInterface.ORIENTATION_NORMAL:
+
+                        default:
+                            rotatedBitmap = imgBitmap;
+                    }
+                    imgBitmap=rotatedBitmap;
+                    imageView.setImageBitmap(imgBitmap);
+                }
+
 
                 //imgBitmap = camera.getResizedBitmap(imgBitmap); // 해상도 조절
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
                 final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+                //비트맵 암호화
+                pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
+                user.put("piciv", pic[1]);//비트맵의 벡터
+                //스토리지에 보내기
+                uploadStream(pic[0],getTime);
 
                 AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
                     // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
@@ -263,12 +315,8 @@ public class AzureImage extends AppCompatActivity {
                 visionTask.execute(inputStream);
 
                 // 사진 회전
-                requestOptions.transform(new RotateTransform(degree));
-                Glide.with(this).load(imgBitmap).apply(requestOptions).into(imageView);
-
-                //비트맵 암호화
-                pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
-                user.put("piciv", pic[1]);//비트맵의 벡터
+//                requestOptions.transform(new RotateTransform(degree));
+//                Glide.with(this).load(imgBitmap).apply(requestOptions).into(imageView);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -283,17 +331,61 @@ public class AzureImage extends AppCompatActivity {
                 options.inSampleSize = 4;
                 imgBitmap = BitmapFactory.decodeFile(path, options);
 
-                gallery.exifInterface();
-                degree = gallery.exifDegree;
+//                gallery.exifInterface();
+//                degree = gallery.exifDegree;
+
+                Bitmap rotatedBitmap = null;
+
+                // 회전된 사진을 원래대로 돌려 표시한다.
+                if (imgBitmap != null) {
+                    ExifInterface ei = new ExifInterface(path);
+                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+
+                    switch (orientation) {
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            rotatedBitmap = rotateImage(imgBitmap, 90);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotatedBitmap = rotateImage(imgBitmap, 180);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotatedBitmap = rotateImage(imgBitmap, 270);
+                            break;
+
+                        case ExifInterface.ORIENTATION_NORMAL:
+
+                        default:
+                            rotatedBitmap = imgBitmap;
+                    }
+                    imgBitmap=rotatedBitmap;
+                    imageView.setImageBitmap(imgBitmap);
+                }
 
 //                InputStream in = getContentResolver().openInputStream(data.getData());
 //                imgBitmap = BitmapFactory.decodeStream(in);
 //                in.close();
 
-                imgBitmap = gallery.getResizedBitmap(imgBitmap); // 해상도 조절
+                //imgBitmap = gallery.getResizedBitmap(imgBitmap); // 해상도 조절
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
                 final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+
+                // 사진 회전
+//                requestOptions.transform(new RotateTransform(degree));
+//                Glide.with(this).load(imgBitmap).apply(requestOptions).into(imageView);
+
+                //imageView.setImageBitmap(imgBitmap);
+
+                //비트맵 암호화
+                pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
+                user.put("piciv", pic[1]);//비트맵의 벡터
+                //스토리지에 보내기
+                uploadStream(pic[0],getTime);
+
 
                 AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
                     // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
@@ -356,6 +448,7 @@ public class AzureImage extends AppCompatActivity {
                                     Message msg = papago_handler.obtainMessage();
                                     msg.setData(papagoBundle);
                                     papago_handler.sendMessage(msg);
+
                                 }
                             }.start();
                         }
@@ -369,15 +462,9 @@ public class AzureImage extends AppCompatActivity {
                 };
                 visionTask.execute(inputStream);
 
-                // 사진 회전
-                requestOptions.transform(new RotateTransform(degree));
-                Glide.with(this).load(imgBitmap).apply(requestOptions).into(imageView);
 
-                //비트맵 암호화
-                pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
-                user.put("piciv", pic[1]);//비트맵의 벡터
 
-                //imageView.setImageBitmap(imgBitmap);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -420,17 +507,19 @@ public class AzureImage extends AppCompatActivity {
                 user.put("k", enc[0]); //암호화된 키를 보낸다.
                 user.put("iv2", enc[1]); //암호화된 키의 벡터를 보낸다.
 
+
             } catch (Exception e) {
                 e.printStackTrace();
 
             }
+
             user.put("date", getTime);
-            //스토리지에 보내기
-            uploadStream(pic[0],getTime);
+
             //서버로 보내기
             db.collection(userEmail).document(getTime).set(user);
 
             tts.speakOut(mTextResult.getText().toString());
+            //Toast.makeText(getApplicationContext(),resultWord,Toast.LENGTH_SHORT).show();
         }
     };
 

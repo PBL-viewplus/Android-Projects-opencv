@@ -113,7 +113,7 @@ public class WebBrowser extends AppCompatActivity {
 
 
         // TTS 객체 초기화
-        tts.initTTS(this, 0);
+        tts.initTTS(this, null);
 
         mWebView.setVisibility(View.VISIBLE); // 웹뷰는 불러오기위해 VISIBLE로 설정
         /*WebSettings settings = mWebView.getSettings();
