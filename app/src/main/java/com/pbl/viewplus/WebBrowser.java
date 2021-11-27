@@ -81,7 +81,7 @@ public class WebBrowser extends AppCompatActivity {
     private int index = 0;
     private String resultText="";
     Bitmap resultBitmap;
-    String intentUrl = "";
+    String intentUrl = null;
 
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
@@ -113,18 +113,9 @@ public class WebBrowser extends AppCompatActivity {
 
 
         // TTS 객체 초기화
-        tts.initTTS(this, 0);
+        tts.initTTS(this, null);
 
         mWebView.setVisibility(View.VISIBLE); // 웹뷰는 불러오기위해 VISIBLE로 설정
-        /*WebSettings settings = mWebView.getSettings();
-        settings.setBuiltInZoomControls(true);
-        settings.setUseWideViewPort(false);
-        settings.setJavaScriptEnabled(true);
-        settings.setSupportMultipleWindows(false);
-        settings.setLoadsImagesAutomatically(true);
-        settings.setLightTouchEnabled(true);
-        settings.setDomStorageEnabled(true);
-        settings.setLoadWithOverviewMode(true);*/
         WebView.enableSlowWholeDocumentDraw();
         //첫 세팅 웹뷰
         openUrl();
@@ -179,35 +170,18 @@ public class WebBrowser extends AppCompatActivity {
             }
         });
 
-/*        // 이전 버튼
-        mPreButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if(index > 0){
-                    index--;
-                    new DownloadFilesTask().execute(image_src.get(index));
-                }
-            }
-        });
-        // 다음 버튼
-        mNextButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                tts.ttsStop();
-                if(index < image_src.size()-1){
-                    index++;
-                    new DownloadFilesTask().execute(image_src.get(index));
-                }
-            }
-        });*/
-
         // 이미지 분석 버튼
         mAnalyzeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), WebResult.class);
-                intent.putExtra("ResultUrl", intentUrl);
-                startActivity(intent);
+                if(intentUrl==null){
+                    speakNoStr();
+                }
+                else{
+                    Intent intent = new Intent(getApplicationContext(), WebResult.class);
+                    intent.putExtra("ResultUrl", intentUrl);
+                    startActivity(intent);
+                }
 
                 //인텐트로 분석이미지와 분석결과를 던져주고 보여줌.
                 //분석이미지
@@ -221,9 +195,14 @@ public class WebBrowser extends AppCompatActivity {
         mOCRButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), WebOCRResult.class);
-                intent.putExtra("ResultUrl", intentUrl);
-                startActivity(intent);
+                if(intentUrl==null){
+                    speakNoStr();
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), WebOCRResult.class);
+                    intent.putExtra("ResultUrl", intentUrl);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -241,31 +220,22 @@ public class WebBrowser extends AppCompatActivity {
                     case WebView.HitTestResult.IMAGE_TYPE: //그냥 img태그 //뉴스기사에서 사진만 있을 때
                         String url = result.getExtra();
                         copyText(url);
+                        speakCopy();
                         //Toast.makeText(WebBrowser.this, "case1: " + url, Toast.LENGTH_LONG).show();
                         break;
                     case WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE: //a태그의 img태그 //거의 여기 걸림
                         String url2 = result.getExtra();
                         copyText(url2);
+                        speakCopy();
                         //Toast.makeText(WebBrowser.this, "case2: " + url2, Toast.LENGTH_LONG).show();
                         break;
                     case WebView.HitTestResult.SRC_ANCHOR_TYPE: //a태그의 http일 때
                         String link = result.getExtra();
                         copyText(link);
+                        speakCopy();
                         //Toast.makeText(WebBrowser.this, "case3: " + link, Toast.LENGTH_LONG).show();
                         break;
                 }
-
-                //copyToClipboard(link, AppConstants.URL_TO_COPY);
-
-
-                /*//안걸림
-                if (result != null) {
-                    if (result.getType() == WebView.HitTestResult.SRC_ANCHOR_TYPE) {
-                        String linkToCopy = result.getExtra();
-                        Toast.makeText(WebBrowser.this, "linkToCopy:" + linkToCopy, Toast.LENGTH_LONG).show();
-                        //copyToClipboard(linkToCopy, AppConstants.URL_TO_COPY);
-                    }
-                }*/
 
                 return true;
             }
@@ -358,7 +328,6 @@ public class WebBrowser extends AppCompatActivity {
             mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 허용 여부
             mWebSettings.setDomStorageEnabled(true); // 로컬저장소 허용 여부
             mWebSettings.setJavaScriptEnabled(true); //웹뷰 자바스크립트 활성화
-            //https://stackoverflow.com/questions/31238312/androidhow-to-convert-html-code-into-image-and-send-this-image-using-shareinten
             mWebSettings.setLoadsImagesAutomatically(true);
             mWebSettings.setLightTouchEnabled(true);
             //자바스크립트인터페이스 연결(자바함수 접근)
@@ -443,11 +412,10 @@ public class WebBrowser extends AppCompatActivity {
     public void onBackPressed() {
         long curTime = System.currentTimeMillis();
         long gapTime = curTime - backBtnTime;
-        if (mWebView.canGoBack()) {
-            mWebView.goBack();
-        } else if (0 <= gapTime && 2000 >= gapTime) {
+        if (0 <= gapTime && 2000 >= gapTime) {
             super.onBackPressed();
         } else {
+            mWebView.goBack();
             backBtnTime = curTime;
             Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
@@ -464,8 +432,11 @@ public class WebBrowser extends AppCompatActivity {
         if (tts != null){
             tts.ttsDestory();
         }
+        webViewDestroy();
+    }
 
-        //연관 리소스를 clear해서 메모리 누수 줄이기
+    //연관 리소스를 clear해서 메모리 누수 줄이기
+    public void webViewDestroy(){
         mWebView.removeJavascriptInterface("bridge");
         mWebView.loadUrl("about:blank");
         mWebView.destroyDrawingCache();
@@ -473,16 +444,18 @@ public class WebBrowser extends AppCompatActivity {
         mWebView.removeAllViewsInLayout();
         mWebView.setVisibility(View.GONE);
         mWebView = null;
-        //jsInterface = null;
-        //mJSCallback = null;
-        //mWebView.clearHistory();
-        //mWebView.destroyDrawingCache();
-        //mWebView.setWebViewClient(null);
-        //mWebView.setWebChromeClient(null);
-        //mWebView.removeAllViews();
-        //mWebView.clearCache(true);
-        //mWebView.removeAllViewsInLayout();
-        //mWebView.setVisibility(View.GONE);
-        //mWebView.destroy();
+    }
+
+    //분석할 이미지가 없습니다.
+    public void speakNoStr(){
+        String noStr = "분석할 이미지가 없습니다.";
+        tts.speakOut(noStr);
+        Toast.makeText(WebBrowser.this, noStr, Toast.LENGTH_SHORT).show();
+    }
+
+    //사진을 복사했습니다.
+    public void speakCopy(){
+        String copyStr = "사진을 복사했습니다.";
+        tts.speakOut(copyStr);
     }
 }
