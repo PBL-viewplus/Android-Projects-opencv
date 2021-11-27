@@ -365,8 +365,7 @@ public class WebOCRResult extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         tts.ttsStop();
     }

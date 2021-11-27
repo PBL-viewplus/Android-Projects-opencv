@@ -523,15 +523,6 @@ public class AzureImage extends AppCompatActivity {
         }
     };
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // TTS 객체가 남아있다면 실행을 중지하고 메모리에서 제거한다.
-        if(tts != null){
-            tts.ttsDestory();
-        }
-    }
-
     //스토리지에 보내기
     public void uploadStream(String pic, String getTime){
         //경로, 이름 지정
@@ -552,8 +543,18 @@ public class AzureImage extends AppCompatActivity {
                 // ...
             }
         });
-
-
     }
 
+    public void onStop() {
+        super.onStop();
+        tts.ttsStop();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        if(tts != null){
+            tts.ttsDestory();
+        }
+    }
+    
 }

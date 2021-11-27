@@ -341,5 +341,8 @@ public class WebResult extends AppCompatActivity {
         }
     }
 
-
+    public void onPause() {
+        super.onPause();
+        tts.ttsStop();
+    }
 }
