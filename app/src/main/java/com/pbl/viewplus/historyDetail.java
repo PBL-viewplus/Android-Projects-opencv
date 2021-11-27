@@ -1,10 +1,12 @@
 package com.pbl.viewplus;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,9 +28,11 @@ import javax.crypto.SecretKey;
 
 public class historyDetail extends AppCompatActivity {
     private String date;
-    private TextView hd_text_result;
-    private ImageView hd_origin_iv;
+    private TextView textResult;
+    private ImageView imageView;
     private ImageButton backButton;
+    private ImageButton plusButton;
+    private ImageButton minusButton;
 
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -44,10 +48,26 @@ public class historyDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_detail);
 
-        hd_text_result = findViewById(R.id.hd_text_result);
-        hd_origin_iv = findViewById(R.id.hd_origin_iv);
+        textResult = findViewById(R.id.hd_text_result);
+        imageView = findViewById(R.id.hd_origin_iv);
         backButton = findViewById(R.id.hd_btn_back);
+        plusButton = (ImageButton) findViewById(R.id.hd_btn_plus);
+        minusButton = (ImageButton) findViewById(R.id.hd_btn_minus);
         db = FirebaseFirestore.getInstance();
+
+        minusButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                textResult.setTextSize(textResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+            }
+        });
+
+        plusButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textResult.setTextSize(textResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+            }
+        });
 
         // 뒤로가기 버튼
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +84,7 @@ public class historyDetail extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         File file = new File(filePath);
         file.delete();
-        hd_origin_iv.setImageBitmap(bitmap);
+        imageView.setImageBitmap(bitmap);
 
         //사용자 구분
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -88,7 +108,7 @@ public class historyDetail extends AppCompatActivity {
                                 SecretKey secretKey = AES.getKeyStoreKey(alias);
                                 String enc = AES.decByKeyStoreKey(secretKey, k, iv2); // keystore키로 복호화한 우리키
                                 String decText = AES.decByKey(enc, text,document.get("iv1").toString()); // 우리키로 암호문 복호화 진행
-                                hd_text_result.setText(decText);
+                                textResult.setText(decText);
                                 tts.initTTS(getApplicationContext(), decText);
                             }
                         } catch (Exception e) {
