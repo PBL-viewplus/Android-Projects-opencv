@@ -9,11 +9,11 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_weight="0.8"
+        android:layout_weight="0.9"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#FFF324"
-        android:weightSum="5"
+        android:background="#060C40"
+        android:weightSum="6"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -21,6 +21,7 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:weightSum="7"
+            android:layout_marginLeft="10dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -35,7 +36,9 @@
                 android:id="@+id/userEmailText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="15dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="17dp"
+                android:textColor="@color/white"
                 android:text="eef@na.com"/>
 
         </LinearLayout>
@@ -44,12 +47,15 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
+            android:gravity="right"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:backgroundTint="#F6BA79"
                 android:text="로그아웃" />
 
         </LinearLayout>
@@ -58,13 +64,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="14.2">
+        android:layout_weight="14.1">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -73,6 +80,10 @@
                     android:id="@+id/day0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
                     android:text="오늘" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -82,6 +93,10 @@
 
                 <TextView
                     android:id="@+id/day1"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1일전" />
@@ -93,6 +108,10 @@
 
                 <TextView
                     android:id="@+id/day2"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2일전" />
@@ -104,6 +123,10 @@
 
                 <TextView
                     android:id="@+id/day3"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3일전" />
@@ -115,6 +138,10 @@
 
                 <TextView
                     android:id="@+id/day4"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4일전" />
