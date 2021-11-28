@@ -82,9 +82,9 @@ public class AzureImage extends AppCompatActivity {
     StorageReference storageRef = storage.getReference();
 
     public String userEmail;
-    public Map<String, Object> user=new HashMap<>();;
-    public String[] encText=null;
-    public String[] pic=null;
+    public Map<String, Object> user = new HashMap<>();;
+    public String[] encText = null;
+    public String[] pic = null;
 
     VisionServiceClient visionServiceClient = new VisionServiceRestClient(API_KEY,API_LINK);
     TTS_controller tts = new TTS_controller();
@@ -101,17 +101,17 @@ public class AzureImage extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.origin_iv);
         mTextResult = (TextView) findViewById(R.id.text_result);
         pictureButton = (ImageButton) findViewById(R.id.btn_picture);
-        minusButton=(ImageButton) findViewById(R.id.btn_minus);
-        plusButton=(ImageButton) findViewById(R.id.btn_plus);
-        backButton=(ImageButton) findViewById(R.id.btn_back);
+        minusButton = (ImageButton) findViewById(R.id.btn_minus);
+        plusButton = (ImageButton) findViewById(R.id.btn_plus);
+        backButton = (ImageButton) findViewById(R.id.btn_back);
 
         //사용자 구분
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        userEmail= userEmail.split("@")[0];
+        userEmail = userEmail.split("@")[0];
 
         //현재 날짜로 문서 생성
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date= new Date();
+        Date date = new Date();
         getTime = sdf.format(date);
 
         // 카메라 권한 체크
@@ -153,17 +153,23 @@ public class AzureImage extends AppCompatActivity {
             }
         });
 
+        // 돋보기 -버튼
         minusButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                if (imgBitmap != null) {
+                    mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                }
             }
         });
 
+        // 돋보기 +버튼
         plusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+                if (imgBitmap != null) {
+                    mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+                }
             }
         });
 
