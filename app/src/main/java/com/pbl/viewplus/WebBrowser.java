@@ -76,7 +76,6 @@ public class WebBrowser extends AppCompatActivity {
     private Boolean flag = false; //분석버튼 실행 변수
 
     private String url = "https://www.naver.com"; // url담을 변수 선언
-    //private String url = "";
     private List<String> image_src = new ArrayList<>();
     private int index = 0;
     private String resultText="";
@@ -87,7 +86,6 @@ public class WebBrowser extends AppCompatActivity {
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
 
     VisionServiceClient visionServiceClient = new VisionServiceRestClient(API_KEY,API_LINK);
-    // tts 객체 생성
     TTS_controller tts = new TTS_controller();
 
 
@@ -124,26 +122,20 @@ public class WebBrowser extends AppCompatActivity {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //이미지 소스들 저장한거 지움
-                //image_src.clear();
-                //입력받은 url을 url에 넣음
                 url = mText.getText().toString();
 
-                //검색 버튼 누르면, 키보드 숨기기
+                // 검색 버튼 누르면, 키보드 숨기기
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mText.getWindowToken(),0);
 
-                //http://나 https://를 안붙였을때 http://를 추가함.
-                if (url != null) {
-                    if(!url.startsWith("http://") && !url.startsWith("https://") ){
-                        System.out.println("url2:" + url);
+                if ( url.equals("") ){
+                    speakTTS(3);
+                }else { // http://나 https://를 안붙였을때 http://를 추가함.
+                    if( !url.startsWith("http://") && !url.startsWith("https://") ){
                         url = "http://" + url;
                     }
-                    //웹뷰에 띄워줌
                     openUrl();
-                }
-                if(url.equals("")){
-                    Toast.makeText(WebBrowser.this,"url을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    mText.setText("");
                 }
             }
         });
@@ -175,7 +167,7 @@ public class WebBrowser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(intentUrl==null){
-                    speakNoStr();
+                    speakTTS(1);
                 }
                 else{
                     Intent intent = new Intent(getApplicationContext(), WebResult.class);
@@ -196,7 +188,7 @@ public class WebBrowser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(intentUrl==null){
-                    speakNoStr();
+                    speakTTS(1);
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), WebOCRResult.class);
@@ -220,19 +212,19 @@ public class WebBrowser extends AppCompatActivity {
                     case WebView.HitTestResult.IMAGE_TYPE: //그냥 img태그 //뉴스기사에서 사진만 있을 때
                         String url = result.getExtra();
                         copyText(url);
-                        speakCopy();
+                        speakTTS(2);
                         //Toast.makeText(WebBrowser.this, "case1: " + url, Toast.LENGTH_LONG).show();
                         break;
                     case WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE: //a태그의 img태그 //거의 여기 걸림
                         String url2 = result.getExtra();
                         copyText(url2);
-                        speakCopy();
+                        speakTTS(2);
                         //Toast.makeText(WebBrowser.this, "case2: " + url2, Toast.LENGTH_LONG).show();
                         break;
                     case WebView.HitTestResult.SRC_ANCHOR_TYPE: //a태그의 http일 때
                         String link = result.getExtra();
                         copyText(link);
-                        speakCopy();
+                        speakTTS(2);
                         //Toast.makeText(WebBrowser.this, "case3: " + link, Toast.LENGTH_LONG).show();
                         break;
                 }
@@ -446,17 +438,19 @@ public class WebBrowser extends AppCompatActivity {
         mWebView = null;
     }
 
-    //분석할 이미지가 없습니다.
-    public void speakNoStr(){
-        String noStr = "분석할 이미지가 없습니다.";
-        tts.speakOut(noStr);
-        Toast.makeText(WebBrowser.this, noStr, Toast.LENGTH_SHORT).show();
-    }
-
-    //사진을 복사했습니다.
-    public void speakCopy(){
-        String copyStr = "사진을 복사했습니다.";
-        tts.speakOut(copyStr);
-        Toast.makeText(WebBrowser.this, copyStr, Toast.LENGTH_SHORT).show();
+    public void speakTTS(int num){
+        String str;
+        switch (num){
+            case 1: str = "분석할 이미지가 없습니다.";
+                break;
+            case 2: str = "사진을 복사했습니다.";
+                break;
+            case 3: str = "url을 입력해주세요.";
+                break;
+            default:
+                str = null;
+        }
+        tts.speakOut(str);
+        Toast.makeText(WebBrowser.this, str, Toast.LENGTH_SHORT).show();
     }
 }
