@@ -1,109 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".WebBrowser">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_margin="5dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/AzureButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이미지 분석" />
-
-        <Button
-            android:id="@+id/OCRButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="글자 분석" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/urlText"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="URL 입력"
-                android:inputType="textPersonName" />
-
-            <Button
-                android:id="@+id/searchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="검색" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/app_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:gravity="right"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/clearButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="지우기" />
-
-            <Button
-                android:id="@+id/copyButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="붙여넣기" />
-        </LinearLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="112dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:titleTextColor="@android:color/white" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <WebView
-                    android:id="@+id/webView"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:orientation="horizontal"
+                    android:weightSum="7">
+
+                    <EditText
+                        android:id="@+id/urlText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:hint="URL 입력"
+                        android:layout_weight="6"
+                        android:inputType="textPersonName" />
+
+                    <!--                    <androidx.appcompat.widget.SearchView-->
+                    <!--                        android:id="@+id/searchButton"-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:layout_height="match_parent" />-->
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:layout_margin="10dp"
+                            android:id="@+id/searchButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:drawable/ic_menu_search"
+                            android:text="검색" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="visible">
+                    android:orientation="horizontal"
+                    android:layout_weight="4">
 
-                </WebView>
+                    <Button
+                        android:layout_weight="1"
+                        android:id="@+id/clearButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="지우기" />
+
+                    <Button
+                        android:layout_weight="1"
+                        android:id="@+id/copyButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="붙여넣기" />
+
+                    <Button
+                        android:layout_weight="1"
+                        android:id="@+id/AzureButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="이미지 분석" />
+
+                    <Button
+                        android:layout_weight="1"
+                        android:id="@+id/OCRButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="글자 분석" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
-        </ScrollView>
 
-    </LinearLayout>
 
-    <LinearLayout
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+            </WebView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 삭제 부분? -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
         <!--android:layout_height="match_parent"-->
 
         <TextView
@@ -111,7 +146,8 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="분석 결과"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            tools:ignore="MissingConstraints" />
         <!--android:layout_height="100dp"-->
 
         <ImageView
@@ -119,9 +155,11 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="fitCenter"
+            app:layout_constraintTop_toBottomOf="parent"
+            tools:ignore="MissingConstraints"
             tools:srcCompat="@tools:sample/avatars" />
         <!--android:layout_height= 400dp로 바꾸기-->
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--
             <LinearLayout
@@ -147,4 +185,4 @@
             </LinearLayout>
     -->
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

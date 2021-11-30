@@ -34,6 +34,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +67,7 @@ public class WebBrowser extends AppCompatActivity {
     private WebView mWebView; // 웹뷰 선언
     private WebSettings mWebSettings; // 웹뷰세팅
     private EditText mText; // Url 입력 받을 PlainText 선언
-    private Button mSearchButton;
+    private ImageButton mSearchButton;
     private ImageView mImageView;
     private Button mOCRButton;
     private Button mAnalyzeButton;
@@ -101,7 +102,7 @@ public class WebBrowser extends AppCompatActivity {
 
         mWebView = (WebView) findViewById(R.id.webView);
         mText = (EditText) findViewById(R.id.urlText);
-        mSearchButton = (Button) findViewById(R.id.searchButton);
+        mSearchButton = (ImageButton) findViewById(R.id.searchButton);
         mImageView = (ImageView) findViewById(R.id.imageView);
         mAnalyzeButton = (Button) findViewById(R.id.AzureButton);
         mOCRButton = (Button) findViewById(R.id.OCRButton);
