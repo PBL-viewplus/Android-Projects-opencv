@@ -87,7 +87,7 @@ public class WebBrowser extends AppCompatActivity {
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
 
     VisionServiceClient visionServiceClient = new VisionServiceRestClient(API_KEY,API_LINK);
-    TTS_controller tts = new TTS_controller();
+    TTS_controller tts = new TTS_controller();// tts 객체 생성
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
