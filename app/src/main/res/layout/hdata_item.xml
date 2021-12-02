@@ -26,11 +26,12 @@
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
-        <Button
+        <ImageButton
             android:layout_gravity="right"
             android:id="@+id/delButton"
             android:layout_width="25dp"
-            android:layout_height="35dp"
+            android:layout_height="25dp"
+            android:background="@drawable/btn_delete"
             android:text="x" />
     </FrameLayout>
 

@@ -40,7 +40,7 @@
             android:layout_height="30dp"
             android:layout_gravity="right"
             android:layout_margin="20dp"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:background="@mipmap/history_btn"/>
 
 
         <!-- <ImageView
@@ -79,7 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:src="@drawable/camera"
+                android:src="@drawable/ca_tts"
                 android:background="@drawable/radius" />
 
             <LinearLayout
@@ -106,7 +106,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:background="@drawable/gallery" />
+                android:src="@drawable/gal_tts"
+                android:background="@drawable/radius" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -133,7 +134,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:background="@drawable/camera" />
+                android:src="@drawable/ca_img"
+                android:background="@drawable/radius" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -161,7 +163,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:background="@drawable/gallery" />
+                android:src="@drawable/gal_img"
+                android:background="@drawable/radius"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -187,7 +190,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:background="@drawable/button5" />
+                android:src="@drawable/webicon"
+                android:background="@drawable/radius" />
 
             <LinearLayout
                 android:layout_width="0dp"

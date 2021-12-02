@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,7 +46,7 @@ public class History extends AppCompatActivity {
     private String userEmail;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-    private Button btn_logout;
+    private ImageButton btn_logout;
     private TextView userEmailText;
     private ImageView userProfile;
 

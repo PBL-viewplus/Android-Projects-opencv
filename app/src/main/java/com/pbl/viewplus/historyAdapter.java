@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -48,7 +49,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
         LinearLayout hDataLinearLayout;
         ImageView itemImg;
-        Button delButton;
+        ImageButton delButton;
 
         ViewHolder(View itemView){
             super(itemView);
