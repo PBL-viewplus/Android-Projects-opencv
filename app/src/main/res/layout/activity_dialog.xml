@@ -63,7 +63,7 @@
             android:layout_weight="1"
             android:text="다시보지않기"
             android:textSize="15sp"
-            android:textColor="#ff7a00"
+            android:textColor="#342A69"
             android:padding="16dp"
             android:gravity="center"
             android:background="#00000000"
@@ -84,7 +84,7 @@
             android:gravity="center"
             android:padding="16dp"
             android:text="확인"
-            android:textColor="#ff7a00"
+            android:textColor="#342A69"
             android:textSize="15sp"
             android:onClick="mOnClose" />
     </LinearLayout>

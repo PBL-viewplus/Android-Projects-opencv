@@ -80,6 +80,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
                 android:src="@drawable/ca_tts"
+                android:scaleType="center"
                 android:background="@drawable/radius" />
 
             <LinearLayout
@@ -107,6 +108,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
                 android:src="@drawable/gal_tts"
+                android:scaleType="center"
                 android:background="@drawable/radius" />
 
             <LinearLayout
@@ -135,6 +137,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
                 android:src="@drawable/ca_img"
+                android:scaleType="center"
                 android:background="@drawable/radius" />
 
             <LinearLayout
@@ -164,6 +167,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
                 android:src="@drawable/gal_img"
+                android:scaleType="center"
                 android:background="@drawable/radius"/>
 
             <LinearLayout
@@ -191,6 +195,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
                 android:src="@drawable/webicon"
+                android:scaleType="center"
                 android:background="@drawable/radius" />
 
             <LinearLayout

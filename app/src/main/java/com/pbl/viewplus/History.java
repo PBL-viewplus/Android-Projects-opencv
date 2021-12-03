@@ -46,7 +46,7 @@ public class History extends AppCompatActivity {
     private String userEmail;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-    private ImageButton btn_logout;
+    private Button btn_logout;
     private TextView userEmailText;
     private ImageView userProfile;
 
