@@ -66,6 +66,7 @@ public class AzureImage extends AppCompatActivity {
     private ImageButton pictureButton;
     private Bitmap imgBitmap;
     private ImageButton minusButton;
+    private ImageButton againButton;
     private ImageButton plusButton;
     private ImageButton backButton;
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
@@ -98,10 +99,11 @@ public class AzureImage extends AppCompatActivity {
         setContentView(R.layout.analyze_picture);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 가로 화면 고정
 
-        imageView = (ImageView) findViewById(R.id.hd_origin_iv);
+        imageView = (ImageView) findViewById(R.id.origin_iv);
         mTextResult = (TextView) findViewById(R.id.text_result);
         pictureButton = (ImageButton) findViewById(R.id.btn_picture);
         minusButton = (ImageButton) findViewById(R.id.btn_minus);
+        againButton = findViewById(R.id.btn_again);
         plusButton = (ImageButton) findViewById(R.id.btn_plus);
         backButton = (ImageButton) findViewById(R.id.btn_back);
 
@@ -156,6 +158,13 @@ public class AzureImage extends AppCompatActivity {
                 if (imgBitmap != null) {
                     mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
                 }
+            }
+        });
+
+        againButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tts.speakOut(mTextResult.getText().toString());
             }
         });
 

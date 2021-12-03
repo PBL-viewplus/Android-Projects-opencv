@@ -126,7 +126,7 @@ public class WebOCRResult extends AppCompatActivity {
         textView = findViewById(R.id.webResultTextView);
         webView = findViewById(R.id.webResultWebView);
         minusButton = findViewById(R.id.btn_minus);
-        againButton = findViewById(R.id.hd_btn_again);
+        againButton = findViewById(R.id.btn_again);
         plusButton = findViewById(R.id.btn_plus);
         backButton = findViewById(R.id.btn_back);
 

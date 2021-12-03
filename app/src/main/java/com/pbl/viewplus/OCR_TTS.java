@@ -99,11 +99,11 @@ public class OCR_TTS extends AppCompatActivity {
         setContentView(R.layout.analyze_picture);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 가로 화면 고정
 
-        originImageView = findViewById(R.id.hd_origin_iv);
+        originImageView = findViewById(R.id.origin_iv);
         mTextResult = findViewById(R.id.text_result);
         minusButton = findViewById(R.id.btn_minus);
         plusButton = findViewById(R.id.btn_plus);
-        againButton = findViewById(R.id.hd_btn_again);
+        againButton = findViewById(R.id.btn_again);
         backButton = findViewById(R.id.btn_back);
         pictureButton = findViewById(R.id.btn_picture);
 

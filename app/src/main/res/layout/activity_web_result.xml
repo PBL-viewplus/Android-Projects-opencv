@@ -11,17 +11,31 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+
         <ImageButton
-            android:id="@+id/hd_btn_back"
+            android:id="@+id/btn_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/backarrow"
             android:text="Button" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/btn_picture"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="13dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/picturebutton" />
+        </RelativeLayout>
+
     </LinearLayout>
     <ImageButton
-        android:id="@id/hd_btn_back"
+        android:id="@id/btn_back"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
@@ -46,7 +60,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@id/hd_btn_minus"
+            android:id="@id/btn_minus"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"
@@ -62,7 +76,7 @@
             android:text="Button" />
 
         <ImageButton
-            android:id="@id/hd_btn_plus"
+            android:id="@id/btn_plus"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"
@@ -71,30 +85,19 @@
 
     </LinearLayout>
 
-    <ScrollView
+    <TextView
+        android:id="@+id/webResultTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:background="@drawable/analyze_rectangle">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/hd_text_result"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:text="분석 결과"
-                android:textSize="25sp" />
-        </LinearLayout>
-    </ScrollView>
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:text="분석 결과"
+        android:textSize="25sp" />
 
     <WebView
         android:id="@+id/webResultWebView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
         android:visibility="visible" />
 </LinearLayout>

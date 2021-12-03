@@ -5,23 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/analyze_back"
-    android:orientation="vertical"
-    tools:context=".historyDetail">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+
         <ImageButton
-            android:id="@+id/hd_btn_back"
+            android:id="@+id/btn_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/backarrow"
             android:text="Button" />
-    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/btn_picture"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="13dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/picturebutton" />
+        </RelativeLayout>
 
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +52,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/hd_origin_iv"
+                android:id="@+id/origin_iv"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_width="match_parent"
@@ -49,7 +61,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -63,7 +74,7 @@
             android:gravity="center_horizontal">
 
             <ImageButton
-                android:id="@+id/hd_btn_minus"
+                android:id="@+id/btn_minus"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
@@ -73,7 +84,7 @@
                 android:text="-" />
 
             <ImageButton
-                android:id="@+id/hd_btn_again"
+                android:id="@+id/btn_again"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
@@ -81,7 +92,7 @@
                 android:text="Button" />
 
             <ImageButton
-                android:id="@+id/hd_btn_plus"
+                android:id="@+id/btn_plus"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="30dp"
@@ -93,7 +104,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -113,7 +123,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/hd_text_result"
+                    android:id="@+id/text_result"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
