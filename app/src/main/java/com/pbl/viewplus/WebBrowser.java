@@ -107,7 +107,7 @@ public class WebBrowser extends AppCompatActivity {
         mAnalyzeButton = (Button) findViewById(R.id.AzureButton);
         mOCRButton = (Button) findViewById(R.id.OCRButton);
         mAnalyzeResult = (TextView) findViewById(R.id.analyzeResult);
-        mClearButton = (Button) findViewById(R.id.clearButton);
+        //mClearButton = (Button) findViewById(R.id.clearButton);
         mCopyButton = (Button) findViewById(R.id.copyButton);
 
 
@@ -142,12 +142,12 @@ public class WebBrowser extends AppCompatActivity {
         });
 
         // 지우기 버튼
-        mClearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mText.setText(null);
-            }
-        });
+//        mClearButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mText.setText(null);
+//            }
+//        });
 
         // 붙여넣기 버튼
         mCopyButton.setOnClickListener(new View.OnClickListener(){

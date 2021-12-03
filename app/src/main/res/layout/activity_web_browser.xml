@@ -56,19 +56,22 @@
                         android:orientation="horizontal">
 
                         <ImageButton
-                            android:scaleType="centerCrop"
                             android:id="@+id/searchButton"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@android:drawable/ic_menu_search"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@drawable/loupe"
                             android:text="검색" />
 
                     </LinearLayout>
 
                 </LinearLayout>
+
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,32 +81,36 @@
                     android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/clearButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/radius"
-                        android:text="지우기" />
+                    <!--                    <Button-->
+                    <!--                        android:id="@+id/clearButton"-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:layout_marginRight="20dp"-->
+                    <!--                        android:background="@drawable/radius"-->
+                    <!--                        android:text="지우기" />-->
 
                     <Button
                         android:id="@+id/copyButton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:background="@drawable/radius"
-                        android:text="붙여\n넣기" />
+                        android:text="붙여넣기" />
 
                     <Button
                         android:id="@+id/AzureButton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:background="@drawable/radius"
-                        android:text="이미지\n분석" />
+                        android:text="이미지분석" />
 
                     <Button
                         android:id="@+id/OCRButton"
@@ -111,8 +118,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/radius"
-                        android:layout_marginRight="5dp"
-                        android:text="글자\n분석" />
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="글자분석" />
 
                 </LinearLayout>
 
