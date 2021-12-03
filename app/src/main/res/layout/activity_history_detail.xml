@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/analyze_back"
     android:orientation="vertical"
-    android:weightSum="10"
     tools:context=".historyDetail">
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <ImageButton
             android:id="@+id/hd_btn_back"
             android:layout_width="40dp"
@@ -60,8 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:weightSum="2">
+            android:gravity="center_horizontal">
 
             <ImageButton
                 android:id="@+id/hd_btn_minus"

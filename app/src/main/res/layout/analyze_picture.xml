@@ -6,40 +6,22 @@
     android:layout_height="match_parent"
     android:background="@drawable/analyze_back"
     android:orientation="vertical"
-    android:weightSum="10">
+    tools:context=".historyDetail">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/backarrow"
-                android:text="Button" />
-
-            <ImageButton
-                android:id="@+id/btn_picture"
-                android:layout_width="150dp"
-                android:layout_height="45dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="13dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/picturebutton" />
-
-        </RelativeLayout>
-
+        android:layout_weight="1">
+        <ImageButton
+            android:id="@+id/hd_btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/backarrow"
+            android:text="Button" />
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,22 +53,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:gravity="center_horizontal">
 
             <ImageButton
-                android:id="@+id/btn_minus"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
+                android:id="@+id/hd_btn_minus"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
                 android:background="@drawable/minus"
                 android:text="-" />
 
@@ -94,15 +76,16 @@
                 android:id="@+id/hd_btn_again"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/btn_again"
                 android:text="Button" />
 
             <ImageButton
-                android:id="@+id/btn_plus"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:id="@+id/hd_btn_plus"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/plus"
                 android:text="+" />
@@ -114,14 +97,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3.2"
+        android:layout_weight="4.1"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
-            android:background="#ffffff">
+            android:background="@drawable/analyze_rectangle">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,7 +113,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/text_result"
+                    android:id="@+id/hd_text_result"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -139,4 +123,5 @@
         </ScrollView>
 
     </LinearLayout>
+
 </LinearLayout>
