@@ -161,6 +161,7 @@ public class AzureImage extends AppCompatActivity {
             }
         });
 
+        // TTS 다시 듣기 버튼
         againButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

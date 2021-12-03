@@ -178,6 +178,7 @@ public class OCR_TTS extends AppCompatActivity {
             }
         });
 
+        // TTS 다시 듣기 버튼
         againButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

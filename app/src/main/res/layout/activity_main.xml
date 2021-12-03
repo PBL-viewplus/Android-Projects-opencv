@@ -37,10 +37,10 @@
         <ImageButton
             android:id="@+id/btn_history"
             android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:layout_gravity="right"
             android:layout_margin="20dp"
-            android:background="@drawable/history_btn"/>
+            android:background="@mipmap/history_btn" />
 
 
         <!-- <ImageView

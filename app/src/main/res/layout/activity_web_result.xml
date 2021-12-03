@@ -13,7 +13,7 @@
         android:layout_weight="1">
 
         <ImageButton
-            android:id="@+id/btn_back"
+            android:id="@+id/WR_btn_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
@@ -44,11 +44,11 @@
         android:text="Button" />
 
     <ImageView
-        android:id="@+id/webResultView"
+        android:id="@+id/WR_imageView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="#FFFFFF"
-        android:padding="10dp"
+        android:background="#ffffff"
+        android:padding="30dp"
         android:layout_margin="10dp"
         android:scaleType="fitCenter"
         tools:srcCompat="@tools:sample/avatars" />
@@ -60,7 +60,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@id/btn_minus"
+            android:id="@+id/WR_btn_minus"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"
@@ -68,7 +68,7 @@
             android:text="-" />
 
         <ImageButton
-            android:id="@+id/hd_btn_again"
+            android:id="@+id/WR_btn_again"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
@@ -76,27 +76,38 @@
             android:text="Button" />
 
         <ImageButton
-            android:id="@id/btn_plus"
+            android:id="@+id/WR_btn_plus"
             android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/plus"
             android:text="+" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/webResultTextView"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:padding="10dp"
-        android:layout_margin="10dp"
-        android:text="분석 결과"
-        android:textSize="25sp" />
+        android:layout_margin="20dp"
+        android:background="@drawable/analyze_rectangle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/WR_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:text="분석 결과"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </ScrollView>
 
     <WebView
-        android:id="@+id/webResultWebView"
+        android:id="@+id/WR_WebView"
         android:layout_width="1dp"
         android:layout_height="1dp"
         android:visibility="visible" />

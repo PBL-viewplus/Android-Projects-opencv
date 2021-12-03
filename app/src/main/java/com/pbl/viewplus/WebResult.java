@@ -87,13 +87,13 @@ public class WebResult extends AppCompatActivity {
         // TTS 객체 초기화
         tts.initTTS(this, null);
 
-        imageView = findViewById(R.id.webResultView);
-        textView = findViewById(R.id.webResultTextView);
-        webView = findViewById(R.id.webResultWebView);
-        minusButton = findViewById(R.id.btn_minus);
-        againButton = findViewById(R.id.btn_again);
-        plusButton = findViewById(R.id.btn_plus);
-        backButton = findViewById(R.id.btn_back);
+        imageView = findViewById(R.id.WR_imageView);
+        textView = findViewById(R.id.WR_TextView);
+        webView = findViewById(R.id.WR_WebView);
+        minusButton = findViewById(R.id.WR_btn_minus);
+        againButton = findViewById(R.id.WR_btn_again);
+        plusButton = findViewById(R.id.WR_btn_plus);
+        backButton = findViewById(R.id.WR_btn_back);
 
         webView.setVisibility(View.VISIBLE); // 웹뷰는 불러오기위해 VISIBLE로 설정
         WebSettings settings = webView.getSettings();
@@ -126,6 +126,7 @@ public class WebResult extends AppCompatActivity {
             }
         });
 
+        // TTS 다시 듣기 버튼
         againButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
