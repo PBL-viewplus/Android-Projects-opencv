@@ -13,9 +13,9 @@
         android:id="@id/btn_back"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:padding="10dp"
         android:layout_margin="10dp"
-        android:background="@drawable/back"
+        android:background="@drawable/backarrow"
+        android:padding="10dp"
         android:text="Button" />
 
     <ImageView
@@ -36,17 +36,25 @@
 
         <ImageButton
             android:id="@id/btn_minus"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
             android:layout_margin="10dp"
             android:background="@drawable/minus"
             android:text="-" />
 
         <ImageButton
+            android:id="@+id/hd_btn_again"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_again"
+            android:text="Button" />
+
+        <ImageButton
             android:id="@id/btn_plus"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/plus"
             android:text="+" />
 

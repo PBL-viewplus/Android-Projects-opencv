@@ -37,7 +37,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        signInButton= findViewById(R.id.signInButton);
+        signInButton= findViewById(R.id.signInButton2);
 
         //구글 연동
         mAuth = FirebaseAuth.getInstance();

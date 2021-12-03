@@ -98,7 +98,7 @@ public class AzureImage extends AppCompatActivity {
         setContentView(R.layout.analyze_picture);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 가로 화면 고정
 
-        imageView = (ImageView) findViewById(R.id.origin_iv);
+        imageView = (ImageView) findViewById(R.id.hd_origin_iv);
         mTextResult = (TextView) findViewById(R.id.text_result);
         pictureButton = (ImageButton) findViewById(R.id.btn_picture);
         minusButton = (ImageButton) findViewById(R.id.btn_minus);

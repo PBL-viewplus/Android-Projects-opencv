@@ -61,6 +61,7 @@ public class OCR_TTS extends AppCompatActivity {
     private ImageButton backButton;
     private ImageView originImageView;
     private ImageButton minusButton;
+    private ImageButton againButton;
     private ImageButton plusButton;
     private TextView mTextResult;
     private ImageButton pictureButton;
@@ -98,10 +99,11 @@ public class OCR_TTS extends AppCompatActivity {
         setContentView(R.layout.analyze_picture);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 가로 화면 고정
 
-        originImageView = findViewById(R.id.origin_iv);
+        originImageView = findViewById(R.id.hd_origin_iv);
         mTextResult = findViewById(R.id.text_result);
         minusButton = findViewById(R.id.btn_minus);
         plusButton = findViewById(R.id.btn_plus);
+        againButton = findViewById(R.id.hd_btn_again);
         backButton = findViewById(R.id.btn_back);
         pictureButton = findViewById(R.id.btn_picture);
 
@@ -173,6 +175,13 @@ public class OCR_TTS extends AppCompatActivity {
                 if (changeBitmap != null) {
                     mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
                 }
+            }
+        });
+
+        againButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tts.speakOut(mTextResult.getText().toString());
             }
         });
 

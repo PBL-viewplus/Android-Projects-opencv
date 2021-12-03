@@ -34,6 +34,7 @@ public class historyDetail extends AppCompatActivity {
     private ImageButton backButton;
     private ImageButton plusButton;
     private ImageButton minusButton;
+    private ImageButton againButton;
 
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -54,13 +55,22 @@ public class historyDetail extends AppCompatActivity {
         imageView = findViewById(R.id.hd_origin_iv);
         backButton = findViewById(R.id.hd_btn_back);
         plusButton = (ImageButton) findViewById(R.id.hd_btn_plus);
+        againButton = findViewById(R.id.hd_btn_again);
         minusButton = (ImageButton) findViewById(R.id.hd_btn_minus);
+
         db = FirebaseFirestore.getInstance();
 
         minusButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
                 textResult.setTextSize(textResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+            }
+        });
+
+        againButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tts.speakOut(textResult.getText().toString());
             }
         });
 

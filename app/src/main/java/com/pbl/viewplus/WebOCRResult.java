@@ -67,6 +67,7 @@ public class WebOCRResult extends AppCompatActivity {
     private WebView webView;
     private ImageButton minusButton;
     private ImageButton plusButton;
+    private ImageButton againButton;
     private ImageButton backButton;
 
     private WebSettings mWebSettings; // 웹뷰세팅
@@ -125,6 +126,7 @@ public class WebOCRResult extends AppCompatActivity {
         textView = findViewById(R.id.webResultTextView);
         webView = findViewById(R.id.webResultWebView);
         minusButton = findViewById(R.id.btn_minus);
+        againButton = findViewById(R.id.hd_btn_again);
         plusButton = findViewById(R.id.btn_plus);
         backButton = findViewById(R.id.btn_back);
 
@@ -148,6 +150,13 @@ public class WebOCRResult extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 textView.setTextSize(textView.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+            }
+        });
+
+        againButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tts.speakOut(textView.getText().toString());
             }
         });
 
