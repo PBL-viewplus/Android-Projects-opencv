@@ -122,10 +122,10 @@ public class OCR_TTS extends AppCompatActivity {
         Intent intent = getIntent();
         int value = intent.getExtras().getInt("value");
         if (value == 1) {
-            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.picturebutton));
+            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
         }
         if (value == 2) {
-            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.gallerybutton));
+            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_image));
         }
 
         // 카메라 권한 체크

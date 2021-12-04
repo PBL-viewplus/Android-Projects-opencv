@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/analyze_back"
     android:orientation="vertical"
+    android:weightSum="11"
     tools:context=".historyDetail">
 
     <LinearLayout
@@ -18,7 +19,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/backarrow"
+            android:background="@drawable/back_w"
             android:text="Button" />
     </LinearLayout>
 
@@ -68,7 +69,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
-                android:background="@drawable/minus"
+                android:background="@drawable/minusbtn_v"
                 android:text="-" />
 
             <ImageButton
@@ -76,7 +77,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/btn_again"
+                android:background="@drawable/btn_again_v"
                 android:text="Button" />
 
             <ImageButton
@@ -86,7 +87,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/plus"
+                android:background="@drawable/plusbtn_v"
                 android:text="+" />
 
         </LinearLayout>
@@ -96,7 +97,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4.1"
+        android:layout_weight="4"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
