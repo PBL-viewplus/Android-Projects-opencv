@@ -72,8 +72,6 @@ public class AzureImage extends AppCompatActivity {
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
 
-    public String getTime;
-
     //암호화
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
     public byte[] key = AES.generateRandomBase64Token(16);
@@ -92,6 +90,10 @@ public class AzureImage extends AppCompatActivity {
     Camera camera = new Camera();
     Gallery gallery = new Gallery();
 
+    //현재 날짜로 문서 생성
+    public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public Date date= new Date();
+    public String getTime = sdf.format(date);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,11 +112,6 @@ public class AzureImage extends AppCompatActivity {
         //사용자 구분
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         userEmail = userEmail.split("@")[0];
-
-        //현재 날짜로 문서 생성
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        getTime = sdf.format(date);
 
         // 카메라 권한 체크
         Permission permission = new Permission();
@@ -263,6 +260,8 @@ public class AzureImage extends AppCompatActivity {
 
                     @Override // 진행중
                     protected String doInBackground(InputStream... inputStreams) {
+                        progressDialog.setCanceledOnTouchOutside(false);
+
                         try
                         {
                             tts.speakOut("분석중입니다");
@@ -410,6 +409,8 @@ public class AzureImage extends AppCompatActivity {
 
                     @Override // 진행중
                     protected String doInBackground(InputStream... inputStreams) {
+                        progressDialog.setCanceledOnTouchOutside(false);
+
                         try
                         {
                             tts.speakOut("분석중입니다");
@@ -524,6 +525,9 @@ public class AzureImage extends AppCompatActivity {
                 e.printStackTrace();
 
             }
+
+            date= new Date();
+            getTime=sdf.format(date);
 
             user.put("date", getTime);
 

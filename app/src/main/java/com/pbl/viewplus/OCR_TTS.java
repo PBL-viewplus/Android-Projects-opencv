@@ -69,7 +69,6 @@ public class OCR_TTS extends AppCompatActivity {
     private String mCurrentPhotoPath; // 사진 경로
     private String choiceResult="";
     private String result="";
-    private String getTime;
 
     //암호화
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
@@ -93,6 +92,11 @@ public class OCR_TTS extends AppCompatActivity {
     TTS_controller tts = new TTS_controller();
     Regex regex = new Regex();
 
+    //현재 날짜로 문서 생성
+    public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public Date date= new Date();
+    public String getTime = sdf.format(date);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,11 +116,6 @@ public class OCR_TTS extends AppCompatActivity {
         //사용자 구분
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         userEmail= userEmail.split("@")[0];
-
-        //현재 날짜로 문서 생성
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date= new Date();
-        getTime = sdf.format(date);
 
         // Mainactivity의 intent value값 받아 버튼 종류 결정
         Intent intent = getIntent();
@@ -364,6 +363,9 @@ public class OCR_TTS extends AppCompatActivity {
 
                         }
 
+                        date= new Date();
+                        getTime=sdf.format(date);
+
                         user.put("date", getTime);
 
                         //스토리지에 보내기
@@ -544,6 +546,9 @@ public class OCR_TTS extends AppCompatActivity {
 
 //                        String collection=getTime.substring(0,10);
 //                        String document=getTime.substring(11,19);
+
+                        date= new Date();
+                        getTime=sdf.format(date);
 
                         user.put("date", getTime);
 
