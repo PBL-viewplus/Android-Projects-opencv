@@ -235,7 +235,8 @@ public class WebBrowser extends AppCompatActivity {
                         break;
                 }
 
-                return true;
+                //return true;//12/29 수정
+                return false;//true이면 동시 실행 안됨, false이면 LongClick 복사 후에 onClick 실행됨
             }
         });
     }
@@ -339,6 +340,14 @@ public class WebBrowser extends AppCompatActivity {
                     view.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('body')[0].innerHTML);");
                 }
             });
+
+            //12/29 수정
+            //스크롤뷰가 움직여서 좌우 스와이프가 어려워서 스크롤을 방지
+            //xml에서 139줄 android:scrollbars="none"
+            mWebView.setHorizontalScrollBarEnabled(false);//가로 스크롤바 감추기
+            mWebView.setVerticalScrollBarEnabled(false);//세로 스크롤바 감추기
+
+
             mWebView.loadUrl(url); // 웹뷰에 표시할 웹사이트 주소, 웹뷰 시작 naver.com
         }
     }

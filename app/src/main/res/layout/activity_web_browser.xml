@@ -133,11 +133,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
+    <!--12/29 수정 android:scrollbars="none"-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="true"
+        android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
