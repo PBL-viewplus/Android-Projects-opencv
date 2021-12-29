@@ -154,12 +154,17 @@ public class WebBrowser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                System.out.println("!!!!!!"+clipboardManager.getPrimaryClip());
+//                System.out.println("!!!!!!"+clipboardManager.getPrimaryClip());
 
                 // 클립보드에 데이터가 있고 그 데이터가 텍스트 타입인 경우
                 ClipData clip = clipboardManager.getPrimaryClip();
-                ClipData.Item item = clip.getItemAt(0);
-                mText.setText(item.getText());
+                if (clip == null) {
+                    speakTTS(4);
+                }
+                else{
+                    ClipData.Item item = clip.getItemAt(0);
+                    mText.setText(item.getText());
+                }
             }
         });
 
@@ -167,7 +172,7 @@ public class WebBrowser extends AppCompatActivity {
         mAnalyzeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(intentUrl==null){
+                if (intentUrl == null){
                     speakTTS(1);
                 }
                 else{
@@ -446,7 +451,9 @@ public class WebBrowser extends AppCompatActivity {
                 break;
             case 2: str = "사진을 복사했습니다.";
                 break;
-            case 3: str = "url을 입력해주세요.";
+            case 3: str = "URL을 입력해주세요.";
+                break;
+            case 4: str = "붙여넣을 URL이 없습니다.";
                 break;
             default:
                 str = null;
