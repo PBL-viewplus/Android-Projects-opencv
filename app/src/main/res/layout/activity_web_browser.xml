@@ -40,6 +40,8 @@
                         android:hint="URL 입력"
                         android:backgroundTint="@color/white"
                         android:textColorHint="@color/white"
+                        android:textColor="@color/white"
+                        android:textCursorDrawable="@color/white"
                         android:inputType="textPersonName" />
 
                     <!--                    <androidx.appcompat.widget.SearchView-->

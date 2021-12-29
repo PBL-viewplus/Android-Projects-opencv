@@ -42,7 +42,9 @@
         <activity android:name=".WebOCRResult"></activity>
         <activity android:name=".historyDetail" />
         <activity android:name=".History"></activity>
-        <activity android:name=".WebBrowser" />
+        <activity
+            android:name=".WebBrowser"
+            android:windowSoftInputMode="stateAlwaysHidden" /> <!-- 키보드 포커스 false -->
         <activity android:name=".WebResult" />
         <activity
             android:name=".RegexDialog"
