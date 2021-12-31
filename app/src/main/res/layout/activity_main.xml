@@ -40,6 +40,7 @@
             android:layout_height="20dp"
             android:layout_gravity="right"
             android:layout_margin="20dp"
+            android:contentDescription="히스토리"
             android:background="@drawable/history_btn" />
 
 
@@ -81,6 +82,7 @@
                 android:layout_weight="2.5"
                 android:src="@drawable/ca_tts"
                 android:scaleType="center"
+                android:contentDescription="카메라 글자 인식"
                 android:background="@drawable/radius" />
 
             <LinearLayout
@@ -109,6 +111,7 @@
                 android:layout_weight="2.5"
                 android:src="@drawable/gal_tts"
                 android:scaleType="center"
+                android:contentDescription="갤러리 글자 인식"
                 android:background="@drawable/radius" />
 
             <LinearLayout
@@ -138,6 +141,7 @@
                 android:layout_weight="2.5"
                 android:src="@drawable/ca_img"
                 android:scaleType="center"
+                android:contentDescription="카메라 이미지 분석"
                 android:background="@drawable/radius" />
 
             <LinearLayout
@@ -168,6 +172,7 @@
                 android:layout_weight="2.5"
                 android:src="@drawable/gal_img"
                 android:scaleType="center"
+                android:contentDescription="갤러리 이미지 분석"
                 android:background="@drawable/radius"/>
 
             <LinearLayout
@@ -196,6 +201,7 @@
                 android:layout_weight="2.5"
                 android:src="@drawable/webicon"
                 android:scaleType="center"
+                android:contentDescription="웹 브라우저"
                 android:background="@drawable/radius" />
 
             <LinearLayout

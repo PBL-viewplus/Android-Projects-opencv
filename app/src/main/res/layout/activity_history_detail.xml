@@ -20,6 +20,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/back_w"
+            android:contentDescription="뒤로 가기"
             android:text="Button" />
     </LinearLayout>
 
@@ -70,6 +71,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
                 android:background="@drawable/minusbtn_v"
+                android:contentDescription="글자 축소"
                 android:text="-" />
 
             <ImageButton
@@ -78,6 +80,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/btn_again_v"
+                android:contentDescription="다시 듣기"
                 android:text="Button" />
 
             <ImageButton
@@ -88,6 +91,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/plusbtn_v"
+                android:contentDescription="글자 확대"
                 android:text="+" />
 
         </LinearLayout>

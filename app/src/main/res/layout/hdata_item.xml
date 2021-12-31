@@ -24,7 +24,8 @@
         <ImageView
             android:id="@+id/itemImg"
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:contentDescription="과거 이미지"/>
 
         <ImageButton
             android:layout_gravity="right"
@@ -32,6 +33,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/btn_delete"
+            android:contentDescription="삭제"
             android:text="x" />
     </FrameLayout>
 
