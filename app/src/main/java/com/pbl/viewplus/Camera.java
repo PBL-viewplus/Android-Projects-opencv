@@ -72,7 +72,7 @@ public class Camera {
         Date curDate = new Date(System.currentTimeMillis());
         String filename = formatter.format(curDate);
 
-        String strFolderName = Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES) + File.separator + "HONGDROID" + File.separator;
+        String strFolderName = Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES) + File.separator + "VIEWPLUS" + File.separator;
         File file = new File(strFolderName);
         if(!file.exists()){
             file.mkdirs();
@@ -100,7 +100,8 @@ public class Camera {
         try {
             fOut.close();
             // 방금 저장된 사진을 갤러리 폴더 반영 및 최신화
-            mMediaScanner.mediaScanning(strFolderName + "/" + filename + ".png");
+            //새로운 앨범 안생기게 비활성화
+            //mMediaScanner.mediaScanning(strFolderName + "/" + filename + ".png");
         } catch (IOException e) {
             e.printStackTrace();
             result = "File close Error";
