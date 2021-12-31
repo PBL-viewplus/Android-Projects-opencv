@@ -101,7 +101,7 @@ public class Camera {
             fOut.close();
             // 방금 저장된 사진을 갤러리 폴더 반영 및 최신화
             //새로운 앨범 안생기게 비활성화
-            //mMediaScanner.mediaScanning(strFolderName + "/" + filename + ".png");
+            mMediaScanner.mediaScanning(strFolderName + "/" + filename + ".png");
         } catch (IOException e) {
             e.printStackTrace();
             result = "File close Error";
