@@ -79,6 +79,10 @@ public class Login extends AppCompatActivity {
                 }
         });
 
+        if (signInButton.getChildCount() > 0) {
+            View signInButtonInnerContent = signInButton.getChildAt(0);
+            signInButtonInnerContent.setContentDescription("구글 로그인");
+        }
     }
 
     @Override

@@ -30,7 +30,6 @@
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:foreground="@drawable/google"
-            android:contentDescription="구글 로그인"
             android:paddingRight="10dp">
 
         </com.google.android.gms.common.SignInButton>
