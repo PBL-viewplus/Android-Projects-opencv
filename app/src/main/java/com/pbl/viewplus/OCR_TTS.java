@@ -233,12 +233,22 @@ public class OCR_TTS extends AppCompatActivity {
         // 카메라 실행
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             try {
-                //경로 변경**  --> 오류: 분석완전히 안끝내고 다른 사진찍으면 분석중입니다 뜨지 않음
-                File file = new File(camera.imageFilePath);
+                String path = camera.imageFilePath;
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 4;
+
+                Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+                //camera.exifInterface();
+                //degree = camera.exifDegree;
+
                 Bitmap rotatedBitmap = null;
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
-                        FileProvider.getUriForFile(OCR_TTS.this,
-                                getApplicationContext().getPackageName() + ".fileprovider", file));
+
+//                //경로 변경**  --> 오류: 분석완전히 안끝내고 다른 사진찍으면 분석중입니다 뜨지 않음
+//                File file = new File(camera.imageFilePath);
+//                Bitmap rotatedBitmap = null;
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
+//                        FileProvider.getUriForFile(OCR_TTS.this,
+//                                getApplicationContext().getPackageName() + ".fileprovider", file));
 
                 // 회전된 사진을 원래대로 돌려 표시한다.
                 if (bitmap != null) {
@@ -265,6 +275,8 @@ public class OCR_TTS extends AppCompatActivity {
                     }
                     originImageView.setImageBitmap(rotatedBitmap);
                     changeBitmap = rotatedBitmap;
+
+                    camera.fileOpen(getApplicationContext(), rotatedBitmap);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

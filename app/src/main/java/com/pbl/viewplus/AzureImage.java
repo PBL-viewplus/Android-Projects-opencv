@@ -208,7 +208,6 @@ public class AzureImage extends AppCompatActivity {
                 imgBitmap = BitmapFactory.decodeFile(path, options);
                 //camera.exifInterface();
                 //degree = camera.exifDegree;
-                camera.fileOpen(getApplicationContext(), imgBitmap);
 
                 Bitmap rotatedBitmap = null;
 
@@ -238,6 +237,8 @@ public class AzureImage extends AppCompatActivity {
                     }
                     imgBitmap=rotatedBitmap;
                     imageView.setImageBitmap(imgBitmap);
+
+                    camera.fileOpen(getApplicationContext(), imgBitmap);
                 }
 
 
