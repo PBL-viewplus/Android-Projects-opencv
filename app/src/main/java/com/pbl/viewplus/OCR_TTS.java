@@ -83,7 +83,6 @@ public class OCR_TTS extends AppCompatActivity {
     private String userEmail;
     private String uid;
 
-    private String getTime;
 //    private boolean flag = false;
 
     Tesseract tesseract = new Tesseract();
@@ -93,6 +92,10 @@ public class OCR_TTS extends AppCompatActivity {
     TTS_controller tts = new TTS_controller();
     Regex regex = new Regex();
 
+    //현재 날짜로 문서 생성
+    public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public Date date= new Date();
+    public String getTime = sdf.format(date);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,10 +117,6 @@ public class OCR_TTS extends AppCompatActivity {
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         userEmail= userEmail.split("@")[0];
 
-        //현재 날짜로 문서 생성
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date= new Date();
-        getTime = sdf.format(date);
 
 
         // Mainactivity의 intent value값 받아 버튼 종류 결정
@@ -378,6 +377,8 @@ public class OCR_TTS extends AppCompatActivity {
 
                         }
 
+                        Date date= new Date();
+                        String getTime = sdf.format(date);
 
                         user.put("date", getTime);
 
@@ -560,6 +561,12 @@ public class OCR_TTS extends AppCompatActivity {
 //                        String collection=getTime.substring(0,10);
 //                        String document=getTime.substring(11,19);
 
+//                        date= new Date();
+//                        getTime=sdf.format(date);
+
+
+                        Date date= new Date();
+                        String getTime = sdf.format(date);
 
                         user.put("date", getTime);
 

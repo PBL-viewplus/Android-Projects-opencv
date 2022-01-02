@@ -72,7 +72,8 @@ public class AzureImage extends AppCompatActivity {
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
 
-    private String getTime;
+    public String getTime;
+
     //암호화
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
     public byte[] key = AES.generateRandomBase64Token(16);
@@ -91,6 +92,10 @@ public class AzureImage extends AppCompatActivity {
     Camera camera = new Camera();
     Gallery gallery = new Gallery();
 
+    //현재 날짜로 문서 생성
+    public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//    Date date= new Date();
+//    getTime = sdf.format(date);
 
 
     @Override
@@ -111,14 +116,10 @@ public class AzureImage extends AppCompatActivity {
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         userEmail = userEmail.split("@")[0];
 
+
         // 카메라 권한 체크
         Permission permission = new Permission();
         permission.permissioncheck(getApplicationContext());
-
-        //현재 날짜로 문서 생성
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date= new Date();
-        getTime = sdf.format(date);
 
         // TTS 객체 초기화
         tts.initTTS(this, null);
@@ -239,6 +240,7 @@ public class AzureImage extends AppCompatActivity {
                     imageView.setImageBitmap(imgBitmap);
 
                     camera.fileOpen(getApplicationContext(), imgBitmap);
+
                 }
 
 
@@ -249,9 +251,9 @@ public class AzureImage extends AppCompatActivity {
 
                 //비트맵 암호화
                 pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
-                user.put("piciv", pic[1]);//비트맵의 벡터
-                //스토리지에 보내기
-                uploadStream(pic[0],getTime);
+//                user.put("piciv", pic[1]);//비트맵의 벡터
+//                //스토리지에 보내기
+//                uploadStream(pic[0],getTime);
 
                 AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
                     // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
@@ -397,9 +399,9 @@ public class AzureImage extends AppCompatActivity {
 
                 //비트맵 암호화
                 pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
-                user.put("piciv", pic[1]);//비트맵의 벡터
-                //스토리지에 보내기
-                uploadStream(pic[0],getTime);
+//                user.put("piciv", pic[1]);//비트맵의 벡터
+//                //스토리지에 보내기
+//                uploadStream(pic[0],getTime);
 
 
                 AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
@@ -530,6 +532,13 @@ public class AzureImage extends AppCompatActivity {
 
             }
 
+            Date date= new Date();
+            String getTime = sdf.format(date);
+
+            user.put("piciv", pic[1]);//비트맵의 벡터
+            //스토리지에 보내기
+            uploadStream(pic[0],getTime);
+
             user.put("date", getTime);
 
             //서버로 보내기
@@ -573,5 +582,5 @@ public class AzureImage extends AppCompatActivity {
             tts.ttsDestory();
         }
     }
-    
+
 }
