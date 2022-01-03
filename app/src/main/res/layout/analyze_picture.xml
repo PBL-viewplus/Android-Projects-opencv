@@ -35,7 +35,6 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
-                android:contentDescription="카메라"
                 android:background="@drawable/camera_btn" />
         </RelativeLayout>
 

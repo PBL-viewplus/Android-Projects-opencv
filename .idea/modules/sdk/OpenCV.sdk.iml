@@ -38,13 +38,11 @@
     <exclude-output />
     <content url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/9.0.9/include">
       <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/9.0.9/include" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/9.0.9/include" />
     </content>
     <content url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include">
       <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/i686-linux-android" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include" />
+      <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/i686-linux-android" isTestSource="false" />
     </content>
     <content url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1">
       <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1" isTestSource="false" />
@@ -54,7 +52,6 @@
     </content>
     <content url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include">
       <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include" />
     </content>
     <content url="file://$MODULE_DIR$/../../../sdk">
       <sourceFolder url="file://$MODULE_DIR$/../../../sdk/java/src" isTestSource="false" />

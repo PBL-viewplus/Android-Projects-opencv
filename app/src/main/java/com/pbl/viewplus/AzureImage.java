@@ -129,9 +129,11 @@ public class AzureImage extends AppCompatActivity {
         int value = intent.getExtras().getInt("value");
         if (value == 3){
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
+            pictureButton.setContentDescription("카메라");
         }
         if (value == 4){
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_image));
+            pictureButton.setContentDescription("갤러리");
         }
 
         // 사진 찍기, 갤러리 버튼
