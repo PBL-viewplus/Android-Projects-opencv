@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -117,18 +118,14 @@ public class OCR_TTS extends AppCompatActivity {
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         userEmail= userEmail.split("@")[0];
 
-
-
         // Mainactivity의 intent value값 받아 버튼 종류 결정
         Intent intent = getIntent();
         int value = intent.getExtras().getInt("value");
         if (value == 1) {
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
-            pictureButton.setContentDescription("카메라");
         }
         if (value == 2) {
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_image));
-            pictureButton.setContentDescription("갤러리");
         }
 
         // 카메라 권한 체크
@@ -156,17 +153,22 @@ public class OCR_TTS extends AppCompatActivity {
         // 사진 찍기, 갤러리 버튼
         pictureButton.setOnClickListener(new Button.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (value == 1) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    camera.cameraStart(getApplicationContext(), intent);
-                    startActivityForResult(intent, 1);
+            public void onClick(View v) {//1/4일 수정
+                if (gallery.hasPermissions(gallery.PERMISSIONS, getApplicationContext())) {//권한이 있어야 활성화함
+                    if (value == 1) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        camera.cameraStart(getApplicationContext(), intent);
+                        startActivityForResult(intent, 1);
+                    }
+                    if (value == 2) {
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intent, 2);
+                    }
                 }
-                if (value == 2) {
-                    Intent intent = new Intent(Intent.ACTION_PICK);
-                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, 2);
+                else {//권한이 없으면
+                    Toast.makeText(OCR_TTS.this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -234,22 +236,12 @@ public class OCR_TTS extends AppCompatActivity {
         // 카메라 실행
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             try {
-                String path = camera.imageFilePath;
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 4;
-
-                Bitmap bitmap = BitmapFactory.decodeFile(path, options);
-                //camera.exifInterface();
-                //degree = camera.exifDegree;
-
+                //경로 변경**  --> 오류: 분석완전히 안끝내고 다른 사진찍으면 분석중입니다 뜨지 않음
+                File file = new File(camera.imageFilePath);
                 Bitmap rotatedBitmap = null;
-
-//                //경로 변경**  --> 오류: 분석완전히 안끝내고 다른 사진찍으면 분석중입니다 뜨지 않음
-//                File file = new File(camera.imageFilePath);
-//                Bitmap rotatedBitmap = null;
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
-//                        FileProvider.getUriForFile(OCR_TTS.this,
-//                                getApplicationContext().getPackageName() + ".fileprovider", file));
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
+                        FileProvider.getUriForFile(OCR_TTS.this,
+                                getApplicationContext().getPackageName() + ".fileprovider", file));
 
                 // 회전된 사진을 원래대로 돌려 표시한다.
                 if (bitmap != null) {
@@ -276,8 +268,6 @@ public class OCR_TTS extends AppCompatActivity {
                     }
                     originImageView.setImageBitmap(rotatedBitmap);
                     changeBitmap = rotatedBitmap;
-
-                    camera.fileOpen(getApplicationContext(), rotatedBitmap);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -379,8 +369,8 @@ public class OCR_TTS extends AppCompatActivity {
 
                         }
 
-                        Date date= new Date();
-                        String getTime = sdf.format(date);
+                        date= new Date();
+                        getTime=sdf.format(date);
 
                         user.put("date", getTime);
 
@@ -563,12 +553,8 @@ public class OCR_TTS extends AppCompatActivity {
 //                        String collection=getTime.substring(0,10);
 //                        String document=getTime.substring(11,19);
 
-//                        date= new Date();
-//                        getTime=sdf.format(date);
-
-
-                        Date date= new Date();
-                        String getTime = sdf.format(date);
+                        date= new Date();
+                        getTime=sdf.format(date);
 
                         user.put("date", getTime);
 
