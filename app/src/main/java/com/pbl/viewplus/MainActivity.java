@@ -31,12 +31,21 @@ public class MainActivity extends AppCompatActivity {
 
 //    History history = new History();
 
+    //1/3 수정
+    public SharedPreferences prefs;//어플 실행 확인 변수 선언
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 가로 화면 고정
+
+
+        //1/3 수정
+        prefs = getSharedPreferences("Pref", MODE_PRIVATE); //어플 최초 실행 확인 생성하기
+        checkFirstRun();//어플 최초 실행 확인
+
 
         camera_text = findViewById(R.id.button1);
         gallery_text = findViewById(R.id.button2);
@@ -158,5 +167,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //1/3 수정
+    public void checkFirstRun() {
+        boolean isFirstRun = prefs.getBoolean("isFirstRun", true);
+        if (isFirstRun) {
+            Intent newIntent = new Intent(MainActivity.this, IntroSliderScreen.class);
+            startActivity(newIntent);
+
+            prefs.edit().putBoolean("isFirstRun", false).apply();
+        }
+
+    }
 
 }
