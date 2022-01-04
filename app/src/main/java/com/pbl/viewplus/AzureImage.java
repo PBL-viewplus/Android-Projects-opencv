@@ -72,8 +72,6 @@ public class AzureImage extends AppCompatActivity {
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
 
-    public String getTime;
-
     //암호화
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
     public byte[] key = AES.generateRandomBase64Token(16);
@@ -94,9 +92,8 @@ public class AzureImage extends AppCompatActivity {
 
     //현재 날짜로 문서 생성
     public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//    Date date= new Date();
-//    getTime = sdf.format(date);
-
+    public Date date= new Date();
+    public String getTime = sdf.format(date);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +113,6 @@ public class AzureImage extends AppCompatActivity {
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         userEmail = userEmail.split("@")[0];
 
-
         // 카메라 권한 체크
         Permission permission = new Permission();
         permission.permissioncheck(getApplicationContext());
@@ -129,27 +125,30 @@ public class AzureImage extends AppCompatActivity {
         int value = intent.getExtras().getInt("value");
         if (value == 3){
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
-            pictureButton.setContentDescription("카메라");
         }
         if (value == 4){
             pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_image));
-            pictureButton.setContentDescription("갤러리");
         }
 
         // 사진 찍기, 갤러리 버튼
         pictureButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if (value == 3){
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    camera.cameraStart(getApplicationContext(), intent);
-                    startActivityForResult(intent, 3);
+                if (gallery.hasPermissions(gallery.PERMISSIONS, getApplicationContext())) {//권한이 있어야 활성화함
+                    if (value == 3){
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        camera.cameraStart(getApplicationContext(), intent);
+                        startActivityForResult(intent, 3);
+                    }
+                    if (value == 4){
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intent, 4);
+                    }
                 }
-                if (value == 4){
-                    Intent intent = new Intent(Intent.ACTION_PICK);
-                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, 4);
+                else {//권한이 없으면
+                    Toast.makeText(AzureImage.this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -211,6 +210,7 @@ public class AzureImage extends AppCompatActivity {
                 imgBitmap = BitmapFactory.decodeFile(path, options);
                 //camera.exifInterface();
                 //degree = camera.exifDegree;
+                camera.fileOpen(getApplicationContext(), imgBitmap);
 
                 Bitmap rotatedBitmap = null;
 
@@ -240,9 +240,6 @@ public class AzureImage extends AppCompatActivity {
                     }
                     imgBitmap=rotatedBitmap;
                     imageView.setImageBitmap(imgBitmap);
-
-                    camera.fileOpen(getApplicationContext(), imgBitmap);
-
                 }
 
 
@@ -253,9 +250,9 @@ public class AzureImage extends AppCompatActivity {
 
                 //비트맵 암호화
                 pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
-//                user.put("piciv", pic[1]);//비트맵의 벡터
-//                //스토리지에 보내기
-//                uploadStream(pic[0],getTime);
+                user.put("piciv", pic[1]);//비트맵의 벡터
+                //스토리지에 보내기
+                uploadStream(pic[0],getTime);
 
                 AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
                     // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
@@ -401,9 +398,9 @@ public class AzureImage extends AppCompatActivity {
 
                 //비트맵 암호화
                 pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
-//                user.put("piciv", pic[1]);//비트맵의 벡터
-//                //스토리지에 보내기
-//                uploadStream(pic[0],getTime);
+                user.put("piciv", pic[1]);//비트맵의 벡터
+                //스토리지에 보내기
+                uploadStream(pic[0],getTime);
 
 
                 AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
@@ -534,12 +531,8 @@ public class AzureImage extends AppCompatActivity {
 
             }
 
-            Date date= new Date();
-            String getTime = sdf.format(date);
-
-            user.put("piciv", pic[1]);//비트맵의 벡터
-            //스토리지에 보내기
-            uploadStream(pic[0],getTime);
+            date= new Date();
+            getTime=sdf.format(date);
 
             user.put("date", getTime);
 
@@ -584,5 +577,5 @@ public class AzureImage extends AppCompatActivity {
             tts.ttsDestory();
         }
     }
-
+    
 }
