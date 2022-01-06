@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static Activity MainAct;
 
-//    History history = new History();
 
     //1/3 수정
     public SharedPreferences prefs;//어플 실행 확인 변수 선언
@@ -61,10 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
         //로그아웃 시 종료를 위함
         MainAct = this;
-
-        // 히스토리 자동 삭제
-//        history.deleteDocument();
-
 
         // 히스토리 버튼
         btn_history.setOnClickListener(new Button.OnClickListener(){

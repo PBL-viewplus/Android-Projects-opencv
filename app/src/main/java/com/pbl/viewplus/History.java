@@ -78,6 +78,10 @@ public class History extends AppCompatActivity {
         }
 
         mAuth=FirebaseAuth.getInstance();
+
+        // 히스토리 자동 삭제
+        deleteDocument();
+
         //로그아웃
         btn_logout.setOnClickListener(new Button.OnClickListener(){
             @Override
