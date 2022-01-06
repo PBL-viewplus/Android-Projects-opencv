@@ -13,8 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,6 +47,10 @@ public class historyDetail extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     TTS_controller tts = new TTS_controller();
 
+
+    private String choiceResult="";
+    private String decText="";
+    Regex regex = new Regex();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,9 +126,21 @@ public class historyDetail extends AppCompatActivity {
                             if (AES.isExistKey(alias)) {
                                 SecretKey secretKey = AES.getKeyStoreKey(alias);
                                 String enc = AES.decByKeyStoreKey(secretKey, k, iv2); // keystore키로 복호화한 우리키
-                                String decText = AES.decByKey(enc, text,document.get("iv1").toString()); // 우리키로 암호문 복호화 진행
-                                textResult.setText(decText);
-                                tts.initTTS(getApplicationContext(), decText);
+                                decText = AES.decByKey(enc, text,document.get("iv1").toString()); // 우리키로 암호문 복호화 진행
+
+                                //텍스트에 마스킹할 부분이 있다면
+                                if(regex.isRegex(decText)){
+                                    //검열 묻는 팝업창
+                                    Intent regexDialogIntent = new Intent(getApplicationContext(), RegexDialog.class);
+                                    startActivityForResult(regexDialogIntent, 3);
+                                    //다음 분석을 위해 셋팅
+                                    regex.hasRegex= false;
+                                }else{
+                                    //아니면 바로 보여줌
+                                    textResult.setText(decText);
+                                    tts.initTTS(getApplicationContext(), decText);
+                                }
+
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -135,6 +154,25 @@ public class historyDetail extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions = requestOptions.skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE); // 캐시비우기
+
+        if (requestCode == 3 && resultCode == RESULT_OK) { //검열 팝업창 결과 받는 곳
+            choiceResult = data.getStringExtra("result");
+
+            if(choiceResult.equals("검열해서 보기")){
+                decText=regex.doMasking(decText);
+            }
+
+            textResult.setText(decText);
+            tts.initTTS(getApplicationContext(), decText);
+        }
     }
 
     public void onDestroy() {
