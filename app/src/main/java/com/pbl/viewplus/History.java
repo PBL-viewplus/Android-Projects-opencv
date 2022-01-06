@@ -141,6 +141,8 @@ public class History extends AppCompatActivity {
                                     mRecyclerView = findViewById(R.id.hDataRecycler0);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                                     mAdapter = new historyAdapter(mList[0]);
+                                    //히스토리에서 이미지 깜빡임 방지
+                                    mRecyclerView.setItemViewCacheSize(mList[0].size());
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
@@ -158,6 +160,8 @@ public class History extends AppCompatActivity {
                                     mRecyclerView = findViewById(R.id.hDataRecycler1);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                                     mAdapter = new historyAdapter(mList[1]);
+                                    //히스토리에서 이미지 깜빡임 방지
+                                    mRecyclerView.setItemViewCacheSize(mList[1].size());
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
@@ -175,6 +179,8 @@ public class History extends AppCompatActivity {
                                     mRecyclerView = findViewById(R.id.hDataRecycler2);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                                     mAdapter = new historyAdapter(mList[2]);
+                                    //히스토리에서 이미지 깜빡임 방지
+                                    mRecyclerView.setItemViewCacheSize(mList[2].size());
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
@@ -192,6 +198,8 @@ public class History extends AppCompatActivity {
                                     mRecyclerView = findViewById(R.id.hDataRecycler3);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                                     mAdapter = new historyAdapter(mList[3]);
+                                    //히스토리에서 이미지 깜빡임 방지
+                                    mRecyclerView.setItemViewCacheSize(mList[3].size());
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
@@ -209,6 +217,8 @@ public class History extends AppCompatActivity {
                                     mRecyclerView = findViewById(R.id.hDataRecycler4);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                                     mAdapter = new historyAdapter(mList[4]);
+                                    //히스토리에서 이미지 깜빡임 방지
+                                    mRecyclerView.setItemViewCacheSize(mList[4].size());
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
