@@ -178,7 +178,9 @@ public class OCR_TTS extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (changeBitmap != null) {
-                    mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                    if (mTextResult.getTextSize() > 70) {
+                        mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                    }
                 }
             }
         });
@@ -196,7 +198,9 @@ public class OCR_TTS extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (changeBitmap != null) {
-                    mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+                    if (mTextResult.getTextSize() < 320) {
+                        mTextResult.setTextSize(mTextResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+                    }
                 }
             }
         });

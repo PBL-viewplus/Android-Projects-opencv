@@ -149,7 +149,9 @@ public class WebOCRResult extends AppCompatActivity {
         minusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setTextSize(textView.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                if (textView.getTextSize() > 70) {
+                    textView.setTextSize(textView.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                }
             }
         });
 
@@ -165,7 +167,9 @@ public class WebOCRResult extends AppCompatActivity {
         plusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setTextSize(textView.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+                if (textView.getTextSize() < 320) {
+                    textView.setTextSize(textView.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+                }
             }
         });
 

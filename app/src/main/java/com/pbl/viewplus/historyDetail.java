@@ -70,7 +70,9 @@ public class historyDetail extends AppCompatActivity {
         minusButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                textResult.setTextSize(textResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                if (textResult.getTextSize() > 70) {
+                    textResult.setTextSize(textResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density - 10);
+                }
             }
         });
 
@@ -84,7 +86,9 @@ public class historyDetail extends AppCompatActivity {
         plusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textResult.setTextSize(textResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+                if (textResult.getTextSize() < 320) {
+                    textResult.setTextSize(textResult.getTextSize() / Resources.getSystem().getDisplayMetrics().density + 10);
+                }
             }
         });
 
