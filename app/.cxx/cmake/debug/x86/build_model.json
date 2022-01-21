@@ -8,7 +8,7 @@
   },
   "originalCxxBuildFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\app\\.cxx\\cmake\\debug\\x86",
   "cxxBuildFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\app\\.cxx\\cmake\\debug\\x86",
-  "abiPlatformVersion": 24,
+  "abiPlatformVersion": 26,
   "cmake": {
     "cmakeWrappingBaseFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\app\\.cxx\\cxx\\debug\\x86",
     "cmakeArtifactsBaseFolder": "C:\\Users\\Jiwoon Kim\\Documents\\GitHub\\Android-Projects\\app\\.cxx\\cmake\\debug\\x86",
@@ -45,7 +45,7 @@
         },
         {
           "name": "ANDROID_PLATFORM",
-          "value": "android-24"
+          "value": "android-26"
         },
         {
           "name": "CMAKE_ANDROID_ARCH_ABI",
@@ -77,7 +77,7 @@
         },
         {
           "name": "CMAKE_SYSTEM_VERSION",
-          "value": "24"
+          "value": "26"
         }
       ]
     },
