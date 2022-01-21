@@ -148,7 +148,8 @@ public class AzureImage extends AppCompatActivity {
                     }
                 }
                 else {//권한이 없으면
-                    Toast.makeText(AzureImage.this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(AzureImage.this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    permission.permissioncheck(getApplicationContext());
                 }
             }
         });

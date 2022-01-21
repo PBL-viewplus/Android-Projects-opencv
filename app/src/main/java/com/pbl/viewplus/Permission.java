@@ -20,8 +20,8 @@ public class Permission {
         context = c;
         TedPermission.with(c)
                 .setPermissionListener(permissionListener)
-                .setRationaleMessage("카메라 권한이 필요합니다.")
-                .setDeniedMessage("거부하셨습니다.")
+                //.setRationaleMessage("카메라 권한이 필요합니다.")
+                .setDeniedMessage("설정에서 카메라와 저장공간 권한을 허용해주세요.")
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
     }

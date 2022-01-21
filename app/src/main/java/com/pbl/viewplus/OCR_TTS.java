@@ -168,7 +168,8 @@ public class OCR_TTS extends AppCompatActivity {
                     }
                 }
                 else {//권한이 없으면
-                    Toast.makeText(OCR_TTS.this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(OCR_TTS.this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    permission.permissioncheck(getApplicationContext());
                 }
             }
         });

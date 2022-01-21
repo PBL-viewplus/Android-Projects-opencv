@@ -19,11 +19,7 @@ public class Fragment1 extends Fragment {
 
         v= inflater.inflate(R.layout.fragment_1, container, false);
 
-        //프래그먼트 이동했을때 바로 tts되야됨
-        // -> 처음 한번만 들려줌. 전환될때마다 다시 들려줘야됨.
-        // 프랙2까지 한번에 생성돼서 tts가 바로 이어져버림.
-        //생명주기?
-
+        //위에 버튼으로 안내 듣기? 해야될듯.
 
 
         return v;
