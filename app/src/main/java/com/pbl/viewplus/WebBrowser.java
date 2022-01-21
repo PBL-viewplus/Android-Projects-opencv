@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +65,7 @@ import edmt.dev.edmtdevcognitivevision.VisionServiceRestClient;
 
 public class WebBrowser extends AppCompatActivity {
 
+    private ScrollView scrollView;//1/21일 수정
     private WebView mWebView; // 웹뷰 선언
     private WebSettings mWebSettings; // 웹뷰세팅
     private EditText mText; // Url 입력 받을 PlainText 선언
@@ -100,6 +102,7 @@ public class WebBrowser extends AppCompatActivity {
         // 권한
         ActivityCompat.requestPermissions(this, new String[]{"android.permission.Internet"}, 0);
 
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
         mWebView = (WebView) findViewById(R.id.webView);
         mText = (EditText) findViewById(R.id.urlText);
         mSearchButton = (ImageButton) findViewById(R.id.searchButton);
@@ -255,7 +258,36 @@ public class WebBrowser extends AppCompatActivity {
 
     //웹뷰 띄워주는 메서드
     private void openUrl() {
-        mWebView.setWebViewClient(new WebViewClient(){
+        mWebView.setWebViewClient(new WebViewClient(){//페이지 로드 후 작업 정의
+            //1/21
+            @Override//모든 URL 변경시시
+            public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+                super.doUpdateVisitedHistory(view, url, isReload);
+                scrollView.scrollTo(0,0);//스크롤 맨위로
+                //scrollView.fullScroll((ScrollView.FOCUS_UP));
+                /*scrollView.post(new Runnable(){
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(ScrollView.FOCUS_UP);
+                    }
+                });*/
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                view.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('body')[0].innerHTML);");
+
+                /*scrollView.scrollTo(0,0);//스크롤 맨위로
+                scrollView.post(new Runnable(){
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(ScrollView.FOCUS_UP);
+                    }
+                });*/
+            }
+
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
                 super.onReceivedError(view, request, error);
@@ -331,15 +363,6 @@ public class WebBrowser extends AppCompatActivity {
             mWebSettings.setLightTouchEnabled(true);
             //자바스크립트인터페이스 연결(자바함수 접근)
             mWebView.addJavascriptInterface(new MyJavascriptInterface(), "Android");
-            //페이지 로드 후 작업 정의
-            mWebView.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    super.onPageFinished(view, url);
-
-                    view.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('body')[0].innerHTML);");
-                }
-            });
 
             //12/29 수정
             //스크롤뷰가 움직여서 좌우 스와이프가 어려워서 스크롤을 방지
@@ -363,9 +386,13 @@ public class WebBrowser extends AppCompatActivity {
 
 //          Log.d("result: ", "doc= " + doc);
             //img 태그만 선별
-            Elements imgs = doc.select("img");
+            /*Elements imgs = doc.select("img");
             Log.d("result: ", "doc= " + imgs);
-            Element img = imgs.first();
+            Element img = imgs.first();*/
+
+            //1/21 짧게
+            Element img = doc.select("img").first();
+
             if (img.attr("abs:src") != "") {
                 image_src.add(img.attr("abs:src"));
                 Log.e("src", img.attr("abs:src"));
@@ -444,6 +471,12 @@ public class WebBrowser extends AppCompatActivity {
 
     //연관 리소스를 clear해서 메모리 누수 줄이기
     public void webViewDestroy(){
+        //1/21 수정 캐시,히스토리 웹데이터 삭제
+        mWebView.clearCache(true);
+        mWebView.clearHistory();
+        //mWebView.destroy(); //비정상 종료됨
+        Toast.makeText(this, "웹뷰 Destroy", Toast.LENGTH_SHORT).show();
+
         mWebView.removeJavascriptInterface("bridge");
         mWebView.loadUrl("about:blank");
         mWebView.destroyDrawingCache();
