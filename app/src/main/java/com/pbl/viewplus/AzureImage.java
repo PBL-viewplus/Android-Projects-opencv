@@ -93,8 +93,8 @@ public class AzureImage extends AppCompatActivity {
 
     //현재 날짜로 문서 생성
     public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    public Date date= new Date();
-    public String getTime = sdf.format(date);
+    public Date date;
+    public String getTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,7 +227,6 @@ public class AzureImage extends AppCompatActivity {
                 imgBitmap = BitmapFactory.decodeFile(path, options);
                 //camera.exifInterface();
                 //degree = camera.exifDegree;
-                camera.fileOpen(getApplicationContext(), imgBitmap);
 
                 Bitmap rotatedBitmap = null;
 
@@ -257,6 +256,8 @@ public class AzureImage extends AppCompatActivity {
                     }
                     imgBitmap=rotatedBitmap;
                     imageView.setImageBitmap(imgBitmap);
+
+                    camera.fileOpen(getApplicationContext(), imgBitmap);
                 }
 
 
@@ -267,9 +268,9 @@ public class AzureImage extends AppCompatActivity {
 
                 //비트맵 암호화
                 pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
-                user.put("piciv", pic[1]);//비트맵의 벡터
-                //스토리지에 보내기
-                uploadStream(pic[0],getTime);
+//                user.put("piciv", pic[1]);//비트맵의 벡터
+//                //스토리지에 보내기
+//                uploadStream(pic[0],getTime);
 
                 AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
                     // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
@@ -415,9 +416,9 @@ public class AzureImage extends AppCompatActivity {
 
                 //비트맵 암호화
                 pic= AES.encByKey(key, AES.BitmapToString(imgBitmap));
-                user.put("piciv", pic[1]);//비트맵의 벡터
-                //스토리지에 보내기
-                uploadStream(pic[0],getTime);
+//                user.put("piciv", pic[1]);//비트맵의 벡터
+//                //스토리지에 보내기
+//                uploadStream(pic[0],getTime);
 
 
                 AsyncTask<InputStream,String,String> visionTask = new AsyncTask<InputStream, String, String>() {
@@ -549,7 +550,11 @@ public class AzureImage extends AppCompatActivity {
             }
 
             date= new Date();
-            getTime=sdf.format(date);
+            getTime = sdf.format(date);
+
+            user.put("piciv", pic[1]);//비트맵의 벡터
+            //스토리지에 보내기
+            uploadStream(pic[0],getTime);
 
             user.put("date", getTime);
 

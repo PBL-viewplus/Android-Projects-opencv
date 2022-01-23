@@ -175,7 +175,7 @@ public class OCR_TTS extends AppCompatActivity {
                 }
                 else {//권한이 없으면
                     //Toast.makeText(OCR_TTS.this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
-                    permission.permissioncheck(getApplicationContext());
+                    permission.permissioncheck(getApplicationContext()); //갤러리만 허용되면 튕김
                 }
             }
         });
@@ -265,11 +265,18 @@ public class OCR_TTS extends AppCompatActivity {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             try {
                 //경로 변경**  --> 오류: 분석완전히 안끝내고 다른 사진찍으면 분석중입니다 뜨지 않음
-                File file = new File(camera.imageFilePath);
+//                File file = new File(camera.imageFilePath);
+//                Bitmap rotatedBitmap = null;
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
+//                        FileProvider.getUriForFile(OCR_TTS.this,
+//                                getApplicationContext().getPackageName() + ".fileprovider", file));
+
+                String path = camera.imageFilePath;
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 4;
+
+                Bitmap bitmap = BitmapFactory.decodeFile(path, options);
                 Bitmap rotatedBitmap = null;
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
-                        FileProvider.getUriForFile(OCR_TTS.this,
-                                getApplicationContext().getPackageName() + ".fileprovider", file));
 
                 // 회전된 사진을 원래대로 돌려 표시한다.
                 if (bitmap != null) {
@@ -296,6 +303,8 @@ public class OCR_TTS extends AppCompatActivity {
                     }
                     originImageView.setImageBitmap(rotatedBitmap);
                     changeBitmap = rotatedBitmap;
+
+                    camera.fileOpen(getApplicationContext(),rotatedBitmap);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
