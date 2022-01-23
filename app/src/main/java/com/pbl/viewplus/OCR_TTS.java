@@ -156,7 +156,7 @@ public class OCR_TTS extends AppCompatActivity {
         cameraButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {//1/4일 수정
-                if (gallery.hasPermissions(gallery.PERMISSIONS, getApplicationContext())) {//권한이 있어야 활성화함
+                if (permission.hasPermissions(permission.car_PERMISSIONS, getApplicationContext())) {//권한이 있어야 활성화함
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     camera.cameraStart(getApplicationContext(), intent);
                     startActivityForResult(intent, 1);
