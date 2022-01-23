@@ -83,7 +83,7 @@ public class WebBrowser extends AppCompatActivity {
     private int index = 0;
     private String resultText="";
     Bitmap resultBitmap;
-    String intentUrl = null;
+    String copyUrl = null;
 
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
@@ -156,18 +156,8 @@ public class WebBrowser extends AppCompatActivity {
         mCopyButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//                System.out.println("!!!!!!"+clipboardManager.getPrimaryClip());
-
-                // 클립보드에 데이터가 있고 그 데이터가 텍스트 타입인 경우
-                ClipData clip = clipboardManager.getPrimaryClip();
-                if (clip == null) {
-                    speakTTS(4);
-                }
-                else{
-                    ClipData.Item item = clip.getItemAt(0);
-                    mText.setText(item.getText());
-                }
+                getCopyText();
+                mText.setText(copyUrl);
             }
         });
 
@@ -175,15 +165,14 @@ public class WebBrowser extends AppCompatActivity {
         mAnalyzeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if (intentUrl == null){
-                    speakTTS(1);
-                }
-                else{
+                getCopyText();
+                if (!copyUrl.startsWith("http")){
+                    speakTTS(4);
+                }else{
                     Intent intent = new Intent(getApplicationContext(), WebResult.class);
-                    intent.putExtra("ResultUrl", intentUrl);
+                    intent.putExtra("ResultUrl", copyUrl);
                     startActivity(intent);
                 }
-
                 //인텐트로 분석이미지와 분석결과를 던져주고 보여줌.
                 //분석이미지
                 Bitmap intentImage = resultBitmap;
@@ -196,12 +185,12 @@ public class WebBrowser extends AppCompatActivity {
         mOCRButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(intentUrl==null){
-                    speakTTS(1);
-                }
-                else {
+                getCopyText();
+                if (!copyUrl.startsWith("http")){
+                    speakTTS(4);
+                }else{
                     Intent intent = new Intent(getApplicationContext(), WebOCRResult.class);
-                    intent.putExtra("ResultUrl", intentUrl);
+                    intent.putExtra("ResultUrl", copyUrl);
                     startActivity(intent);
                 }
             }
@@ -244,7 +233,6 @@ public class WebBrowser extends AppCompatActivity {
         });
     }
     void copyText(String text){
-        intentUrl = text;
         if(text.length() != 0){
             //문자열을 클립보드에 넣는수 있는 클립데이터 형태로 포장
             ClipData clip = ClipData.newPlainText("text", text);
@@ -252,7 +240,18 @@ public class WebBrowser extends AppCompatActivity {
             //클립보드 관리자 객체를 가져옴
             ClipboardManager cm = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
             cm.setPrimaryClip(clip);//클립보드에 저장하는 부분
-            //Toast.makeText(this, "Text Copied", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    void getCopyText(){
+        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = clipboardManager.getPrimaryClip();
+        if (clip == null) {
+            speakTTS(4);
+        }
+        else {
+            ClipData.Item item = clip.getItemAt(0);
+            copyUrl = (String) item.getText();
         }
     }
 
