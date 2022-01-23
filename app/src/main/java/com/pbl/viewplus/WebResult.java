@@ -132,7 +132,9 @@ public class WebResult extends AppCompatActivity {
         againButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tts.speakOut(textView.getText().toString());
+                if (textView != null) {
+                    tts.speakOut(textView.getText().toString());
+                }
             }
         });
 

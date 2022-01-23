@@ -79,7 +79,9 @@ public class historyDetail extends AppCompatActivity {
         againButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tts.speakOut(textResult.getText().toString());
+                if (textResult != null) {
+                    tts.speakOut(textResult.getText().toString());
+                }
             }
         });
 
