@@ -63,12 +63,13 @@ import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotate
 public class AzureImage extends AppCompatActivity {
     private ImageView imageView;
     private TextView mTextResult;
-    private ImageButton pictureButton;
     private Bitmap imgBitmap;
     private ImageButton minusButton;
     private ImageButton againButton;
     private ImageButton plusButton;
     private ImageButton backButton;
+    private ImageButton cameraButton_az;
+    private ImageButton galleryButton_az;
     private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
     private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
 
@@ -103,11 +104,13 @@ public class AzureImage extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.origin_iv);
         mTextResult = (TextView) findViewById(R.id.text_result);
-        pictureButton = (ImageButton) findViewById(R.id.btn_picture);
         minusButton = (ImageButton) findViewById(R.id.btn_minus);
         againButton = findViewById(R.id.btn_again);
         plusButton = (ImageButton) findViewById(R.id.btn_plus);
         backButton = (ImageButton) findViewById(R.id.btn_back);
+
+        cameraButton_az = findViewById(R.id.btn_camera);
+        galleryButton_az = findViewById(R.id.btn_gallery);
 
         //사용자 구분
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -123,32 +126,41 @@ public class AzureImage extends AppCompatActivity {
         //인텐트 받기
         Intent intent = getIntent();
         int value = intent.getExtras().getInt("value");
-        if (value == 3){
-            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
-        }
-        if (value == 4){
-            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_image));
-        }
+//        if (value == 3){
+//            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
+//        }
+//        if (value == 4){
+//            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_image));
+//        }
 
-        // 사진 찍기, 갤러리 버튼
-        pictureButton.setOnClickListener(new Button.OnClickListener(){
+        // 사진 찍기 버튼
+        cameraButton_az.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if (gallery.hasPermissions(gallery.PERMISSIONS, getApplicationContext())) {//권한이 있어야 활성화함
-                    if (value == 3){
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        camera.cameraStart(getApplicationContext(), intent);
-                        startActivityForResult(intent, 3);
-                    }
-                    if (value == 4){
-                        Intent intent = new Intent(Intent.ACTION_PICK);
-                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, 4);
-                    }
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    camera.cameraStart(getApplicationContext(), intent);
+                    startActivityForResult(intent, 3);
+
                 }
                 else {//권한이 없으면
-                    //Toast.makeText(AzureImage.this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    permission.permissioncheck(getApplicationContext());
+                }
+            }
+        });
+
+        // 갤러리 버튼
+        galleryButton_az.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (gallery.hasPermissions(gallery.PERMISSIONS, getApplicationContext())) {//권한이 있어야 활성화함
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 4);
+
+                }
+                else {//권한이 없으면
                     permission.permissioncheck(getApplicationContext());
                 }
             }
@@ -170,9 +182,7 @@ public class AzureImage extends AppCompatActivity {
         againButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mTextResult != null) {
-                    tts.speakOut(mTextResult.getText().toString());
-                }
+                tts.speakOut(mTextResult.getText().toString());
             }
         });
 
@@ -584,5 +594,5 @@ public class AzureImage extends AppCompatActivity {
             tts.ttsDestory();
         }
     }
-    
+
 }

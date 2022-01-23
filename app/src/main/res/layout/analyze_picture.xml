@@ -28,14 +28,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageButton
-                android:id="@+id/btn_picture"
+                android:id="@+id/btn_camera"
+                android:layout_width="45dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/camera_btn" />
+
+            <ImageButton
+                android:id="@+id/btn_gallery"
                 android:layout_width="45dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/camera_btn" />
+                android:background="@drawable/btn_image" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -135,6 +144,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
+                    android:text="분석 결과"
                     android:textSize="20sp" />
             </LinearLayout>
         </ScrollView>

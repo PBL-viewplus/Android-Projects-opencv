@@ -65,7 +65,8 @@ public class OCR_TTS extends AppCompatActivity {
     private ImageButton againButton;
     private ImageButton plusButton;
     private TextView mTextResult;
-    private ImageButton pictureButton;
+    private ImageButton cameraButton;
+    private ImageButton galleryButton;
     private String dataPath = "";
     private String mCurrentPhotoPath; // 사진 경로
     private String choiceResult="";
@@ -110,7 +111,8 @@ public class OCR_TTS extends AppCompatActivity {
         plusButton = findViewById(R.id.btn_plus);
         againButton = findViewById(R.id.btn_again);
         backButton = findViewById(R.id.btn_back);
-        pictureButton = findViewById(R.id.btn_picture);
+        cameraButton = findViewById(R.id.btn_camera);
+        galleryButton = findViewById(R.id.btn_gallery);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -121,23 +123,23 @@ public class OCR_TTS extends AppCompatActivity {
         // Mainactivity의 intent value값 받아 버튼 종류 결정
         Intent intent = getIntent();
         int value = intent.getExtras().getInt("value");
-        if (value == 1) {
-            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
-        }
-        if (value == 2) {
-            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_image));
-        }
+//        if (value == 1) {
+//            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
+//        }
+//        if (value == 2) {
+//            pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_image));
+//        }
 
         // 카메라 권한 체크
         Permission permission = new Permission();
         permission.permissioncheck(getApplicationContext());
 
         // 갤러리 권한 체크
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!gallery.hasPermissions(gallery.PERMISSIONS, getApplicationContext())) {
-                requestPermissions(gallery.PERMISSIONS, gallery.PERMISSIONS_REQUEST_CODE);
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (!gallery.hasPermissions(gallery.PERMISSIONS, getApplicationContext())) {
+//                requestPermissions(gallery.PERMISSIONS, gallery.PERMISSIONS_REQUEST_CODE);
+//            }
+//        }
 
         // tesseract 언어 데이터 경로
         dataPath = getFilesDir() + "/tesseract/";
@@ -150,27 +152,48 @@ public class OCR_TTS extends AppCompatActivity {
         // TTS 객체 초기화
         tts.initTTS(this, null);
 
-        // 사진 찍기, 갤러리 버튼
-        pictureButton.setOnClickListener(new Button.OnClickListener() {
+        // 사진 찍기 버튼
+        cameraButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {//1/4일 수정
                 if (gallery.hasPermissions(gallery.PERMISSIONS, getApplicationContext())) {//권한이 있어야 활성화함
-                    if (value == 1) {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        camera.cameraStart(getApplicationContext(), intent);
-                        startActivityForResult(intent, 1);
-                    }
-                    if (value == 2) {
-                        Intent intent = new Intent(Intent.ACTION_PICK);
-                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, 2);
-                    }
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    camera.cameraStart(getApplicationContext(), intent);
+                    startActivityForResult(intent, 1);
+
+//                    if (value == 1) {
+//                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                        camera.cameraStart(getApplicationContext(), intent);
+//                        startActivityForResult(intent, 1);
+//                    }
+//                    if (value == 2) {
+//                        Intent intent = new Intent(Intent.ACTION_PICK);
+//                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+//                        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                        startActivityForResult(intent, 2);
+//                    }
                 }
                 else {//권한이 없으면
                     //Toast.makeText(OCR_TTS.this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
                     permission.permissioncheck(getApplicationContext());
                 }
+            }
+        });
+
+        // 갤러리 버튼
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (gallery.hasPermissions(gallery.PERMISSIONS, getApplicationContext())) {//권한이 있어야 활성화함
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 2);
+                }
+                else {//권한이 없으면
+                    permission.permissioncheck(getApplicationContext());
+                }
+
             }
         });
 
@@ -190,9 +213,7 @@ public class OCR_TTS extends AppCompatActivity {
         againButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mTextResult != null){
-                    tts.speakOut(mTextResult.getText().toString());
-                }
+                tts.speakOut(mTextResult.getText().toString());
             }
         });
 
