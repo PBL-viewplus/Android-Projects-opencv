@@ -21,7 +21,6 @@ public class Fragment2 extends Fragment {
 
         String ex2="슬라이드";
 
-        tts.initTTS(v.getContext(), ex2);
 
 
         return v;
