@@ -182,7 +182,9 @@ public class AzureImage extends AppCompatActivity {
         againButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tts.speakOut(mTextResult.getText().toString());
+                if (mTextResult != null) {
+                    tts.speakOut(mTextResult.getText().toString());
+                }
             }
         });
 
