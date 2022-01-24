@@ -17,23 +17,22 @@ public class Permission {
 
     public Context context;
     String[] car_PERMISSIONS = {"android.permission.CAMERA"};
-    String[] gal_PERMISSIONS = {"android.permission.WRITE_EXTERNAL_STORAGE"};
+    String[] gal_PERMISSIONS = {"android.permission.READ_EXTERNAL_STORAGE"};
 
     // 권한 체크 함수
     public void permissioncheck(Context c) {
         context = c;
+
         if (!hasPermissions(car_PERMISSIONS, c)) {
             if (!hasPermissions(gal_PERMISSIONS, c)) {//카메라, 갤러리 둘다 권한 없으면
                 TedPermission.with(c)
                         .setPermissionListener(permissionListener)
-                        //.setRationaleMessage("카메라 권한이 필요합니다.")
                         .setDeniedMessage("설정에서 카메라와 저장공간 권한을 허용해주세요.")
-                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                        .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)//read하니까
                         .check();
-            } else {//카메라 권한만 없으면 -----오류남..
+            } else {
                 TedPermission.with(c)
                         .setPermissionListener(permissionListener)
-                        //.setRationaleMessage("카메라 권한이 필요합니다.")
                         .setDeniedMessage("설정에서 카메라 권한을 허용해주세요.")
                         .setPermissions(Manifest.permission.CAMERA)
                         .check();
@@ -42,21 +41,10 @@ public class Permission {
         else if(!hasPermissions(gal_PERMISSIONS, c)){//카메라 권한이 있고 갤러리 권한이 없으면 (2번째로 권한 물어보는 if문)
             TedPermission.with(c)
                     .setPermissionListener(permissionListener)
-                    //.setRationaleMessage("카메라 권한이 필요합니다.")
                     .setDeniedMessage("설정에서 저장공간 권한을 허용해주세요.")
-                    .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
                     .check();
         }
-    }
-
-    public void car_permissioncheck(Context c){
-        context = c;
-        TedPermission.with(c)
-                .setPermissionListener(permissionListener)
-                //.setRationaleMessage("카메라 권한이 필요합니다.")
-                .setDeniedMessage("설정에서 카메라와 저장공간 권한을 허용해주세요.")
-                .setPermissions(Manifest.permission.CAMERA)
-                .check();
     }
 
     // 권한 체크 여부를 듣는 함수
