@@ -39,7 +39,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
     private ArrayList<hDataitem> hData = null;
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭
 
-    private String userEmail;
+    public String userEmail;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
@@ -84,58 +84,63 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         hDataitem item = hData.get(position) ;
         String date = item.getDate();
 
-        //사용자 구분
-        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        userEmail= userEmail.split("@")[0];
+        //빠르게 로그아웃 누를때 강제종료 방지용
+        if(FirebaseAuth.getInstance().getCurrentUser()==null){
+            System.out.println("빠르게 로그아웃 누를때 강제종료 방지용");
+        }
+        else{
+            //사용자 구분
+            userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            userEmail= userEmail.split("@")[0];
 
+            db.collection(userEmail).document(date).
+                    get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        // 복호화를 위한 준비 과정
+                        String k = item.getK();
+                        String iv2 = item.getIv2();
+                        String piciv = item.getPiciv();
 
-        db.collection(userEmail).document(date).
-                get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    // 복호화를 위한 준비 과정
-                    String k = item.getK();
-                    String iv2 = item.getIv2();
-                    String piciv = item.getPiciv();
+                        try {
+                            if (AES.isExistKey(alias)) {
+                                SecretKey secretKey = AES.getKeyStoreKey(alias);
+                                String enc = AES.decByKeyStoreKey(secretKey, k, iv2);
 
-                    try {
-                        if (AES.isExistKey(alias)) {
-                            SecretKey secretKey = AES.getKeyStoreKey(alias);
-                            String enc = AES.decByKeyStoreKey(secretKey, k, iv2);
+                                // 스토리지에서 사진 가져오기
+                                StorageReference storageRef = storage.getReference();
+                                StorageReference pathReference = storageRef.child(userEmail+"/"+ date +".txt");
 
-                            // 스토리지에서 사진 가져오기
-                            StorageReference storageRef = storage.getReference();
-                            StorageReference pathReference = storageRef.child(userEmail+"/"+ date +".txt");
+                                final long ONE_MEGABYTE = 2048 * 2048; // 약 4.1MB
+                                pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        // 이미지 복호화
+                                        try {
+                                            String decPic = AES.decByKey(enc, Base64.encodeToString(bytes,0), piciv);
+                                            Bitmap bitmap= AES.StringToBitmap(decPic);
+                                            holder.itemImg.setImageBitmap(bitmap);
 
-                            final long ONE_MEGABYTE = 2048 * 2048; // 약 4.1MB
-                            pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                @Override
-                                public void onSuccess(byte[] bytes) {
-                                    // 이미지 복호화
-                                    try {
-                                        String decPic = AES.decByKey(enc, Base64.encodeToString(bytes,0), piciv);
-                                        Bitmap bitmap= AES.StringToBitmap(decPic);
-                                        holder.itemImg.setImageBitmap(bitmap);
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                }
-                            });
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                    }
+                                });
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } else {
+                        //.d(TAG, "get failed with ", task.getException());
                     }
-                } else {
-                    //.d(TAG, "get failed with ", task.getException());
                 }
-            }
-        });
+            });
+        }
 
         // item 의 이미지
         holder.itemImg.setOnClickListener(new View.OnClickListener(){
