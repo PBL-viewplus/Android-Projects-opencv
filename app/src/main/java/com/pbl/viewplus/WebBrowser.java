@@ -474,7 +474,7 @@ public class WebBrowser extends AppCompatActivity {
         mWebView.clearCache(true);
         mWebView.clearHistory();
         //mWebView.destroy(); //비정상 종료됨
-        Toast.makeText(this, "웹뷰 Destroy", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "웹뷰 Destroy", Toast.LENGTH_SHORT).show();
 
         mWebView.removeJavascriptInterface("bridge");
         mWebView.loadUrl("about:blank");
