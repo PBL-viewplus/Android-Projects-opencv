@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "422240601473",
+    "project_id": "viewplus-1eb14",
+    "storage_bucket": "viewplus-1eb14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422240601473:android:99bf7566ad0e54a35dd480",
+        "android_client_info": {
+          "package_name": "com.pbl.viewplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "422240601473-rmpjp6ca41u6h07sqj3g0bs9l72t1720.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pbl.viewplus",
+            "certificate_hash": "6b70e904ac96b06082eae5c8222fbec811406c08"
+          }
+        },
+        {
+          "client_id": "422240601473-v5c9fd6surodc502iilie9mr4s1dl9av.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2r77XQTgLdNVDY3c7Ax-LTdsNnYY-IsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "422240601473-v5c9fd6surodc502iilie9mr4s1dl9av.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
