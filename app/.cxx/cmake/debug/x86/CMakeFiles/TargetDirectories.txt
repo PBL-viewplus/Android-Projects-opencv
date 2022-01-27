@@ -1,3 +1,0 @@
-C:/Users/Jiwoon Kim/Documents/GitHub/Android-Projects/app/.cxx/cmake/debug/x86/CMakeFiles/native-lib.dir
-C:/Users/Jiwoon Kim/Documents/GitHub/Android-Projects/app/.cxx/cmake/debug/x86/CMakeFiles/edit_cache.dir
-C:/Users/Jiwoon Kim/Documents/GitHub/Android-Projects/app/.cxx/cmake/debug/x86/CMakeFiles/rebuild_cache.dir
