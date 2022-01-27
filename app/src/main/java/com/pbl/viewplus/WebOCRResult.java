@@ -106,7 +106,7 @@ public class WebOCRResult extends AppCompatActivity {
         setContentView(R.layout.activity_web_result);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 가로 화면 고정
 
-        setTitle("분석 결과");
+//        setTitle("분석 결과");
 
         Intent intent = getIntent();
         url = intent.getStringExtra("ResultUrl");
