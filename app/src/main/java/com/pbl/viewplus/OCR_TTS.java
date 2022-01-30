@@ -8,7 +8,9 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.ExifInterface;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -99,6 +101,10 @@ public class OCR_TTS extends AppCompatActivity {
     public Date date= new Date();
     public String getTime = sdf.format(date);
 
+    //효과음
+    SoundPool soundPool;
+    int bellSoundID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +125,15 @@ public class OCR_TTS extends AppCompatActivity {
         //사용자 구분
         userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         userEmail= userEmail.split("@")[0];
+
+        //효과음 설정
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            soundPool = new SoundPool.Builder().setMaxStreams(1).build(); //setMaxStreams 현재 시점에 재생할 최대음원개수
+        }
+        else{
+            soundPool = new SoundPool(1, AudioManager.STREAM_RING,0);
+        }
+        bellSoundID = soundPool.load(this,R.raw.bell,1);
 
         // Mainactivity의 intent value값 받아 버튼 종류 결정
         Intent intent = getIntent();
@@ -244,6 +259,7 @@ public class OCR_TTS extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        soundPool.autoPause();
     }
 
     @Override
@@ -252,6 +268,7 @@ public class OCR_TTS extends AppCompatActivity {
         if (OpenCVLoader.initDebug()) {
             opencv.mIsOpenCVReady = true;
         }
+        soundPool.autoResume();
     }
 
     @Override
@@ -351,13 +368,15 @@ public class OCR_TTS extends AppCompatActivity {
                 @SuppressLint("StaticFieldLeak")
                 @Override // 종료
                 protected void onPostExecute(String s) {
+                    progressDialog.dismiss();
 
                     if (TextUtils.isEmpty(s)) {
-                        progressDialog.dismiss();
                         mTextResult.setText("인식할 수 없습니다");
+                        Toast.makeText(OCR_TTS.this,"인식할 수 없습니다",Toast.LENGTH_SHORT).show();
                         tts.speakOut(mTextResult.getText().toString());
                     } else {
-                        progressDialog.dismiss();
+                        //완료 효과음
+                        soundPool.play(bellSoundID,1f,1f,0,0,1f);
 
                         //텍스트에 마스킹할 부분이 있다면
                         if(regex.isRegex(result)){
@@ -521,13 +540,15 @@ public class OCR_TTS extends AppCompatActivity {
                 @SuppressLint("StaticFieldLeak")
                 @Override // 종료
                 protected void onPostExecute(String s) {
+                    progressDialog.dismiss();
 
                     if (TextUtils.isEmpty(s)) {
-                        progressDialog.dismiss();
-                        mTextResult.setText("인식할 수 없습니다");
+                       mTextResult.setText("인식할 수 없습니다");
+                        Toast.makeText(OCR_TTS.this,"인식할 수 없습니다",Toast.LENGTH_SHORT).show();
                         tts.speakOut(mTextResult.getText().toString());
                     } else {
-                        progressDialog.dismiss();
+                        //완료 효과음
+                        soundPool.play(bellSoundID,1f,1f,0,0,1f);
 
                         //1. result 보고 검열 할게 있으면 팝업창 뜨고.
                         //2. 네/ 아니오로 검열 여부를 정해야됨.- 그에 맞는 결과 출력
@@ -656,6 +677,7 @@ public class OCR_TTS extends AppCompatActivity {
             tts.ttsDestory();
         }
 
+        soundPool.release();
     }
 
 

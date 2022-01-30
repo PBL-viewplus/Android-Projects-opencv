@@ -7,7 +7,9 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.ExifInterface;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -96,6 +98,10 @@ public class AzureImage extends AppCompatActivity {
     public Date date;
     public String getTime;
 
+    //효과음
+    SoundPool soundPool;
+    int bellSoundID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +128,15 @@ public class AzureImage extends AppCompatActivity {
 
         // TTS 객체 초기화
         tts.initTTS(this, null);
+
+        //효과음 설정
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            soundPool = new SoundPool.Builder().setMaxStreams(1).build(); //setMaxStreams 현재 시점에 재생할 최대음원개수
+        }
+        else{
+            soundPool = new SoundPool(1, AudioManager.STREAM_RING,0);
+        }
+        bellSoundID = soundPool.load(this,R.raw.bell,1);
 
         //인텐트 받기
         Intent intent = getIntent();
@@ -309,15 +324,17 @@ public class AzureImage extends AppCompatActivity {
                     @SuppressLint("StaticFieldLeak")
                     @Override // 종료
                     protected void onPostExecute(String s){
+                        progressDialog.dismiss();
 
                         if(TextUtils.isEmpty(s)){ // s가 null일때
-
                             mTextResult.setText("인식할 수 없습니다");
-                            Toast.makeText(AzureImage.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AzureImage.this,"인식할 수 없습니다",Toast.LENGTH_SHORT).show();
                             tts.speakOut(mTextResult.getText().toString());
                         }
                         else {
-                            progressDialog.dismiss();
+                            //완료 효과음
+                            soundPool.play(bellSoundID,1f,1f,0,0,1f);
+
                             AnalysisResult result = new Gson().fromJson(s, AnalysisResult.class);
                             StringBuilder result_Text = new StringBuilder();
                             for (Caption caption : result.description.captions)
@@ -458,15 +475,17 @@ public class AzureImage extends AppCompatActivity {
                     @SuppressLint("StaticFieldLeak")
                     @Override // 종료
                     protected void onPostExecute(String s){
+                        progressDialog.dismiss();
 
                         if(TextUtils.isEmpty(s)){ // s가 null일때
-
                             mTextResult.setText("인식할 수 없습니다");
                             Toast.makeText(AzureImage.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
                             tts.speakOut(mTextResult.getText().toString());
                         }
                         else {
-                            progressDialog.dismiss();
+                            //완료 효과음
+                            soundPool.play(bellSoundID,1f,1f,0,0,1f);
+
                             AnalysisResult result = new Gson().fromJson(s, AnalysisResult.class);
                             StringBuilder result_Text = new StringBuilder();
                             for (Caption caption : result.description.captions)
@@ -600,6 +619,7 @@ public class AzureImage extends AppCompatActivity {
         if(tts != null){
             tts.ttsDestory();
         }
+        soundPool.release();
     }
 
 }
