@@ -277,7 +277,6 @@ public class AzureImage extends AppCompatActivity {
                     camera.fileOpen(getApplicationContext(), imgBitmap);
                 }
 
-
                 //imgBitmap = camera.getResizedBitmap(imgBitmap); // 해상도 조절
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // bitmap 크기 압축
@@ -295,17 +294,23 @@ public class AzureImage extends AppCompatActivity {
 
                     @Override // 작업시작
                     protected void onPreExecute() {
+                        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        progressDialog.setTitle("분석중입니다");
                         progressDialog.show();
                     } // progressdialog 생성
 
                     @Override // 진행중
                     protected String doInBackground(InputStream... inputStreams) {
-                        progressDialog.setCanceledOnTouchOutside(false);
+                        tts.speakOut("분석중입니다");
+                        //publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
 
-                        try
-                        {
-                            tts.speakOut("분석중입니다");
-                            publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
+                        try{
+                            for (int i = 0; i <= 5; i++) {
+                                progressDialog.setProgress(i * 20);
+                                Thread.sleep(600);
+                            }
+                            progressDialog.setCanceledOnTouchOutside(false);
+
                             String[] features = {"Description"};
                             String[] details = {};
 
@@ -313,9 +318,7 @@ public class AzureImage extends AppCompatActivity {
 
                             String jsonResult = new Gson().toJson(result);
                             return jsonResult;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (VisionServiceException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         return "";
@@ -446,17 +449,23 @@ public class AzureImage extends AppCompatActivity {
 
                     @Override // 작업시작
                     protected void onPreExecute() {
+                        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        progressDialog.setTitle("분석중입니다");
                         progressDialog.show();
                     } // progressdialog 생성
 
                     @Override // 진행중
                     protected String doInBackground(InputStream... inputStreams) {
-                        progressDialog.setCanceledOnTouchOutside(false);
+                        tts.speakOut("분석중입니다");
+                        //publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
 
-                        try
-                        {
-                            tts.speakOut("분석중입니다");
-                            publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
+                        try{
+                            for (int i = 0; i <= 5; i++) {
+                                progressDialog.setProgress(i * 20);
+                                Thread.sleep(600);
+                            }
+                            progressDialog.setCanceledOnTouchOutside(false);
+
                             String[] features = {"Description"};
                             String[] details = {};
 
@@ -464,9 +473,7 @@ public class AzureImage extends AppCompatActivity {
 
                             String jsonResult = new Gson().toJson(result);
                             return jsonResult;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (VisionServiceException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         return "";

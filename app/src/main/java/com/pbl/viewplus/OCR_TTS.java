@@ -351,17 +351,30 @@ public class OCR_TTS extends AppCompatActivity {
 
                 @Override // 작업시작
                 protected void onPreExecute() {
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressDialog.setTitle("분석중입니다");
                     progressDialog.show();
                 } // progressdialog 생성
 
                 @Override // 진행중
                 protected String doInBackground(InputStream... inputStreams) {
                     tts.speakOut("분석중입니다");
-                    publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
+                    //publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
 
-                    progressDialog.setCanceledOnTouchOutside(false);
+                    try {
+                        for (int i = 0; i <= 5; i++) {
+                            progressDialog.setProgress(i * 20);
+                            Thread.sleep(600);
+                        }
+                        //창 터치시 중지 방지
+                        //progressDialog.setCancelable(false);//뒤로가기도 막음
+                        progressDialog.setCanceledOnTouchOutside(false);
 
-                    result = tesseract.processImage(changeBitmap);
+                        result = tesseract.processImage(changeBitmap);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     return result;
                 }
 
@@ -516,6 +529,8 @@ public class OCR_TTS extends AppCompatActivity {
 
                 @Override // 작업시작
                 protected void onPreExecute() {
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressDialog.setTitle("분석중입니다");
                     progressDialog.show();
                 } // progressdialog 생성
 
@@ -525,15 +540,22 @@ public class OCR_TTS extends AppCompatActivity {
                 protected String doInBackground(InputStream... inputStreams) {
 
                     tts.speakOut("분석중입니다");
-                    publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
+                    //publishProgress("분석중입니다..."); // 이 메서드를 호출할 때마다 UI 스레드에서 onProgressUpdate의 실행이 트리거
 
-                    //창 터치시 중지 방지
-                    //progressDialog.setCancelable(false);//뒤로가기도 막음
-                    progressDialog.setCanceledOnTouchOutside(false);
+                    try {
+                        for (int i = 0; i <= 5; i++) {
+                            progressDialog.setProgress(i * 20);
+                            Thread.sleep(600);
+                        }
+                        //창 터치시 중지 방지
+                        //progressDialog.setCancelable(false);//뒤로가기도 막음
+                        progressDialog.setCanceledOnTouchOutside(false);
 
+                        result = tesseract.processImage(changeBitmap);
 
-                    result = tesseract.processImage(changeBitmap);
-
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     return result;
                 }
 
