@@ -1,6 +1,7 @@
 package com.pbl.viewplus;
 
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -32,7 +33,7 @@ public class OpenCV {
 //    }
 
     // 흑백, 이진화, (엣지 검출), contour 추출
-    public void cvtColor(Bitmap originBitmap){
+    public void cvtColor(Bitmap changeBitmap){
         OpenCVLoader.initDebug();
 
         Mat bmpMat = new Mat();
@@ -41,7 +42,7 @@ public class OpenCV {
         Mat gradThresh = new Mat(); //matrix for threshold
         Mat hierarchy = new Mat(); //matrix for contour hierachy
 //        Mat imgCny = new Mat();
-        Utils.bitmapToMat(originBitmap, bmpMat);
+        Utils.bitmapToMat(changeBitmap, bmpMat);
 
         Imgproc.cvtColor(bmpMat, imgGray, Imgproc.COLOR_BGR2GRAY); // GrayScale
 //        Imgproc.Canny(imgGray, imgCny, 10, 100, 3, true); // Canny Edge 검출
@@ -66,7 +67,7 @@ public class OpenCV {
 //
 //            }
 
-        Utils.matToBitmap(imgBny, originBitmap);
+        Utils.matToBitmap(imgBny, changeBitmap);
     }
 
     // detectEdgeJNI, ConvertRGBtoGray 적용 함수

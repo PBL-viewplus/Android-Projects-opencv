@@ -527,13 +527,12 @@ public class OCR_TTS extends AppCompatActivity {
                             showBitmap = tempBitmap;
                     }
                     //originImageView.setImageBitmap(rotatedBitmap);
-                    originBitmap = rotatedBitmap;
+                    //originBitmap = rotatedBitmap;
                     changeBitmap = rotatedBitmap;
                     //opencv.detectEdgeUsingJNI(originBitmap, changeBitmap);
-                    //showbitmap 삭제
 
-                    originImageView.setImageBitmap(originBitmap);
-//                    opencv.cvtColor(changeBitmap); // 문제점! 여기서 opencv를 시켜줘도 originImageView에 opencv가 적용된 사진이 들어감
+                    originImageView.setImageBitmap(showBitmap);
+                    opencv.cvtColor(changeBitmap);
                 }
 
             } catch (Exception e) {
