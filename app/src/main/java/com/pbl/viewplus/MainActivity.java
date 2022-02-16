@@ -10,8 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton web_image;
     private ImageButton btn_history;
     public String PopDialog;
+    private Button btn_logout;
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -33,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     //1/3 수정
     public SharedPreferences prefs;//어플 실행 확인 변수 선언
 
+
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         gallery_image = findViewById(R.id.button4);
         web_image = findViewById(R.id.button5);
         btn_history = findViewById(R.id.btn_history);
+        btn_logout=findViewById(R.id.btn_logout);
 
         PopDialog = "";
 
@@ -60,6 +74,29 @@ public class MainActivity extends AppCompatActivity {
 
         //로그아웃 시 종료를 위함
         MainAct = this;
+
+        mAuth=FirebaseAuth.getInstance();
+
+        //로그아웃
+        btn_logout.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build();
+                mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
+
+                signOut();
+                finish();
+
+                //로그인화면으로 이동
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                MainActivity.MainAct.finish();
+                startActivity(intent);
+            }
+        });
+
 
         // 히스토리 버튼
         btn_history.setOnClickListener(new Button.OnClickListener(){
@@ -172,6 +209,24 @@ public class MainActivity extends AppCompatActivity {
             prefs.edit().putBoolean("isFirstRun", false).apply();
         }
 
+    }
+
+    private void updateUI(FirebaseUser user) { //update ui code here
+        if (user != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+    private void signOut() {
+        mAuth.signOut();
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        updateUI(null);
+                    }
+                });
     }
 
 }
