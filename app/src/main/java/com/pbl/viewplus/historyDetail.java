@@ -1,5 +1,8 @@
 package com.pbl.viewplus;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -11,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,6 +70,19 @@ public class historyDetail extends AppCompatActivity {
         minusButton = (ImageButton) findViewById(R.id.hd_btn_minus);
 
         db = FirebaseFirestore.getInstance();
+
+        //롱클릭시 복사
+        textResult.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("분석 결과 복사", textResult.getText());
+                clipboard.setPrimaryClip(clip);
+
+                Toast.makeText(historyDetail.this, "복사되었습니다.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
         minusButton.setOnClickListener(new Button.OnClickListener(){
             @Override

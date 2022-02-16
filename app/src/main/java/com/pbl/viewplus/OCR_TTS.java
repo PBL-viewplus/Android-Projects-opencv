@@ -3,6 +3,8 @@ package com.pbl.viewplus;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -17,6 +19,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -55,6 +58,8 @@ import javax.crypto.SecretKey;
 
 import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class OCR_TTS extends AppCompatActivity {
@@ -211,6 +216,20 @@ public class OCR_TTS extends AppCompatActivity {
 
             }
         });
+
+        //롱클릭시 복사
+        mTextResult.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("분석 결과 복사", mTextResult.getText());
+                clipboard.setPrimaryClip(clip);
+
+                Toast.makeText(OCR_TTS.this, "복사되었습니다.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
 
         // 돋보기 -버튼
         minusButton.setOnClickListener(new Button.OnClickListener() {
