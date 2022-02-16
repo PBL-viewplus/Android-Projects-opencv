@@ -111,6 +111,12 @@
                     android:layout_height="160dp"
                     android:id="@+id/hDataRecycler0" />
 
+                <View
+                    android:background="#867C72"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"/>
+
                 <TextView
                     android:id="@+id/day1"
                     android:textSize="15dp"
@@ -125,6 +131,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="160dp"
                     android:id="@+id/hDataRecycler1" />
+
+                <View
+                    android:background="#867C72"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"/>
 
                 <TextView
                     android:id="@+id/day2"
@@ -141,6 +153,12 @@
                     android:layout_height="160dp"
                     android:id="@+id/hDataRecycler2" />
 
+                <View
+                    android:background="#867C72"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"/>
+
                 <TextView
                     android:id="@+id/day3"
                     android:textStyle="bold"
@@ -155,6 +173,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="160dp"
                     android:id="@+id/hDataRecycler3" />
+
+                <View
+                    android:background="#867C72"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"/>
 
                 <TextView
                     android:id="@+id/day4"
