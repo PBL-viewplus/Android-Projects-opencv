@@ -13,8 +13,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_weight="1.5"
-        android:orientation="vertical">
+        android:layout_weight="2"
+        android:orientation="horizontal">
 
         <!--        <LinearLayout-->
         <!--            android:layout_width="match_parent"-->
@@ -35,24 +35,27 @@
 
         <!-- 버튼 크기 weight로 수정-->
 
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:drawable/ic_dialog_info" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5" />
+
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textColor="#DB504C"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#433A73"
             android:background="@drawable/logout_btn_round"
             android:text="로그아웃" />
-
-        <ImageButton
-            android:id="@+id/btn_history"
-            android:layout_width="30dp"
-            android:layout_height="20dp"
-            android:layout_gravity="right"
-            android:layout_margin="20dp"
-            android:contentDescription="히스토리"
-            android:background="@drawable/history_btn" />
 
 
         <!-- <ImageView
@@ -69,22 +72,28 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5.5"
+        android:layout_weight="5"
         android:orientation="vertical"
-        android:paddingBottom="20dp"
-        android:weightSum="5">
+        android:weightSum="7">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="1.4"
+            android:background="@drawable/mainround"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.2"
             android:orientation="horizontal"
-            android:weightSum="9">
+            android:weightSum="7">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.5" />
+                android:background="#F5F5F5"
+                android:layout_weight="0.8" />
 
             <ImageButton
                 android:id="@+id/button1"
@@ -99,51 +108,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:weightSum="9">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
-
-            <ImageButton
-                android:id="@+id/button2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2.5"
-                android:src="@drawable/gal_tts"
-                android:scaleType="center"
-                android:contentDescription="갤러리 글자 인식"
-                android:background="@drawable/radius" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:weightSum="9">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5" />
+                android:layout_weight="0.4"
+                android:background="#F5F5F5"/>
 
             <ImageButton
                 android:id="@+id/button3"
@@ -158,52 +124,89 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5" />
-
+                android:layout_weight="0.8"
+                android:background="#F5F5F5"/>
 
         </LinearLayout>
 
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="9">-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="5" />-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/button2"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="2.5"-->
+<!--                android:src="@drawable/gal_tts"-->
+<!--                android:scaleType="center"-->
+<!--                android:contentDescription="갤러리 글자 인식"-->
+<!--                android:background="@drawable/radius" />-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1.5" />-->
+
+
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:weightSum="9">
+            android:layout_weight="0.4"
+            android:background="#F5F5F5"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
 
-            <ImageButton
-                android:id="@+id/button4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2.5"
-                android:src="@drawable/gal_img"
-                android:scaleType="center"
-                android:contentDescription="갤러리 이미지 분석"
-                android:background="@drawable/radius"/>
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="9">-->
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5" />
+<!--            <LinearLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="5" />-->
 
-        </LinearLayout>
+<!--            <ImageButton-->
+<!--                android:id="@+id/button4"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="2.5"-->
+<!--                android:src="@drawable/gal_img"-->
+<!--                android:scaleType="center"-->
+<!--                android:contentDescription="갤러리 이미지 분석"-->
+<!--                android:background="@drawable/radius"/>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1.5" />-->
+
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2.2"
             android:orientation="horizontal"
-            android:weightSum="9">
+            android:weightSum="7">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.5" />
+                android:layout_weight="0.8"
+                android:background="#F5F5F5"/>
 
             <ImageButton
                 android:id="@+id/button5"
@@ -218,8 +221,30 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:layout_weight="0.4"
+                android:background="#F5F5F5"/>
+
+            <ImageButton
+                android:id="@+id/btn_history"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:src="@drawable/history_btn"
+                android:contentDescription="히스토리"
+                android:background="@drawable/radius" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:background="#F5F5F5"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:background="#F5F5F5"/>
     </LinearLayout>
 </LinearLayout>
