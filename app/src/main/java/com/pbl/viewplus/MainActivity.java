@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton web_image;
     private ImageButton btn_history;
     public String PopDialog;
-    private Button btn_logout;
+    private Button btn_logout, tutorial;
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         web_image = findViewById(R.id.button5);
         btn_history = findViewById(R.id.btn_history);
         btn_logout=findViewById(R.id.btn_logout);
+        tutorial = findViewById(R.id.tutorial);
 
         PopDialog = "";
 
@@ -75,7 +76,16 @@ public class MainActivity extends AppCompatActivity {
         //로그아웃 시 종료를 위함
         MainAct = this;
 
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+        //tutorial 다시보기 //2/21
+        tutorial.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(v.getContext(), IntroSliderScreen.class);
+                startActivity(intent);
+            }
+        });
 
         //로그아웃
         btn_logout.setOnClickListener(new Button.OnClickListener(){

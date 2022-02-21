@@ -45,6 +45,16 @@
             android:background="@drawable/logout_btn_round"
             android:text="로그아웃" />
 
+        <Button
+            android:id="@+id/tutorial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#DB504C"
+            android:background="@drawable/logout_btn_round"
+            android:text="튜토리얼 다시보기" />
+
         <ImageButton
             android:id="@+id/btn_history"
             android:layout_width="30dp"

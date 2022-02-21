@@ -4,9 +4,9 @@
 # Sets the minimum version of CMake required to build the native library.
 
 cmake_minimum_required(VERSION 3.10.2)
-#set(pathPROJECT "C:/Users/USER/Documents/Android-Projects-opencv/TempFile")
+set(pathPROJECT "C:/Users/USER/Documents/Android-Projects-opencv/TempFile")
 #set(pathPROJECT "C:/Users/USER/Documents/Android-Projects-opencv/Android-Projects-opencv-master")
-set(pathPROJECT "C:/Users/Jiwoon Kim/AndroidStudioProjects-PBLpractice/OpenCV")
+#set(pathPROJECT "C:/Users/Jiwoon Kim/AndroidStudioProjects-PBLpractice/OpenCV")
 #set(pathPROJECT "C:/Users/heewon/Desktop/PBL/Android-Projects/Android-Projects-opencv")
 set(pathOPENCV "${pathPROJECT}/sdk")
 set(pathLIBOPENCV_JAVA "${pathOPENCV}/native/libs/${ANDROID_ABI}/libopencv_java4.so")

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#0000ff"
-
+    android:id="@+id/fragment1"
     tools:context=".Fragment1">
 
     <!-- TODO: Update blank fragment layout -->

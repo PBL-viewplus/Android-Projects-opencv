@@ -11,15 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 
 public class IntroSliderScreen extends AppCompatActivity {
     ViewPager pager;
-    int pageCount = 3;
-    Button startBtn;
-    ImageView imageView1, imageView2, imageView3;
+    int pageCount = 7;
+    Button startBtn, preBtn;
+    ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7;
 
 
     @Override
@@ -29,12 +30,16 @@ public class IntroSliderScreen extends AppCompatActivity {
 
 
         startBtn = findViewById(R.id.startBtn);
-        //startBtn.setVisibility(View.GONE);//처음엔 안보임
-        startBtn.setVisibility(View.INVISIBLE);
+        preBtn = findViewById(R.id.preBtn);
+        startBtn.setVisibility(View.VISIBLE);
 
         imageView1 =findViewById(R.id.imageView1);
         imageView2 =findViewById(R.id.imageView2);
         imageView3 =findViewById(R.id.imageView3);
+        imageView4 =findViewById(R.id.imageView4);
+        imageView5 =findViewById(R.id.imageView5);
+        imageView6 =findViewById(R.id.imageView6);
+        imageView7 =findViewById(R.id.imageView7);
 
 
         pager = findViewById(R.id.pager);
@@ -51,7 +56,30 @@ public class IntroSliderScreen extends AppCompatActivity {
         Fragment3 fragment3 = new Fragment3();//3
         adapter.addItem(fragment3);
 
+        Fragment4 fragment4 = new Fragment4();//4
+        adapter.addItem(fragment4);
+
+        Fragment5 fragment5 = new Fragment5();//5
+        adapter.addItem(fragment5);
+
+        Fragment6 fragment6 = new Fragment6();//6
+        adapter.addItem(fragment6);
+
+        Fragment7 fragment7 = new Fragment7();//7
+        adapter.addItem(fragment7);
+
         pager.setAdapter(adapter);
+
+
+
+        /*//fragment manager를 생성합니다.
+        FragmentManager fm = getSupportFragmentManager();
+        //fragment를 동적으로 생성, 제거, 교체하기 위해 fragment transaction 사용합니다.
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment2, fragment2);
+        ft.commit();*/
+
+
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){//페이지 바뀔 때 설정함
             //https://javaexpert.tistory.com/496 //현재 페이지 보기
@@ -64,25 +92,70 @@ public class IntroSliderScreen extends AppCompatActivity {
             public void onPageSelected(int position) {
                 int sequence = pager.getCurrentItem();
 
-                if(sequence == pageCount -3) {//첫 페이지
-                    //startBtn.setVisibility(View.GONE);
-                    startBtn.setVisibility(View.INVISIBLE);
+                if(sequence == 0) {//첫 페이지
                     imageView1.setImageResource(R.drawable.white_circle);
                     imageView2.setImageResource(R.drawable.gray_circle);
                     imageView3.setImageResource(R.drawable.gray_circle);
+                    imageView4.setImageResource(R.drawable.gray_circle);
+                    imageView5.setImageResource(R.drawable.gray_circle);
+                    imageView6.setImageResource(R.drawable.gray_circle);
+                    imageView7.setImageResource(R.drawable.gray_circle);
+
                 }
-                else if(sequence == pageCount -2) {//두번째 페이지
-                    //startBtn.setVisibility(View.GONE);
-                    startBtn.setVisibility(View.INVISIBLE);
+                else if(sequence == 1) {//두번째 페이지
                     imageView1.setImageResource(R.drawable.gray_circle);
                     imageView2.setImageResource(R.drawable.white_circle);
                     imageView3.setImageResource(R.drawable.gray_circle);
+                    imageView4.setImageResource(R.drawable.gray_circle);
+                    imageView5.setImageResource(R.drawable.gray_circle);
+                    imageView6.setImageResource(R.drawable.gray_circle);
+                    imageView7.setImageResource(R.drawable.gray_circle);
                 }
-                else if(sequence == pageCount -1) {//마지막 페이지
-                    startBtn.setVisibility(View.VISIBLE);
+                else if(sequence == 2) {//세번째 페이지
                     imageView1.setImageResource(R.drawable.gray_circle);
                     imageView2.setImageResource(R.drawable.gray_circle);
                     imageView3.setImageResource(R.drawable.white_circle);
+                    imageView4.setImageResource(R.drawable.gray_circle);
+                    imageView5.setImageResource(R.drawable.gray_circle);
+                    imageView6.setImageResource(R.drawable.gray_circle);
+                    imageView7.setImageResource(R.drawable.gray_circle);
+                }
+                else if(sequence == 3) {//네번째 페이지
+                    imageView1.setImageResource(R.drawable.gray_circle);
+                    imageView2.setImageResource(R.drawable.gray_circle);
+                    imageView3.setImageResource(R.drawable.gray_circle);
+                    imageView4.setImageResource(R.drawable.white_circle);
+                    imageView5.setImageResource(R.drawable.gray_circle);
+                    imageView6.setImageResource(R.drawable.gray_circle);
+                    imageView7.setImageResource(R.drawable.gray_circle);
+                }
+                else if(sequence == 4) {//다섯번째 페이지
+                    imageView1.setImageResource(R.drawable.gray_circle);
+                    imageView2.setImageResource(R.drawable.gray_circle);
+                    imageView3.setImageResource(R.drawable.gray_circle);
+                    imageView4.setImageResource(R.drawable.gray_circle);
+                    imageView5.setImageResource(R.drawable.white_circle);
+                    imageView6.setImageResource(R.drawable.gray_circle);
+                    imageView7.setImageResource(R.drawable.gray_circle);
+                }
+                else if(sequence == 5) {//여섯번째 페이지
+                    imageView1.setImageResource(R.drawable.gray_circle);
+                    imageView2.setImageResource(R.drawable.gray_circle);
+                    imageView3.setImageResource(R.drawable.gray_circle);
+                    imageView4.setImageResource(R.drawable.gray_circle);
+                    imageView5.setImageResource(R.drawable.gray_circle);
+                    imageView6.setImageResource(R.drawable.white_circle);
+                    imageView7.setImageResource(R.drawable.gray_circle);
+                }
+
+                else if(sequence == 6) {//마지막 페이지
+                    imageView1.setImageResource(R.drawable.gray_circle);
+                    imageView2.setImageResource(R.drawable.gray_circle);
+                    imageView3.setImageResource(R.drawable.gray_circle);
+                    imageView4.setImageResource(R.drawable.gray_circle);
+                    imageView5.setImageResource(R.drawable.gray_circle);
+                    imageView6.setImageResource(R.drawable.gray_circle);
+                    imageView7.setImageResource(R.drawable.white_circle);
                 }
             }
 
@@ -93,11 +166,17 @@ public class IntroSliderScreen extends AppCompatActivity {
         });
 
 
-        startBtn.setOnClickListener(new View.OnClickListener() {
+        startBtn.setOnClickListener(new View.OnClickListener() {//skip button
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(IntroSliderScreen.this, MainActivity.class));
                 finish();
+            }
+        });
+
+        preBtn.setOnClickListener(new View.OnClickListener() {//이전 버튼
+            @Override
+            public void onClick(View view) {
             }
         });
 
