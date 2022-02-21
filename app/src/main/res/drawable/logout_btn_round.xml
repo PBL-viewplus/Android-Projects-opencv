@@ -8,7 +8,7 @@
     <!-- 테두리 설정: 두께, 색상 -->
     <stroke
         android:width="2dp"
-        android:color="#433A73" />
+        android:color="#DF6A67" />
 
     <corners
         android:topLeftRadius="10dp"

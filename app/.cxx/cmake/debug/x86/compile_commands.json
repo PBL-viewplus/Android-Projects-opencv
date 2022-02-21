@@ -1,0 +1,7 @@
+[
+{
+  "directory": "C:/Users/USER/Documents/Android-Projects-opencv/TempFile/app/.cxx/cmake/debug/x86",
+  "command": "C:\\Users\\USER\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=i686-none-linux-android26 --gcc-toolchain=C:/Users/USER/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/USER/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -IC:/Users/USER/Documents/Android-Projects-opencv/TempFile/sdk/native/jni/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -std=gnu++11 -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles\\native-lib.dir\\native-lib.cpp.o -c C:\\Users\\USER\\Documents\\Android-Projects-opencv\\TempFile\\app\\src\\main\\cpp\\native-lib.cpp",
+  "file": "C:\\Users\\USER\\Documents\\Android-Projects-opencv\\TempFile\\app\\src\\main\\cpp\\native-lib.cpp"
+}
+]
