@@ -60,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         camera_text = findViewById(R.id.button1);
-        gallery_text = findViewById(R.id.button2);
+        //gallery_text = findViewById(R.id.button2);
         camera_image = findViewById(R.id.button3);
-        gallery_image = findViewById(R.id.button4);
+        //gallery_image = findViewById(R.id.button4);
         web_image = findViewById(R.id.button5);
         btn_history = findViewById(R.id.btn_history);
         btn_logout=findViewById(R.id.btn_logout);
