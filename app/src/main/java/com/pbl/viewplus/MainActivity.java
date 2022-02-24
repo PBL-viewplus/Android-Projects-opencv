@@ -31,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton gallery_image;
     private ImageButton web_image;
     private ImageButton btn_history;
+    private ImageButton btn_tutorial;
     public String PopDialog;
-    private Button btn_logout, tutorial;
+    private Button btn_logout;
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -60,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         camera_text = findViewById(R.id.button1);
-        gallery_text = findViewById(R.id.button2);
+        //gallery_text = findViewById(R.id.button2);
         camera_image = findViewById(R.id.button3);
-        gallery_image = findViewById(R.id.button4);
+        //gallery_image = findViewById(R.id.button4);
         web_image = findViewById(R.id.button5);
         btn_history = findViewById(R.id.btn_history);
         btn_logout=findViewById(R.id.btn_logout);
-        tutorial = findViewById(R.id.tutorial);
+        btn_tutorial = findViewById(R.id.btn_tutorial);
 
         PopDialog = "";
 
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //tutorial 다시보기 //2/21
-        tutorial.setOnClickListener(new Button.OnClickListener(){
+        btn_tutorial.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(v.getContext(), IntroSliderScreen.class);
@@ -137,14 +138,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 갤러리 문자 읽기
-        gallery_text.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), OCR_TTS.class);
-                intent.putExtra("value", 2);
-                startActivity(intent);
-            }
-        });
+//        gallery_text.setOnClickListener(new Button.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), OCR_TTS.class);
+//                intent.putExtra("value", 2);
+//                startActivity(intent);
+//            }
+//        });
 
         // 카메라 이미지 분석
         camera_image.setOnClickListener(new Button.OnClickListener(){
@@ -157,14 +158,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 갤러리 이미지 분석
-        gallery_image.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AzureImage.class);
-                intent.putExtra("value", 4);
-                startActivity(intent);
-            }
-        });
+//        gallery_image.setOnClickListener(new Button.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), AzureImage.class);
+//                intent.putExtra("value", 4);
+//                startActivity(intent);
+//            }
+//        });
 
         // 웹브라우저 기능
         web_image.setOnClickListener(new Button.OnClickListener(){

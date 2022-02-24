@@ -5,121 +5,178 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/analyze_back"
-    android:weightSum="11"
+    android:weightSum="12"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:background="#433A73"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:weightSum="11">
 
         <ImageButton
+            android:layout_weight="1"
             android:id="@+id/btn_back"
-            android:layout_width="40dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:scaleType="fitCenter"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/an_btn_margintop"
             android:background="@drawable/back_w"
             android:contentDescription="뒤로 가기"
             android:text="Button" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageButton
-                android:id="@+id/btn_camera"
-                android:layout_width="45dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
-                android:contentDescription="카메라"
-                android:background="@drawable/camera_btn" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
 
-            <ImageButton
-                android:id="@+id/btn_gallery"
-                android:layout_width="45dp"
-                android:layout_height="50dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
-                android:contentDescription="갤러리"
-                android:background="@drawable/btn_image" />
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/btn_camera"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="카메라"
+            android:background="#F5F5F5"
+            android:src="@mipmap/camera_white"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_weight="1"/>
 
-            <ImageView
-                android:id="@+id/origin_iv"
-                android:layout_margin="5dp"
-                android:background="#ffffff"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/analyze_text" />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/btn_gallery"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:layout_marginTop="10dp"
+            android:contentDescription="갤러리"
+            android:scaleType="fitCenter"
+            android:background="#433A73"
+            android:src="@mipmap/gallery_pupple" />
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="#F5F5F5"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
+            android:weightSum="4"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:background="#F5F5F5"/>
+
+            <ImageView
+                android:id="@+id/origin_iv"
+                android:background="@drawable/detailborder"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/analyze_text"
+                android:layout_weight="3.4"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:background="#F5F5F5"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.4"
+        android:weightSum="5"
+        android:background="#F5F5F5"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.6"
+            android:weightSum="11"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"/>
 
             <ImageButton
                 android:id="@+id/btn_minus"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="30dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.3"
                 android:background="@drawable/minusbtn_v"
                 android:contentDescription="글자 축소"
                 android:text="-" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.8"/>
+
             <ImageButton
                 android:id="@+id/btn_again"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
                 android:background="@drawable/btn_again_v"
                 android:contentDescription="다시 듣기"
                 android:text="Button" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.8"/>
             <ImageButton
                 android:id="@+id/btn_plus"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.3"
                 android:background="@drawable/plusbtn_v"
                 android:contentDescription="글자 확대"
                 android:text="+" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"/>
 
     </LinearLayout>
 
@@ -128,29 +185,54 @@
         android:layout_height="0dp"
         android:layout_weight="4"
         android:gravity="center_horizontal"
+        android:background="#F5F5F5"
         android:orientation="horizontal">
 
-        <ScrollView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:overScrollMode="never"
-            android:background="@drawable/analyze_rectangle">
+            android:layout_weight="0.3"
+            android:background="#F5F5F5"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3.4"
+            android:background="@drawable/detailborder">
 
-                <TextView
-                    android:id="@+id/text_result"
+            <ScrollView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.6"
+                android:overScrollMode="never">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </ScrollView>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/text_result"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:background="#F5F5F5"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:background="#F5F5F5"/>
 
 </LinearLayout>
