@@ -118,9 +118,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:src="@drawable/ca_img"
-                android:scaleType="center"
-                android:contentDescription="카메라 이미지 분석"
+                android:src="@mipmap/azimg_btn"
+                android:scaleType="fitCenter"
+                android:contentDescription="이미지 묘사"
                 android:background="@drawable/puppleborder" />
 
             <LinearLayout
