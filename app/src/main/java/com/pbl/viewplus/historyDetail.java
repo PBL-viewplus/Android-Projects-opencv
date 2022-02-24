@@ -198,6 +198,11 @@ public class historyDetail extends AppCompatActivity {
         }
     }
 
+    public void onStop() {
+        super.onStop();
+        tts.ttsStop();
+    }
+
     public void onDestroy() {
         super.onDestroy();
         if (tts != null) {
