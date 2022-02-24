@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/main"
+    android:background="@mipmap/main_back"
     android:orientation="vertical"
     android:weightSum="7"
     tools:context="com.pbl.viewplus.OCR_TTS">
@@ -105,7 +105,7 @@
                 android:src="@drawable/abc"
                 android:scaleType="center"
                 android:contentDescription="카메라 글자 인식"
-                android:background="@drawable/radius" />
+                android:background="@drawable/puppleborder" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -121,7 +121,7 @@
                 android:src="@drawable/ca_img"
                 android:scaleType="center"
                 android:contentDescription="카메라 이미지 분석"
-                android:background="@drawable/radius" />
+                android:background="@drawable/puppleborder" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -177,7 +177,7 @@
                 android:src="@drawable/webicon"
                 android:scaleType="center"
                 android:contentDescription="웹 브라우저"
-                android:background="@drawable/radius" />
+                android:background="@drawable/puppleborder" />
 
 
             <LinearLayout
@@ -194,7 +194,7 @@
                 android:src="@drawable/history_btn"
                 android:scaleType="center"
                 android:contentDescription="히스토리"
-                android:background="@drawable/radius" />
+                android:background="@drawable/puppleborder" />
 
             <LinearLayout
                 android:layout_width="0dp"

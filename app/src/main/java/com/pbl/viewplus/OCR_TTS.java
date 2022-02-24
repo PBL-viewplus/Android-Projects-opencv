@@ -209,6 +209,11 @@ public class OCR_TTS extends AppCompatActivity {
                     intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                     intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
+
+                    //클릭하면 테두리 뜨도록
+                    //galleryButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.whiteborder));
+                    galleryButton.setBackgroundResource(R.drawable.whiteborder);
+                    //pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
                 }
                 else {//권한이 없으면
                     permission.permissioncheck(getApplicationContext());

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/radius"
+    android:background="@drawable/whiteborder"
     android:orientation="vertical"
     android:layout_width="350dp"
     android:layout_height="wrap_content">
