@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_pressed="true" >
-        <shape xmlns:android="http://schemas.android.com/apk/res/android" >
-            <solid android:color="#999"/>
-            <corners android:radius="20dp"/>
-        </shape>
+<!--    버튼누르고 있을때-->
+    <item android:state_pressed="true"
+        android:drawable="@mipmap/ocr_btn_gray">
+
     </item>
+
+<!--    평소-->
     <item
         android:state_enabled="true"
-        android:drawable="@drawable/ca_tts"/>
+        android:drawable="@mipmap/ocr_btn"/>
 
 <!--    <item-->
 <!--        android:state_window_focused="true"-->

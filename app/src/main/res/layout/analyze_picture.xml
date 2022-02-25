@@ -42,7 +42,7 @@
             android:padding="1dp"
             android:contentDescription="카메라"
             android:background="@drawable/border_white"
-            android:src="@mipmap/camera_w"/>
+            android:src="@mipmap/camera_white7"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -58,8 +58,8 @@
             android:contentDescription="갤러리"
             android:padding="1dp"
             android:scaleType="fitCenter"
-            android:background="@drawable/border_purple"
-            android:src="@mipmap/gallery_p" />
+            android:background="@drawable/border_puple"
+            android:src="@mipmap/gallery_pupple7" />
 
         <LinearLayout
             android:layout_width="0dp"

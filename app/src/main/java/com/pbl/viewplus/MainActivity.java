@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -117,6 +118,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        // 버튼 누르고 있을때 효과
+        btn_history.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction()== MotionEvent.ACTION_DOWN){
+                    btn_history.setBackground(getDrawable(R.drawable.graycontent));
+                }else if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    btn_history.setBackground(getDrawable(R.drawable.puppleborder));
+                }
+                return false;
+            }
+        });
 
         // 카메라 문자 읽기
         camera_text.setOnClickListener(new Button.OnClickListener(){
@@ -134,6 +147,18 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(intent2, 1);
                 }
 
+            }
+        });
+        // 버튼 누르고 있을때 효과
+        camera_text.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction()== MotionEvent.ACTION_DOWN){
+                    camera_text.setBackground(getDrawable(R.drawable.graycontent));
+                }else if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    camera_text.setBackground(getDrawable(R.drawable.puppleborder));
+                }
+                return false;
             }
         });
 
@@ -156,6 +181,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        // 버튼 누르고 있을때 효과
+        camera_image.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction()== MotionEvent.ACTION_DOWN){
+                    camera_image.setBackground(getDrawable(R.drawable.graycontent));
+                }else if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    camera_image.setBackground(getDrawable(R.drawable.puppleborder));
+                }
+                return false;
+            }
+        });
 
         // 갤러리 이미지 분석
 //        gallery_image.setOnClickListener(new Button.OnClickListener(){
@@ -173,6 +210,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), WebBrowser.class);
                 startActivity(intent);
+            }
+        });
+        // 버튼 누르고 있을때 효과
+        web_image.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction()== MotionEvent.ACTION_DOWN){
+                    web_image.setBackground(getDrawable(R.drawable.graycontent));
+                }else if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    web_image.setBackground(getDrawable(R.drawable.puppleborder));
+                }
+                return false;
             }
         });
     }

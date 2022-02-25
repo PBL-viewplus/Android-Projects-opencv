@@ -43,7 +43,6 @@
             android:layout_marginTop="10dp"
             android:background="@android:drawable/ic_dialog_info" />
 
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -103,9 +102,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:src="@drawable/abc"
-                android:scaleType="center"
-                android:contentDescription="카메라 글자 인식"
+                android:src="@drawable/ocr_btn_touch"
+                android:scaleType="fitCenter"
+                android:padding="2dp"
+                android:contentDescription="문자 인식"
                 android:background="@drawable/puppleborder" />
 
             <LinearLayout
@@ -119,9 +119,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:src="@mipmap/azimg_btn"
+                android:src="@drawable/azimg_btn_touch"
                 android:scaleType="fitCenter"
                 android:contentDescription="이미지 묘사"
+                android:padding="2dp"
                 android:background="@drawable/puppleborder" />
 
             <LinearLayout
@@ -139,22 +140,22 @@
             android:layout_weight="0.4"
             android:background="#F5F5F5"/>
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:weightSum="9">-->
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:weightSum="9">-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1.5" />-->
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="5" />-->
-<!--        </LinearLayout>-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:layout_weight="1.5" />-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:layout_weight="5" />-->
+        <!--        </LinearLayout>-->
 
 
         <LinearLayout
@@ -175,8 +176,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:src="@drawable/webicon"
-                android:scaleType="center"
+                android:src="@drawable/web_btn_touch"
+                android:scaleType="fitCenter"
+                android:padding="2dp"
                 android:contentDescription="웹 브라우저"
                 android:background="@drawable/puppleborder" />
 
@@ -192,9 +194,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:src="@drawable/history_btn"
-                android:scaleType="center"
-                android:contentDescription="히스토리"
+                android:src="@drawable/history_btn_touch"
+                android:scaleType="fitCenter"
+                android:padding="2dp"
+                android:contentDescription="과거 기록"
                 android:background="@drawable/puppleborder" />
 
             <LinearLayout
