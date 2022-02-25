@@ -41,8 +41,8 @@
             android:scaleType="fitCenter"
             android:padding="1dp"
             android:contentDescription="카메라"
-            android:background="@drawable/border_white"
-            android:src="@mipmap/camera_white7"/>
+            android:background="@drawable/border_puple"
+            android:src="@mipmap/camera_pupple"/>
 
         <LinearLayout
             android:layout_width="0dp"

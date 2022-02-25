@@ -181,6 +181,14 @@ public class OCR_TTS extends AppCompatActivity {
                     camera.cameraStart(getApplicationContext(), intent);
                     startActivityForResult(intent, 1);
 
+                    //클릭하면 drawable, src 변화
+                    cameraButton.setBackgroundResource(R.drawable.border_white);
+                    cameraButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.camera_white7));
+
+                    galleryButton.setBackgroundResource(R.drawable.border_puple);
+                    galleryButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.gallery_pupple7));
+
+
 //                    if (value == 1) {
 //                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //                        camera.cameraStart(getApplicationContext(), intent);
@@ -210,10 +218,14 @@ public class OCR_TTS extends AppCompatActivity {
                     intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
 
-                    //클릭하면 테두리 뜨도록
-                    //galleryButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.whiteborder));
-                    galleryButton.setBackgroundResource(R.drawable.whiteborder);
-                    //pictureButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
+                    //클릭하면 drawable, src 변화
+                    galleryButton.setBackgroundResource(R.drawable.border_white);
+                    galleryButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.gallery_white));
+
+                    cameraButton.setBackgroundResource(R.drawable.border_puple);
+                    cameraButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.camera_pupple));
+
+                    //galleryButton.setBackground(ContextCompat.getDrawable(this, R.drawable.camera_btn));
                 }
                 else {//권한이 없으면
                     permission.permissioncheck(getApplicationContext());

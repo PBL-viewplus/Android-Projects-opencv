@@ -157,6 +157,13 @@ public class AzureImage extends AppCompatActivity {
                     camera.cameraStart(getApplicationContext(), intent);
                     startActivityForResult(intent, 3);
 
+                    //클릭하면 drawable, src 변화
+                    cameraButton_az.setBackgroundResource(R.drawable.border_white);
+                    cameraButton_az.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.camera_white7));
+
+                    galleryButton_az.setBackgroundResource(R.drawable.border_puple);
+                    galleryButton_az.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.gallery_pupple7));
+
                 }
                 else {//권한이 없으면
                     permission.permissioncheck(getApplicationContext());
@@ -173,6 +180,13 @@ public class AzureImage extends AppCompatActivity {
                     intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                     intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 4);
+
+                    //클릭하면 drawable, src 변화
+                    galleryButton_az.setBackgroundResource(R.drawable.border_white);
+                    galleryButton_az.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.gallery_white));
+
+                    cameraButton_az.setBackgroundResource(R.drawable.border_puple);
+                    cameraButton_az.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.camera_pupple));
 
                 }
                 else {//권한이 없으면
