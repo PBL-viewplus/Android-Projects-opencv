@@ -4,21 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/analyze_back"
     android:orientation="vertical"
-    android:weightSum="11"
+    android:weightSum="12"
     tools:context=".historyDetail">
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:background="#433A73"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:weightSum="11">
+
         <ImageButton
             android:id="@+id/hd_btn_back"
-            android:layout_width="40dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="@dimen/an_btn_margintop"
             android:background="@drawable/back_w"
             android:contentDescription="뒤로 가기"
             android:text="Button" />
@@ -28,25 +32,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="#F5F5F5"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:weightSum="4"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:background="#F5F5F5"/>
 
             <ImageView
                 android:id="@+id/hd_origin_iv"
-                android:layout_width="match_parent"
+                android:background="@drawable/puppleborder"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:background="#ffffff"
-                android:src="@drawable/analyze_text" />
+                android:src="@drawable/analyze_text"
+                android:layout_weight="3.4"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:background="#F5F5F5"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -54,78 +73,131 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_weight="1.4"
+        android:weightSum="5"
+        android:background="#F5F5F5"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="1.2"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.6"
+            android:weightSum="11"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"/>
 
             <ImageButton
                 android:id="@+id/hd_btn_minus"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/minusbtn_v"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.3"
+                android:background="@mipmap/minusbtn_y"
                 android:contentDescription="글자 축소"
                 android:text="-" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.7"/>
+
             <ImageButton
                 android:id="@+id/hd_btn_again"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/btn_again_v"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:background="@mipmap/btn_again_y"
                 android:contentDescription="다시 듣기"
                 android:text="Button" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.7"/>
             <ImageButton
                 android:id="@+id/hd_btn_plus"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/plusbtn_v"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.3"
+                android:background="@mipmap/plusbtn_y"
                 android:contentDescription="글자 확대"
                 android:text="+" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"/>
+
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
         android:gravity="center_horizontal"
+        android:background="#F5F5F5"
         android:orientation="horizontal">
 
-        <ScrollView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:overScrollMode="never"
-            android:background="@drawable/analyze_rectangle">
+            android:layout_weight="0.3"
+            android:background="#F5F5F5"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3.4"
+            android:background="@drawable/puppleborder">
 
-                <TextView
-                    android:id="@+id/hd_text_result"
+            <ScrollView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.6"
+                android:overScrollMode="never">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </ScrollView>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/hd_text_result"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:background="#F5F5F5"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:background="#F5F5F5"/>
 
 </LinearLayout>
