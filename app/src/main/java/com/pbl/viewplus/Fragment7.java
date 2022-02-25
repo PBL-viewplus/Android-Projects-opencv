@@ -1,11 +1,14 @@
 package com.pbl.viewplus;
 
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 /*
@@ -35,6 +38,15 @@ public class Fragment7 extends Fragment {
                 String ex2="슬라이드";
 
                 tts.speakOut(ex2);
+            }
+        });
+
+        Button btn_pre = v.findViewById(R.id.btn_pre7);
+        btn_pre.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Activity activity = getActivity(); //Activity: com.pbl.viewplus.IntroSliderScreen@96140b4
+                //activity.onFragmentChanged(6);
             }
         });
 

@@ -21,7 +21,10 @@ public class IntroSliderScreen extends AppCompatActivity {
     int pageCount = 7;
     Button startBtn, preBtn;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7;
-
+    Fragment1 fragment1;Fragment2 fragment2;
+    Fragment3 fragment3;Fragment4 fragment4;
+    Fragment5 fragment5;Fragment6 fragment6;
+    Fragment7 fragment7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,25 +50,25 @@ public class IntroSliderScreen extends AppCompatActivity {
 
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
 
-        Fragment1 fragment1 = new Fragment1();//1
+        fragment1 = new Fragment1();//1
         adapter.addItem(fragment1);
 
-        Fragment2 fragment2 = new Fragment2();//2
+        fragment2 = new Fragment2();//2
         adapter.addItem(fragment2);
 
-        Fragment3 fragment3 = new Fragment3();//3
+        fragment3 = new Fragment3();//3
         adapter.addItem(fragment3);
 
-        Fragment4 fragment4 = new Fragment4();//4
+        fragment4 = new Fragment4();//4
         adapter.addItem(fragment4);
 
-        Fragment5 fragment5 = new Fragment5();//5
+        fragment5 = new Fragment5();//5
         adapter.addItem(fragment5);
 
-        Fragment6 fragment6 = new Fragment6();//6
+        fragment6 = new Fragment6();//6
         adapter.addItem(fragment6);
 
-        Fragment7 fragment7 = new Fragment7();//7
+        fragment7 = new Fragment7();//7
         adapter.addItem(fragment7);
 
         pager.setAdapter(adapter);
@@ -182,6 +185,26 @@ public class IntroSliderScreen extends AppCompatActivity {
 
 
     }
+
+
+    public void onFragmentChanged(int index){
+        if(index==0){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit();
+        } else if(index==1){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment2).commit();
+        } else if(index==2){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment3).commit();
+        } else if(index==3){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment4).commit();
+        } else if(index==4){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment5).commit();
+        } else if(index==5){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment6).commit();
+        } else if(index==6){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment7).commit();
+        }
+    }
+
 
     class MyPagerAdapter extends FragmentStatePagerAdapter{
 

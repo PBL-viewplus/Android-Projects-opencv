@@ -15,4 +15,10 @@
         android:layout_height="wrap_content"
         android:text="일곱 번째" />
 
+    <Button
+        android:id="@+id/btn_pre7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
 </LinearLayout>
