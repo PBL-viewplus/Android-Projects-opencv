@@ -41,7 +41,7 @@
             android:layout_height="@dimen/tutorial_btn_size"
             android:layout_marginLeft="@dimen/btn_margin"
             android:layout_marginTop="@dimen/btn_margin"
-            android:background="@android:drawable/ic_dialog_info" />
+            android:background="@mipmap/noticemark" />
 
         <LinearLayout
             android:layout_width="0dp"
