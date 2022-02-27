@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class IntroSliderScreen extends AppCompatActivity {
     ViewPager pager;
     int pageCount = 7;
-    Button startBtn, preBtn;
+    Button startBtn, preBtn, nextBtn;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7;
     Fragment1 fragment1;Fragment2 fragment2;
     Fragment3 fragment3;Fragment4 fragment4;
@@ -34,6 +34,7 @@ public class IntroSliderScreen extends AppCompatActivity {
 
         startBtn = findViewById(R.id.startBtn);
         preBtn = findViewById(R.id.preBtn);
+        nextBtn = findViewById(R.id.nextBtn);
         startBtn.setVisibility(View.VISIBLE);
 
         imageView1 =findViewById(R.id.imageView1);
@@ -180,29 +181,17 @@ public class IntroSliderScreen extends AppCompatActivity {
         preBtn.setOnClickListener(new View.OnClickListener() {//이전 버튼
             @Override
             public void onClick(View view) {
+                pager.setCurrentItem(pager.getCurrentItem()-1);
             }
         });
 
+        nextBtn.setOnClickListener(new View.OnClickListener() {//이전 버튼
+            @Override
+            public void onClick(View view) {
+                pager.setCurrentItem(pager.getCurrentItem()+1);
+            }
+        });
 
-    }
-
-
-    public void onFragmentChanged(int index){
-        if(index==0){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit();
-        } else if(index==1){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment2).commit();
-        } else if(index==2){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment3).commit();
-        } else if(index==3){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment4).commit();
-        } else if(index==4){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment5).commit();
-        } else if(index==5){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment6).commit();
-        } else if(index==6){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment7).commit();
-        }
     }
 
 
