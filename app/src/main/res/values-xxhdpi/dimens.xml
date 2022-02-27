@@ -5,5 +5,7 @@
     <dimen name="tutorial_btn_size">35dp</dimen>
     <dimen name="btn_margin">10dp</dimen>
     <dimen name="logout_btn_height">35dp</dimen>
+    <dimen name="login_btn_weight">250dp</dimen>
+    <dimen name="login_btn_height">50dp</dimen>
 
 </resources>
