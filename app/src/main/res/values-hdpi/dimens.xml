@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="an_btn_margintop">3dp</dimen>
+    <dimen name="an_back_btn_margintop">3dp</dimen>
+    <dimen name="an_back_btn_height">40dp</dimen>
+    <dimen name="tutorial_btn_size">20dp</dimen>
+    <dimen name="btn_margin">10dp</dimen>
+    <dimen name="logout_btn_height">20dp</dimen>
 
 </resources>
