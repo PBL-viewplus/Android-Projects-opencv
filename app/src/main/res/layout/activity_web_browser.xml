@@ -25,44 +25,84 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#a97376"
                 android:orientation="vertical"
-                android:weightSum="4">
+                android:weightSum="5">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:orientation="horizontal">
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0."
-                        android:orientation="horizontal"></LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:weightSum="12">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#FFFFFF"
+                        android:orientation="horizontal" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/leftradius"
+                        android:orientation="horizontal" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="7.5"
                         android:orientation="horizontal">
 
-                        <EditText
-                            android:id="@+id/urlText"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="5"
-                            android:ems="10"
-                            android:inputType="textPersonName"
-                            android:text="URL 입력"
-                            android:textColor="#919191" />
+                            android:layout_weight="7"
+                            android:background="#FFFFFF"
+                            android:orientation="horizontal">
 
-                        <!--                    <androidx.appcompat.widget.SearchView-->
-                        <!--                        android:id="@+id/searchButton"-->
-                        <!--                        android:layout_width="0dp"-->
-                        <!--                        android:layout_weight="1"-->
-                        <!--                        android:layout_height="match_parent" />-->
+                            <EditText
+                                android:id="@+id/urlText"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:text="URL 입력"
+                                android:textColor="#919191" />
 
+                            <!--                    <androidx.appcompat.widget.SearchView-->
+                            <!--                        android:id="@+id/searchButton"-->
+                            <!--                        android:layout_width="0dp"-->
+                            <!--                        android:layout_weight="1"-->
+                            <!--                        android:layout_height="match_parent" />-->
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/searchButton"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:background="#ffffff"
+                            android:contentDescription="검색"
+                            android:src="@android:drawable/ic_search_category_default"
+                            android:text="검색" />
 
                     </LinearLayout>
 
@@ -70,26 +110,29 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
-                        android:orientation="horizontal">
+                        android:background="@drawable/rightradius"
+                        android:orientation="horizontal" />
 
-                        <ImageButton
-                            android:id="@+id/searchButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/loupe"
-                            android:contentDescription="검색"
-                            android:text="검색" />
-
-                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.6" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.9"
                     android:background="#4c4d63"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="7">
 
                     <!--                    <Button-->
                     <!--                        android:id="@+id/clearButton"-->
@@ -103,63 +146,55 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.1"
-                        android:orientation="horizontal">
+                        android:layout_weight="0.4" />
 
-                    </LinearLayout>
-
-                    <Button
+                    <ImageButton
                         android:id="@+id/copyButton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:background="@drawable/tool_paste" />
+                        android:layout_weight="1"
+                        android:background="@mipmap/btn_webpaste"
+                        android:scaleType="fitCenter" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.1"
-                        android:orientation="horizontal">
+                        android:layout_weight="0.4" />
 
-                    </LinearLayout>
-
-                    <Button
+                    <ImageButton
                         android:id="@+id/AzureButton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:background="@drawable/tool_image" />
+                        android:layout_weight="1"
+                        android:background="@mipmap/btn_webimg" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.1"
-                        android:orientation="horizontal">
+                        android:layout_weight="0.4" />
 
-                    </LinearLayout>
-
-                    <Button
+                    <ImageButton
                         android:id="@+id/OCRButton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:background="@drawable/tool_text" />
+                        android:layout_weight="1"
+                        android:background="@mipmap/btn_webtext" />
 
                     <LinearLayout
                         android:layout_width="0dp"
+                        android:background="#a97376"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.1"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:layout_weight="0.4" />
 
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="1dp"
-                        android:layout_height="1dp"
-                        tools:ignore="MissingConstraints"
-                        tools:srcCompat="@tools:sample/avatars" />
 
                 </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    tools:ignore="MissingConstraints"
+                    tools:srcCompat="@tools:sample/avatars" />
 
             </LinearLayout>
 

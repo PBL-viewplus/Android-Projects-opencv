@@ -71,11 +71,11 @@ public class WebBrowser extends AppCompatActivity {
     private EditText mText; // Url 입력 받을 PlainText 선언
     private ImageButton mSearchButton;
     private ImageView mImageView;
-    private Button mOCRButton;
-    private Button mAnalyzeButton;
+    private ImageButton mOCRButton;
+    private ImageButton mAnalyzeButton;
     //private Button mClearButton;
     private TextView mAnalyzeResult;
-    private Button mCopyButton;
+    private ImageButton mCopyButton;
     private Boolean flag = false; //분석버튼 실행 변수
 
     private String url = "https://www.naver.com"; // url담을 변수 선언
@@ -107,11 +107,11 @@ public class WebBrowser extends AppCompatActivity {
         mText = (EditText) findViewById(R.id.urlText);
         mSearchButton = (ImageButton) findViewById(R.id.searchButton);
         mImageView = (ImageView) findViewById(R.id.imageView);
-        mAnalyzeButton = (Button) findViewById(R.id.AzureButton);
-        mOCRButton = (Button) findViewById(R.id.OCRButton);
+        mAnalyzeButton = findViewById(R.id.AzureButton);
+        mOCRButton = findViewById(R.id.OCRButton);
         mAnalyzeResult = (TextView) findViewById(R.id.analyzeResult);
         //mClearButton = (Button) findViewById(R.id.clearButton);
-        mCopyButton = (Button) findViewById(R.id.copyButton);
+        mCopyButton = findViewById(R.id.copyButton);
 
 
         // TTS 객체 초기화
