@@ -16,7 +16,7 @@
             android:id="@+id/app_toolbar"
             android:layout_width="match_parent"
             android:layout_height="112dp"
-            android:background="@drawable/tool_back"
+            android:background="#a97376"
             app:layout_anchor="@+id/appbar"
             app:layout_anchorGravity="center"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -25,46 +25,57 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="4">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="51dp"
-                    android:layout_marginLeft="40dp"
-                    android:orientation="horizontal"
-                    android:weightSum="7">
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/urlText"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="5"
-                        android:ems="10"
-                        android:inputType="textPersonName"
-                        android:text="URL 입력"
-                        android:textColor="#919191" />
-
-                    <!--                    <androidx.appcompat.widget.SearchView-->
-                    <!--                        android:id="@+id/searchButton"-->
-                    <!--                        android:layout_width="0dp"-->
-                    <!--                        android:layout_weight="1"-->
-                    <!--                        android:layout_height="match_parent" />-->
-
+                        android:layout_weight="0."
+                        android:orientation="horizontal"></LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:background="#FFFFFF"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/urlText"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="5"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:text="URL 입력"
+                            android:textColor="#919191" />
+
+                        <!--                    <androidx.appcompat.widget.SearchView-->
+                        <!--                        android:id="@+id/searchButton"-->
+                        <!--                        android:layout_width="0dp"-->
+                        <!--                        android:layout_weight="1"-->
+                        <!--                        android:layout_height="match_parent" />-->
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
                         android:orientation="horizontal">
 
                         <ImageButton
                             android:id="@+id/searchButton"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_marginBottom="15dp"
                             android:background="@drawable/loupe"
                             android:contentDescription="검색"
                             android:text="검색" />
@@ -74,12 +85,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="384dp"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
                     android:background="#4c4d63"
                     android:orientation="horizontal">
 
@@ -92,38 +100,61 @@
                     <!--                        android:background="@drawable/radius"-->
                     <!--                        android:text="지우기" />-->
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+
                     <Button
                         android:id="@+id/copyButton"
-                        android:layout_width="70dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="50dp"
+                        android:layout_weight="0.5"
                         android:background="@drawable/tool_paste" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/AzureButton"
-                        android:layout_width="70dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_weight="0.5"
                         android:background="@drawable/tool_image" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/OCRButton"
-                        android:layout_width="70dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginRight="30dp"
+                        android:layout_weight="0.5"
                         android:background="@drawable/tool_text" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"
+                        android:orientation="horizontal"></LinearLayout>
 
                     <ImageView
                         android:id="@+id/imageView"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:scaleType="fitCenter"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp"
                         tools:ignore="MissingConstraints"
                         tools:srcCompat="@tools:sample/avatars" />
 
