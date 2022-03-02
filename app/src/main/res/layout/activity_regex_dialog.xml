@@ -18,7 +18,7 @@
             android:textSize="20sp"
             android:textColor="#fff"
             android:gravity="center"
-            android:background="#ff7a00"
+            android:background="@drawable/upradius"
             android:layout_width="match_parent"
             android:layout_height="53dp" />
     </LinearLayout>
@@ -28,6 +28,7 @@
     <LinearLayout
         android:padding="24dp"
         android:orientation="vertical"
+        android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -59,10 +60,10 @@
             android:layout_weight="1"
             android:text="네"
             android:textSize="15sp"
-            android:textColor="#ff7a00"
+            android:textColor="#342A69"
             android:padding="16dp"
             android:gravity="center"
-            android:background="#00000000"
+            android:background="#ffffff"
             android:layout_width="0dp"
             android:layout_height="53dp"
             android:onClick="yesButton"/>
@@ -76,11 +77,11 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="#00000000"
+            android:background="#ffffff"
             android:gravity="center"
             android:padding="16dp"
             android:text="검열해서 보기"
-            android:textColor="#ff7a00"
+            android:textColor="#342A69"
             android:textSize="15sp"
             android:onClick="noButton"/>
     </LinearLayout>

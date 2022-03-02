@@ -6,64 +6,97 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".IntroSliderScreen"
+    android:weightSum="13"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:weightSum="5"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/noticeBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="안내음성" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
+
+        <Button
+            android:id="@+id/startBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="건너 뛰기" />
+
+    </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="10">
 
     </androidx.viewpager.widget.ViewPager>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:layout_weight="1"
+        android:weightSum="7"
         android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/white_circle" />
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/gray_circle" />
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/gray_circle" />
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/gray_circle" />
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/gray_circle" />
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/gray_circle" />
         <ImageView
             android:id="@+id/imageView7"
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/gray_circle" />
@@ -71,28 +104,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
+        android:weightSum="5"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/preBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="이전 화면" />
 
-        <Button
-            android:id="@+id/startBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="그만 보기" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
+
 
         <Button
             android:id="@+id/nextBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="다음 화면" />
 
