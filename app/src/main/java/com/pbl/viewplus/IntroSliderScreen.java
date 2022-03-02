@@ -19,7 +19,12 @@ import java.util.ArrayList;
 public class IntroSliderScreen extends AppCompatActivity {
     ViewPager pager;
     int pageCount = 7;
-    Button startBtn, preBtn, nextBtn;
+
+    //tts 객체 생성
+    View v;
+    TTS_controller tts = new TTS_controller();
+
+    Button startBtn, preBtn, nextBtn, noticeBtn;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7;
     Fragment1 fragment1;Fragment2 fragment2;
     Fragment3 fragment3;Fragment4 fragment4;
@@ -31,11 +36,14 @@ public class IntroSliderScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_slider_screen);
 
+        //tts 초기화
+        tts.initTTS(v.getContext(), null);
 
         startBtn = findViewById(R.id.startBtn);
         preBtn = findViewById(R.id.preBtn);
         nextBtn = findViewById(R.id.nextBtn);
         startBtn.setVisibility(View.VISIBLE);
+        noticeBtn = findViewById(R.id.noticeBtn);
 
         imageView1 =findViewById(R.id.imageView1);
         imageView2 =findViewById(R.id.imageView2);
@@ -46,6 +54,11 @@ public class IntroSliderScreen extends AppCompatActivity {
         imageView7 =findViewById(R.id.imageView7);
 
 
+        //tts 내용 작성
+        String ex[] = {"1","2","3","4","5","6","7"};
+
+
+        //페이저 연결 작업
         pager = findViewById(R.id.pager);
         pager.setOffscreenPageLimit(pageCount);//로딩할 화면 개수
 
@@ -74,17 +87,6 @@ public class IntroSliderScreen extends AppCompatActivity {
 
         pager.setAdapter(adapter);
 
-
-
-        /*//fragment manager를 생성합니다.
-        FragmentManager fm = getSupportFragmentManager();
-        //fragment를 동적으로 생성, 제거, 교체하기 위해 fragment transaction 사용합니다.
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment2, fragment2);
-        ft.commit();*/
-
-
-
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){//페이지 바뀔 때 설정함
             //https://javaexpert.tistory.com/496 //현재 페이지 보기
             @Override
@@ -105,6 +107,7 @@ public class IntroSliderScreen extends AppCompatActivity {
                     imageView6.setImageResource(R.drawable.gray_circle);
                     imageView7.setImageResource(R.drawable.gray_circle);
 
+                    tts.speakOut(ex[sequence]);
                 }
                 else if(sequence == 1) {//두번째 페이지
                     imageView1.setImageResource(R.drawable.gray_circle);
@@ -114,6 +117,8 @@ public class IntroSliderScreen extends AppCompatActivity {
                     imageView5.setImageResource(R.drawable.gray_circle);
                     imageView6.setImageResource(R.drawable.gray_circle);
                     imageView7.setImageResource(R.drawable.gray_circle);
+
+                    tts.speakOut(ex[sequence]);
                 }
                 else if(sequence == 2) {//세번째 페이지
                     imageView1.setImageResource(R.drawable.gray_circle);
@@ -123,6 +128,8 @@ public class IntroSliderScreen extends AppCompatActivity {
                     imageView5.setImageResource(R.drawable.gray_circle);
                     imageView6.setImageResource(R.drawable.gray_circle);
                     imageView7.setImageResource(R.drawable.gray_circle);
+
+                    tts.speakOut(ex[sequence]);
                 }
                 else if(sequence == 3) {//네번째 페이지
                     imageView1.setImageResource(R.drawable.gray_circle);
@@ -132,6 +139,8 @@ public class IntroSliderScreen extends AppCompatActivity {
                     imageView5.setImageResource(R.drawable.gray_circle);
                     imageView6.setImageResource(R.drawable.gray_circle);
                     imageView7.setImageResource(R.drawable.gray_circle);
+
+                    tts.speakOut(ex[sequence]);
                 }
                 else if(sequence == 4) {//다섯번째 페이지
                     imageView1.setImageResource(R.drawable.gray_circle);
@@ -141,6 +150,8 @@ public class IntroSliderScreen extends AppCompatActivity {
                     imageView5.setImageResource(R.drawable.white_circle);
                     imageView6.setImageResource(R.drawable.gray_circle);
                     imageView7.setImageResource(R.drawable.gray_circle);
+
+                    tts.speakOut(ex[sequence]);
                 }
                 else if(sequence == 5) {//여섯번째 페이지
                     imageView1.setImageResource(R.drawable.gray_circle);
@@ -150,6 +161,8 @@ public class IntroSliderScreen extends AppCompatActivity {
                     imageView5.setImageResource(R.drawable.gray_circle);
                     imageView6.setImageResource(R.drawable.white_circle);
                     imageView7.setImageResource(R.drawable.gray_circle);
+
+                    tts.speakOut(ex[sequence]);
                 }
 
                 else if(sequence == 6) {//마지막 페이지
@@ -160,6 +173,8 @@ public class IntroSliderScreen extends AppCompatActivity {
                     imageView5.setImageResource(R.drawable.gray_circle);
                     imageView6.setImageResource(R.drawable.gray_circle);
                     imageView7.setImageResource(R.drawable.white_circle);
+
+                    tts.speakOut(ex[sequence]);
                 }
             }
 
@@ -169,6 +184,12 @@ public class IntroSliderScreen extends AppCompatActivity {
             }
         });
 
+        noticeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tts.speakOut(ex[pager.getCurrentItem()-1]);
+            }
+        });
 
         startBtn.setOnClickListener(new View.OnClickListener() {//skip button
             @Override
@@ -220,4 +241,16 @@ public class IntroSliderScreen extends AppCompatActivity {
 
     }
 
+    //tts 종료
+    public void onStop(){
+        super.onStop();
+        tts.ttsStop();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        if (tts != null){
+            tts.ttsDestory();
+        }
+    }
 }
