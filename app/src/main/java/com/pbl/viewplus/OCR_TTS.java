@@ -332,6 +332,7 @@ public class OCR_TTS extends AppCompatActivity {
 
                 Bitmap bitmap = BitmapFactory.decodeFile(path, options);
                 Bitmap rotatedBitmap = null;
+                Bitmap showBitmap = null;
 
                 // 회전된 사진을 원래대로 돌려 표시한다.
                 if (bitmap != null) {
@@ -342,24 +343,32 @@ public class OCR_TTS extends AppCompatActivity {
 
                         case ExifInterface.ORIENTATION_ROTATE_90:
                             rotatedBitmap = rotateImage(bitmap, 90);
+                            showBitmap = rotateImage(bitmap, 90);
                             break;
 
                         case ExifInterface.ORIENTATION_ROTATE_180:
                             rotatedBitmap = rotateImage(bitmap, 180);
+                            showBitmap = rotateImage(bitmap, 180);
                             break;
 
                         case ExifInterface.ORIENTATION_ROTATE_270:
                             rotatedBitmap = rotateImage(bitmap, 270);
+                            showBitmap = rotateImage(bitmap, 270);
                             break;
 
                         case ExifInterface.ORIENTATION_NORMAL:
                         default:
                             rotatedBitmap = bitmap;
+                            showBitmap = bitmap;
                     }
-                    originImageView.setImageBitmap(rotatedBitmap);
+                    //originImageView.setImageBitmap(rotatedBitmap);
                     changeBitmap = rotatedBitmap;
 
-                    camera.fileOpen(getApplicationContext(),rotatedBitmap);
+                    originImageView.setImageBitmap(showBitmap);
+                    opencv.cvtColor(changeBitmap);
+
+                    camera.fileOpen(getApplicationContext(),changeBitmap);
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();

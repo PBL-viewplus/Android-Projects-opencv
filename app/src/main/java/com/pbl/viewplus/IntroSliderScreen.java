@@ -55,9 +55,19 @@ public class IntroSliderScreen extends AppCompatActivity {
         imageView6 =findViewById(R.id.imageView6);
         imageView7 =findViewById(R.id.imageView7);
 
+        String p1= "튜토리얼 안내\n 왼쪽 상단 버튼을 통해 튜토리얼을 다시 볼 수 있습니다\n 오른쪽 상단에는 로그아웃 버튼이 있습니다";
+        String p2= "문자 인식과 이미지 묘사 기능\n 문자 인식은 사진 속 문자를 분석하여 읽어주는 기능입니다\n" +
+                "이미지 묘사는 사진 속 상황을 파악하여 설명해주는 기능입니다";
+        String p3= "해당 기능을 사용하시려면 1 상단의 카메라 버튼을 눌러 사진을 촬영하거나 갤러리 버튼을 눌러 원하는 사진을 불러옵니다\n" +
+                "2 분석이 완료되면 분석 결과가 아래에 나타나고 음성으로 글자를 읽어줍니다\n"+
+                "3 양 옆 돋보기 버튼으로 글자 크기를 조정할 수 있으며 가운데 다시 듣기 버튼으로 결과를 다시 재생할 수 있습니다";
+        String p4= "";
+        String p5= "";
+        String p6= "";
+        String p7= "";
 
         //tts 내용 작성
-        String ex[] = {"1","2","3","4","5","6","7"};
+        String ex[] = {p1,p2,"3","4","5","6","7"};
 
 
         //페이저 연결 작업
@@ -211,7 +221,13 @@ public class IntroSliderScreen extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {//이전 버튼
             @Override
             public void onClick(View view) {
-                pager.setCurrentItem(pager.getCurrentItem()+1);
+
+                if(pager.getCurrentItem()==6){
+                    startActivity(new Intent(IntroSliderScreen.this, MainActivity.class));
+                    finish();
+                } else {
+                    pager.setCurrentItem(pager.getCurrentItem() + 1);
+                }
             }
         });
 

@@ -500,7 +500,7 @@ public class AzureImage extends AppCompatActivity {
 
                         if(TextUtils.isEmpty(s)){ // s가 null일때
                             mTextResult.setText("인식할 수 없습니다");
-                            Toast.makeText(AzureImage.this,"API Return Empty Result",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AzureImage.this,"인식할 수 없습니다",Toast.LENGTH_SHORT).show();
                             tts.speakOut(mTextResult.getText().toString());
                         }
                         else {
