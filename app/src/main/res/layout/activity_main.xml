@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/main_back"
+    android:background="@mipmap/main_back2"
     android:orientation="vertical"
     android:weightSum="7"
     tools:context="com.pbl.viewplus.OCR_TTS">

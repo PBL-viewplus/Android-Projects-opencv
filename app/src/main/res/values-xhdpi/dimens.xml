@@ -2,7 +2,7 @@
 <resources>
     <dimen name="an_back_btn_margintop">17dp</dimen>
     <dimen name="an_back_btn_height">40dp</dimen>
-    <dimen name="tutorial_btn_size">40dp</dimen>
+    <dimen name="tutorial_btn_size">35dp</dimen>
     <dimen name="btn_margin">10dp</dimen>
     <dimen name="logout_btn_height">40dp</dimen>
     <dimen name="login_btn_weight">300dp</dimen>
