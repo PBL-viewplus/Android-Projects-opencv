@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,8 @@ public class IntroSliderScreen extends AppCompatActivity {
     View v;
     TTS_controller tts = new TTS_controller();
 
-    Button startBtn, preBtn, nextBtn, noticeBtn;
+    Button startBtn, preBtn, nextBtn;
+    ImageButton noticeBtn;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7;
     Fragment1 fragment1;Fragment2 fragment2;
     Fragment3 fragment3;Fragment4 fragment4;
