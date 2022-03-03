@@ -39,7 +39,7 @@ public class IntroSliderScreen extends AppCompatActivity {
         setContentView(R.layout.activity_intro_slider_screen);
 
         //tts 초기화
-        tts.initTTS(v.getContext(), null);
+        tts.initTTS(getApplicationContext(), null);
 
         startBtn = findViewById(R.id.startBtn);
         preBtn = findViewById(R.id.preBtn);
@@ -189,7 +189,7 @@ public class IntroSliderScreen extends AppCompatActivity {
         noticeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tts.speakOut(ex[pager.getCurrentItem()-1]);
+                tts.speakOut(ex[pager.getCurrentItem()]);
             }
         });
 

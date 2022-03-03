@@ -6,19 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#525252"
     android:weightSum="13"
     tools:context=".IntroSliderScreen">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#525252"
+        android:layout_weight="0.8"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:padding="@dimen/tutorial_padding"
         android:weightSum="5">
 
-<!--        패딩-->
 
         <ImageButton
             android:id="@+id/noticeBtn"
@@ -26,7 +25,7 @@
             android:layout_height="match_parent"
             android:src="@mipmap/speaker"
             android:scaleType="fitCenter"
-            android:padding="6dp"
+            android:padding="@dimen/tutorial_speaker_padding"
             android:background="#525252"
             android:layout_weight="1"
             android:text="확성기" />
@@ -34,31 +33,32 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2.5" />
+            android:layout_weight="2.6" />
 
         <Button
             android:id="@+id/startBtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.5"
+            android:layout_weight="1.4"
             android:background="#525252"
-            android:text="건너 뛰기"
+            android:text="건너뛰기"
+            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="@dimen/tutorial_textsize" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="11"
+        android:layout_weight="11.4"
         android:orientation="horizontal"
+        android:background="#525252"
         android:weightSum="2">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="#525252"
             android:layout_weight="0.1"/>
 
         <androidx.viewpager.widget.ViewPager
@@ -72,7 +72,6 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="#525252"
             android:layout_weight="0.1"/>
 
     </LinearLayout>
@@ -80,14 +79,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.8"
         android:background="#525252"
-        android:gravity="bottom"
         android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingBottom="5dp"
+        android:padding="5dp"
+        android:layout_marginBottom="@dimen/tutorial_bottom_marginbottom"
         android:weightSum="5">
 
         <Button
@@ -96,11 +92,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#525252"
-            android:textAlignment="textStart"
-            android:paddingLeft="20dp"
             android:text="이전"
+            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="@dimen/tutorial_textsize" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -118,8 +113,8 @@
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="1dp"
-                android:layout_height="20dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 app:srcCompat="@drawable/white_circle" />
 
@@ -134,7 +129,7 @@
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 app:srcCompat="@drawable/gray_circle" />
 
@@ -149,7 +144,7 @@
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 app:srcCompat="@drawable/gray_circle" />
 
@@ -164,7 +159,7 @@
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 app:srcCompat="@drawable/gray_circle" />
 
@@ -179,7 +174,7 @@
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 app:srcCompat="@drawable/gray_circle" />
 
@@ -194,7 +189,7 @@
             <ImageView
                 android:id="@+id/imageView6"
                 android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 app:srcCompat="@drawable/gray_circle" />
 
@@ -207,7 +202,7 @@
             <ImageView
                 android:id="@+id/imageView7"
                 android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 app:srcCompat="@drawable/gray_circle" />
 
@@ -227,8 +222,9 @@
             android:layout_weight="1"
             android:background="#525252"
             android:text="다음"
+            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="@dimen/tutorial_textsize" />
 
     </LinearLayout>
 
