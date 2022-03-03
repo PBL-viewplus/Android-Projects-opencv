@@ -15,7 +15,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/app_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="112dp"
+            android:layout_height="@dimen/web_toolbar_height"
             android:background="#a97376"
             app:layout_anchor="@+id/appbar"
             app:layout_anchorGravity="center"
@@ -44,7 +44,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="0.6"
                         android:orientation="horizontal" />
 
                     <LinearLayout
@@ -57,7 +57,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="7.5"
+                        android:layout_weight="7.9"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -97,11 +97,13 @@
 
                         <ImageButton
                             android:id="@+id/searchButton"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="#ffffff"
+                            android:scaleType="centerInside"
+                            android:padding="@dimen/web_magnifier_padding"
                             android:contentDescription="검색"
-                            android:src="@android:drawable/ic_search_category_default"
+                            android:src="@mipmap/magnifier"
                             android:text="검색" />
 
                     </LinearLayout>
@@ -130,7 +132,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1.9"
-                    android:background="#4c4d63"
                     android:orientation="horizontal"
                     android:weightSum="7">
 
@@ -146,46 +147,58 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.4" />
+                        android:background="#4c4d63"
+                        android:layout_weight="0.2" />
 
                     <ImageButton
                         android:id="@+id/copyButton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@mipmap/btn_webpaste"
+                        android:layout_weight="2"
+                        android:src="@mipmap/btn_webpaste"
+                        android:background="#4c4d63"
                         android:scaleType="fitCenter" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.4" />
-
-                    <ImageButton
-                        android:id="@+id/AzureButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@mipmap/btn_webimg" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.4" />
+                        android:background="#4c4d63"
+                        android:layout_weight="0.2" />
 
                     <ImageButton
                         android:id="@+id/OCRButton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@mipmap/btn_webtext" />
+                        android:layout_weight="2"
+                        android:src="@mipmap/btn_webtext"
+                        android:background="#4c4d63"
+                        android:scaleType="fitCenter" />
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:background="#a97376"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.4" />
+                        android:background="#4c4d63"
+                        android:layout_weight="0.2" />
 
+                    <ImageButton
+                        android:id="@+id/AzureButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:src="@mipmap/btn_webimg"
+                        android:background="#4c4d63"
+                        android:scaleType="fitCenter" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:background="#4c4d63"
+                        android:layout_weight="0.2" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2" />
 
                 </LinearLayout>
 
