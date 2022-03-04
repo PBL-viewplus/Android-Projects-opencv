@@ -367,7 +367,7 @@ public class OCR_TTS extends AppCompatActivity {
                     originImageView.setImageBitmap(showBitmap);
                     opencv.cvtColor(changeBitmap);
 
-                    camera.fileOpen(getApplicationContext(),changeBitmap);
+                    camera.fileOpen(getApplicationContext(),showBitmap);
 
                 }
             } catch (IOException e) {
