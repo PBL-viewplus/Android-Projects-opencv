@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:contentDescription="주의사항"
             android:text="주의사항"
             android:textSize="20sp"
             android:textColor="#fff"
@@ -34,8 +33,6 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/txtText"
-            android:contentDescription="개인정보가 포함될 수도 있습니다.
-            열람하시겠습니까?"
             android:text="개인정보가 포함될 수도 있습니다.
             열람하시겠습니까?"
             android:textSize="15sp"
