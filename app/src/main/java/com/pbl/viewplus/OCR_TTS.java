@@ -66,6 +66,7 @@ public class OCR_TTS extends AppCompatActivity {
 
     private Bitmap originBitmap;
     private Bitmap changeBitmap;
+    private Bitmap showBitmap;
     private ImageButton backButton;
     private ImageView originImageView;
     private ImageButton minusButton;
@@ -332,7 +333,6 @@ public class OCR_TTS extends AppCompatActivity {
 
                 Bitmap bitmap = BitmapFactory.decodeFile(path, options);
                 Bitmap rotatedBitmap = null;
-                Bitmap showBitmap = null;
 
                 // 회전된 사진을 원래대로 돌려 표시한다.
                 if (bitmap != null) {
@@ -365,9 +365,9 @@ public class OCR_TTS extends AppCompatActivity {
                     changeBitmap = rotatedBitmap;
 
                     originImageView.setImageBitmap(showBitmap);
-                    opencv.cvtColor(changeBitmap);
 
                     camera.fileOpen(getApplicationContext(),showBitmap);
+                    opencv.cvtColor(changeBitmap);
 
                 }
             } catch (IOException e) {
@@ -467,7 +467,7 @@ public class OCR_TTS extends AppCompatActivity {
                             user.put("iv1", encText[1]);//평문의 벡터
 
                             //비트맵 암호화
-                            pic= AES.encByKey(key, AES.BitmapToString(changeBitmap));
+                            pic= AES.encByKey(key, AES.BitmapToString(showBitmap));
                             user.put("piciv", pic[1]);//비트맵의 벡터
 
                             //암호화 완료했으면 keystore키로 우리키 암호화하기
@@ -522,7 +522,7 @@ public class OCR_TTS extends AppCompatActivity {
 //                degree = gallery.exifDegree;
 
                 Bitmap rotatedBitmap = null;
-                Bitmap showBitmap = null;
+                //Bitmap showBitmap = null;
 
                 // 회전된 사진을 원래대로 돌려 표시한다.
                 if (originBitmap != null) {
@@ -635,7 +635,6 @@ public class OCR_TTS extends AppCompatActivity {
                             //아니면 바로 보여줌
                             mTextResult.setText(result);
                             tts.speakOut(mTextResult.getText().toString());
-                            System.out.println("hooonononono"+ result);
                         }
 
                         //서버에 보낼 데이터들을 담을 맵
@@ -652,7 +651,7 @@ public class OCR_TTS extends AppCompatActivity {
                             user.put("iv1", encText[1]);//평문의 벡터
 
                             //비트맵 암호화
-                            pic= AES.encByKey(key, AES.BitmapToString(changeBitmap));
+                            pic= AES.encByKey(key, AES.BitmapToString(showBitmap));
                             user.put("piciv", pic[1]);//비트맵의 벡터
 
                             //암호화 완료했으면 keystore키로 우리키 암호화하기
@@ -667,8 +666,6 @@ public class OCR_TTS extends AppCompatActivity {
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            System.out.println("hooono"+ result.length());
-
                         }
 
 
