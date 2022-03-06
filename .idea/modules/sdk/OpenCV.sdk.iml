@@ -43,6 +43,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../sdk/build/generated/source/buildConfig/debug" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../sdk/java/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../../sdk/build/generated/res/resValues/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../sdk/libcxx_helper" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../sdk/libcxx_helper" />
       <excludeFolder url="file://$MODULE_DIR$/../../../sdk/.cxx" />
       <excludeFolder url="file://$MODULE_DIR$/../../../sdk/.externalNativeBuild" />

@@ -94,7 +94,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#525252"
-            android:contentDescription="이전버튼"
+            android:contentDescription="이전"
             android:text="이전"
             android:textStyle="bold"
             android:textColor="@color/white"

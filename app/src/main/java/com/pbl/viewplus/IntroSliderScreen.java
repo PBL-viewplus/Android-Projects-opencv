@@ -72,7 +72,7 @@ public class IntroSliderScreen extends AppCompatActivity {
                 "3 사진 옆의 X 버튼을 눌러 해당 정보를 삭제할 수 있습니다.\n";
 
         //tts 내용 작성
-        String ex[] = {p1,p2,"3","4","5","6","7"};
+        String ex[] = {p1,p2, p3,p4,p5,p6,p7};
 
 
         //페이저 연결 작업
