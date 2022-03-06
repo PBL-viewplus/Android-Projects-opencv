@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:contentDescription="주의사항"
             android:text="주의사항"
             android:textSize="20sp"
             android:textColor="#fff"
@@ -33,6 +34,8 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/txtText"
+            android:contentDescription="개인정보가 포함될 수도 있습니다.
+            열람하시겠습니까?"
             android:text="개인정보가 포함될 수도 있습니다.
             열람하시겠습니까?"
             android:textSize="15sp"
@@ -63,6 +66,7 @@
             android:textColor="#342A69"
             android:padding="16dp"
             android:gravity="center"
+            android:contentDescription="네"
             android:background="#ffffff"
             android:layout_width="0dp"
             android:layout_height="53dp"
@@ -80,6 +84,7 @@
             android:background="#ffffff"
             android:gravity="center"
             android:padding="16dp"
+            android:contentDescription="검열해서 보기"
             android:text="검열해서 보기"
             android:textColor="#342A69"
             android:textSize="15sp"

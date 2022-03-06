@@ -41,6 +41,7 @@
             android:layout_height="@dimen/tutorial_btn_size"
             android:layout_marginLeft="@dimen/btn_margin"
             android:layout_marginTop="@dimen/btn_margin"
+            android:contentDescription="앱 사용 방법"
             android:background="@mipmap/noticemark" />
 
         <LinearLayout
@@ -56,6 +57,7 @@
             android:layout_marginRight="@dimen/btn_margin"
             android:textColor="#433A73"
             android:background="@drawable/logout_btn_round"
+            android:contentDescription="로그아웃"
             android:text="로그아웃" />
 
 
