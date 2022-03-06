@@ -157,7 +157,11 @@ public class WebBrowser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getCopyText();
-                mText.setText(copyUrl);
+                if (copyUrl == null) {
+                    speakTTS(4);
+                } else{
+                    mText.setText(copyUrl);
+                }
             }
         });
 
@@ -166,8 +170,8 @@ public class WebBrowser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getCopyText();
-                if (!copyUrl.startsWith("http")){
-                    speakTTS(4);
+                if (copyUrl == null || !copyUrl.startsWith("http")) {
+                    speakTTS(1);
                 }else{
                     Intent intent = new Intent(getApplicationContext(), WebResult.class);
                     intent.putExtra("ResultUrl", copyUrl);
@@ -186,8 +190,8 @@ public class WebBrowser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getCopyText();
-                if (!copyUrl.startsWith("http")){
-                    speakTTS(4);
+                if (copyUrl == null || !copyUrl.startsWith("http")) {
+                    speakTTS(1);
                 }else{
                     Intent intent = new Intent(getApplicationContext(), WebOCRResult.class);
                     intent.putExtra("ResultUrl", copyUrl);
@@ -246,10 +250,7 @@ public class WebBrowser extends AppCompatActivity {
     void getCopyText(){
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = clipboardManager.getPrimaryClip();
-        if (clip == null) {
-            speakTTS(4);
-        }
-        else {
+        if (clip != null) {
             ClipData.Item item = clip.getItemAt(0);
             copyUrl = (String) item.getText();
         }
