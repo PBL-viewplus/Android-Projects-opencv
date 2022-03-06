@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ExifInterface;
 import android.media.SoundPool;
@@ -392,7 +393,7 @@ public class OCR_TTS extends AppCompatActivity {
             AsyncTask<InputStream, String, String> ocrTask = new AsyncTask<InputStream, String, String>() {
                 //String result;
                 // AsyncTask<doInBackground() 변수 타입, onProgressUpdate() 변수 타입, onPostExecute() 변수 타입>
-                ProgressDialog progressDialog = new ProgressDialog(OCR_TTS.this); // 실시간 진행 상태 알림
+                ProgressDialog progressDialog = new ProgressDialog(OCR_TTS.this, R.style.DialogStyle); // 실시간 진행 상태 알림
 
                 @Override // 작업시작
                 protected void onPreExecute() {
@@ -610,7 +611,7 @@ public class OCR_TTS extends AppCompatActivity {
                     progressDialog.dismiss();
 
                     if (TextUtils.isEmpty(s)) {
-                       mTextResult.setText("인식할 수 없습니다");
+                        mTextResult.setText("인식할 수 없습니다");
                         Toast.makeText(OCR_TTS.this,"인식할 수 없습니다",Toast.LENGTH_SHORT).show();
                         tts.speakOut(mTextResult.getText().toString());
                     } else {
