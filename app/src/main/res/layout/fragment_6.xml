@@ -8,11 +8,4 @@
     android:id="@+id/fragment6"
     tools:context=".Fragment6">
 
-<!--    &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
-<!--    <Button-->
-<!--        android:id="@+id/btn_fragment6"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="여섯 번째" />-->
-
 </LinearLayout>
