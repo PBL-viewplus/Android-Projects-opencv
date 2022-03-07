@@ -41,14 +41,14 @@ public class Fragment7 extends Fragment {
 //            }
 //        });
 
-        Button btn_pre = v.findViewById(R.id.btn_pre7);
-        btn_pre.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Activity activity = getActivity(); //Activity: com.pbl.viewplus.IntroSliderScreen@96140b4
-                //activity.onFragmentChanged(6);
-            }
-        });
+//        Button btn_pre = v.findViewById(R.id.btn_pre7);
+//        btn_pre.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                Activity activity = getActivity(); //Activity: com.pbl.viewplus.IntroSliderScreen@96140b4
+//                //activity.onFragmentChanged(6);
+//            }
+//        });
 
 
         return v;
