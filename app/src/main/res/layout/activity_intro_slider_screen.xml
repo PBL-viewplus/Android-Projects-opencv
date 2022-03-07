@@ -61,13 +61,13 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.1"/>
+            android:layout_weight="0.15" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.8">
+            android:layout_weight="1.7">
 
         </androidx.viewpager.widget.ViewPager>
 

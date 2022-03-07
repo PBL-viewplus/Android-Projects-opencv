@@ -26,17 +26,17 @@ public class Fragment4 extends Fragment {
 
         tts.initTTS(v.getContext(), null);
 
-        //위 버튼 누르면 안내 듣기
-        Button btn2= v.findViewById(R.id.btn_fragment4);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String ex2="슬라이드";
-
-                tts.speakOut(ex2);
-            }
-        });
+//        //위 버튼 누르면 안내 듣기
+//        Button btn2= v.findViewById(R.id.btn_fragment4);
+//        btn2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                String ex2="슬라이드";
+//
+//                tts.speakOut(ex2);
+//            }
+//        });
 
 
         return v;

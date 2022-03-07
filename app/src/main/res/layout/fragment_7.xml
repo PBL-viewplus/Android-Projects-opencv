@@ -4,21 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#00ff00"
+    android:background="@drawable/frag7"
     android:id="@+id/fragment7"
     tools:context=".Fragment7">
 
-    <!-- TODO: Update blank fragment layout -->
-    <Button
-        android:id="@+id/btn_fragment7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="일곱 번째" />
+<!--    &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+<!--    <Button-->
+<!--        android:id="@+id/btn_fragment7"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="일곱 번째" />-->
 
-    <Button
-        android:id="@+id/btn_pre7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_pre7"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Button" />-->
 
 </LinearLayout>

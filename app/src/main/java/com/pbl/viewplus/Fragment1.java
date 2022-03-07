@@ -22,17 +22,17 @@ public class Fragment1 extends Fragment {
 
         tts.initTTS(v.getContext(), null);
 
-        //위 버튼 누르면 안내 듣기
-        Button btn1= v.findViewById(R.id.btn_fragment1);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String ex1="안녕하세요";
-
-                tts.speakOut(ex1);
-            }
-        });
+//        //위 버튼 누르면 안내 듣기
+//        Button btn1= v.findViewById(R.id.btn_fragment1);
+//        btn1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                String ex1="안녕하세요";
+//
+//                tts.speakOut(ex1);
+//            }
+//        });
 
 
         return v;
