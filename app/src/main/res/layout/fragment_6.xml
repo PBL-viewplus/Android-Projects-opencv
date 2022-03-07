@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/frag6"
+    android:background="@mipmap/frag6"
     android:id="@+id/fragment6"
     tools:context=".Fragment6">
 
