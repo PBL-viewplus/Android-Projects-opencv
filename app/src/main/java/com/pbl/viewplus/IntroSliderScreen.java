@@ -28,9 +28,9 @@ public class IntroSliderScreen extends AppCompatActivity {
     Button startBtn, preBtn, nextBtn;
     ImageButton noticeBtn;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7;
-    Fragment1 fragment1;Fragment2 fragment2;
-    Fragment3 fragment3;Fragment4 fragment4;
-    Fragment5 fragment5;Fragment6 fragment6;
+    Fragment1 fragment1; Fragment2 fragment2;
+    Fragment3 fragment3; Fragment4 fragment4;
+    Fragment5 fragment5; Fragment6 fragment6;
     Fragment7 fragment7;
 
     @Override
@@ -38,22 +38,19 @@ public class IntroSliderScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_slider_screen);
 
-        //tts 초기화
-        tts.initTTS(getApplicationContext(), null);
-
         startBtn = findViewById(R.id.startBtn);
         preBtn = findViewById(R.id.preBtn);
         nextBtn = findViewById(R.id.nextBtn);
         startBtn.setVisibility(View.VISIBLE);
         noticeBtn = findViewById(R.id.noticeBtn);
 
-        imageView1 =findViewById(R.id.imageView1);
-        imageView2 =findViewById(R.id.imageView2);
-        imageView3 =findViewById(R.id.imageView3);
-        imageView4 =findViewById(R.id.imageView4);
-        imageView5 =findViewById(R.id.imageView5);
-        imageView6 =findViewById(R.id.imageView6);
-        imageView7 =findViewById(R.id.imageView7);
+        imageView1 = findViewById(R.id.imageView1);
+        imageView2 = findViewById(R.id.imageView2);
+        imageView3 = findViewById(R.id.imageView3);
+        imageView4 = findViewById(R.id.imageView4);
+        imageView5 = findViewById(R.id.imageView5);
+        imageView6 = findViewById(R.id.imageView6);
+        imageView7 = findViewById(R.id.imageView7);
 
         String p1= "튜토리얼 안내\n 왼쪽 상단 버튼을 통해 튜토리얼을 다시 볼 수 있습니다\n 오른쪽 상단에는 로그아웃 버튼이 있습니다";
         String p2= "문자 인식은 사진 속 문자를 분석하여 읽어주는 기능입니다\n" +
@@ -70,9 +67,11 @@ public class IntroSliderScreen extends AppCompatActivity {
                 "2 사진을 클릭하여 과거 분석 결과를 확인할 수 있습니다.\n" +
                 "3 사진 옆의 X 버튼을 눌러 해당 정보를 삭제할 수 있습니다.\n";
 
+        // tts 초기화 및 첫화면 tts 재생
+        tts.initTTS(getApplicationContext(), p1);
+
         //tts 내용 작성
         String ex[] = {p1,p2, p3,p4,p5,p6,p7};
-
 
         //페이저 연결 작업
         pager = findViewById(R.id.pager);
