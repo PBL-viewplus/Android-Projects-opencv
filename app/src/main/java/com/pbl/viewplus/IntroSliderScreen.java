@@ -52,6 +52,9 @@ public class IntroSliderScreen extends AppCompatActivity {
         imageView6 = findViewById(R.id.imageView6);
         imageView7 = findViewById(R.id.imageView7);
 
+        Intent intent = getIntent();
+        int flag = intent.getExtras().getInt("Tutorial"); //0은 메인, 1은 로그인창
+
         String p1= "튜토리얼 안내\n 왼쪽 상단 버튼을 통해 튜토리얼을 다시 볼 수 있습니다\n 오른쪽 상단에는 로그아웃 버튼이 있습니다";
         String p2= "문자 인식은 사진 속 문자를 분석하여 읽어주는 기능입니다\n" +
                 "이미지 묘사는 사진 속 상황을 파악하여 설명해주는 기능입니다";
@@ -210,8 +213,12 @@ public class IntroSliderScreen extends AppCompatActivity {
         startBtn.setOnClickListener(new View.OnClickListener() {//skip button
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(IntroSliderScreen.this, MainActivity.class));
-                finish();
+                if(flag==1){
+                    startActivity(new Intent(IntroSliderScreen.this, MainActivity.class));
+                    finish();
+                }else{
+                    finish();
+                }
             }
         });
 
@@ -227,8 +234,12 @@ public class IntroSliderScreen extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(pager.getCurrentItem()==6){
-                    startActivity(new Intent(IntroSliderScreen.this, MainActivity.class));
-                    finish();
+                    if(flag==1){
+                        startActivity(new Intent(IntroSliderScreen.this, MainActivity.class));
+                        finish();
+                    }else{
+                        finish();
+                    }
                 } else {
                     pager.setCurrentItem(pager.getCurrentItem() + 1);
                 }

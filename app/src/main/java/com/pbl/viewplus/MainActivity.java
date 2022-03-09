@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(v.getContext(), IntroSliderScreen.class);
+                intent.putExtra("Tutorial",0); //튜토리얼 신호용
                 startActivity(intent);
             }
         });

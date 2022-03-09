@@ -108,7 +108,8 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) { //로그인 성공
                             user = mAuth.getCurrentUser();
                             if (user!=null){
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), IntroSliderScreen.class);
+                                intent.putExtra("Tutorial",1); //튜토리얼 신호용
                                 startActivity(intent);
                                 finish();
                             }
