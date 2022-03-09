@@ -65,30 +65,20 @@ import edmt.dev.edmtdevcognitivevision.VisionServiceRestClient;
 
 public class WebBrowser extends AppCompatActivity {
 
-    private ScrollView scrollView;//1/21일 수정
+    private ScrollView scrollView;
     private WebView mWebView; // 웹뷰 선언
     private WebSettings mWebSettings; // 웹뷰세팅
     private EditText mText; // Url 입력 받을 PlainText 선언
     private ImageButton mSearchButton;
-    private ImageView mImageView;
     private ImageButton mOCRButton;
     private ImageButton mAnalyzeButton;
-    //private Button mClearButton;
-    private TextView mAnalyzeResult;
     private ImageButton mCopyButton;
-    private Boolean flag = false; //분석버튼 실행 변수
 
-    private String url = "https://www.naver.com"; // url담을 변수 선언
+    private String url = "http://www.naver.com"; // url담을 변수 선언
     private List<String> image_src = new ArrayList<>();
-    private int index = 0;
-    private String resultText="";
     Bitmap resultBitmap;
     String copyUrl = null;
 
-    private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
-    private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
-
-    VisionServiceClient visionServiceClient = new VisionServiceRestClient(API_KEY,API_LINK);
     TTS_controller tts = new TTS_controller();// tts 객체 생성
 
 
@@ -106,10 +96,8 @@ public class WebBrowser extends AppCompatActivity {
         mWebView = (WebView) findViewById(R.id.webView);
         mText = (EditText) findViewById(R.id.urlText);
         mSearchButton = (ImageButton) findViewById(R.id.searchButton);
-        mImageView = (ImageView) findViewById(R.id.imageView);
         mAnalyzeButton = findViewById(R.id.AzureButton);
         mOCRButton = findViewById(R.id.OCRButton);
-        mAnalyzeResult = (TextView) findViewById(R.id.analyzeResult);
         //mClearButton = (Button) findViewById(R.id.clearButton);
         mCopyButton = findViewById(R.id.copyButton);
 
@@ -138,19 +126,12 @@ public class WebBrowser extends AppCompatActivity {
                     if( !url.startsWith("http://") && !url.startsWith("https://") ){
                         url = "http://" + url;
                     }
+
                     openUrl();
                     mText.setText("");
                 }
             }
         });
-
-        // 지우기 버튼
-//        mClearButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mText.setText(null);
-//            }
-//        });
 
         // 붙여넣기 버튼
         mCopyButton.setOnClickListener(new View.OnClickListener(){
@@ -177,11 +158,6 @@ public class WebBrowser extends AppCompatActivity {
                     intent.putExtra("ResultUrl", copyUrl);
                     startActivity(intent);
                 }
-                //인텐트로 분석이미지와 분석결과를 던져주고 보여줌.
-                //분석이미지
-                Bitmap intentImage = resultBitmap;
-                //분석결과
-                String intentText = resultText;
             }
         });
 
@@ -205,33 +181,27 @@ public class WebBrowser extends AppCompatActivity {
         mWebView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                //Toast.makeText(WebBrowser.this, "LongClick", Toast.LENGTH_SHORT).show();
 
                 WebView.HitTestResult result = mWebView.getHitTestResult();
-                //Toast.makeText(WebBrowser.this, result.toString(), Toast.LENGTH_LONG).show();
 
                 switch(result.getType()){
                     case WebView.HitTestResult.IMAGE_TYPE: //그냥 img태그 //뉴스기사에서 사진만 있을 때
                         String url = result.getExtra();
                         copyText(url);
                         speakTTS(2);
-                        //Toast.makeText(WebBrowser.this, "case1: " + url, Toast.LENGTH_LONG).show();
                         break;
                     case WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE: //a태그의 img태그 //거의 여기 걸림
                         String url2 = result.getExtra();
                         copyText(url2);
                         speakTTS(2);
-                        //Toast.makeText(WebBrowser.this, "case2: " + url2, Toast.LENGTH_LONG).show();
                         break;
                     case WebView.HitTestResult.SRC_ANCHOR_TYPE: //a태그의 http일 때
                         String link = result.getExtra();
                         copyText(link);
                         speakTTS(2);
-                        //Toast.makeText(WebBrowser.this, "case3: " + link, Toast.LENGTH_LONG).show();
                         break;
                 }
 
-                //return true;//12/29 수정
                 return false;//true이면 동시 실행 안됨, false이면 LongClick 복사 후에 onClick 실행됨
             }
         });
@@ -264,29 +234,8 @@ public class WebBrowser extends AppCompatActivity {
             public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
                 super.doUpdateVisitedHistory(view, url, isReload);
                 scrollView.scrollTo(0,0);//스크롤 맨위로
-                //scrollView.fullScroll((ScrollView.FOCUS_UP));
-                /*scrollView.post(new Runnable(){
-                    @Override
-                    public void run() {
-                        scrollView.fullScroll(ScrollView.FOCUS_UP);
-                    }
-                });*/
             }
 
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-
-                view.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('body')[0].innerHTML);");
-
-                /*scrollView.scrollTo(0,0);//스크롤 맨위로
-                scrollView.post(new Runnable(){
-                    @Override
-                    public void run() {
-                        scrollView.fullScroll(ScrollView.FOCUS_UP);
-                    }
-                });*/
-            }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
@@ -361,81 +310,12 @@ public class WebBrowser extends AppCompatActivity {
             mWebSettings.setJavaScriptEnabled(true); //웹뷰 자바스크립트 활성화
             mWebSettings.setLoadsImagesAutomatically(true);
             mWebSettings.setLightTouchEnabled(true);
-            //자바스크립트인터페이스 연결(자바함수 접근)
-            mWebView.addJavascriptInterface(new MyJavascriptInterface(), "Android");
 
-            //12/29 수정
-            //스크롤뷰가 움직여서 좌우 스와이프가 어려워서 스크롤을 방지
-            //xml에서 139줄 android:scrollbars="none"
             mWebView.setHorizontalScrollBarEnabled(false);//가로 스크롤바 감추기
             mWebView.setVerticalScrollBarEnabled(false);//세로 스크롤바 감추기
 
 
             mWebView.loadUrl(url); // 웹뷰에 표시할 웹사이트 주소, 웹뷰 시작 naver.com
-        }
-    }
-
-    //자바스크립트인터페이스로 스크립트코드 실행 후, 반환
-    public class MyJavascriptInterface {
-        @JavascriptInterface
-        public void getHtml(String html) {
-            //위 자바스크립트가 호출되면 여기로 html이 반환됨
-            //html확인 방법이지만 아래 로그에러를 동반할 수 있음. //textView.setText(html);
-            //text를 doc로 파싱
-            Document doc = Jsoup.parse(html);
-
-//          Log.d("result: ", "doc= " + doc);
-            //img 태그만 선별
-            /*Elements imgs = doc.select("img");
-            Log.d("result: ", "doc= " + imgs);
-            Element img = imgs.first();*/
-
-            //1/21 짧게
-            Element img = doc.select("img").first();
-
-            if (img.attr("abs:src") != "") {
-                image_src.add(img.attr("abs:src"));
-                Log.e("src", img.attr("abs:src"));
-            }
-
-            if (img.attr("abs:data-src") != "") {
-                image_src.add(img.attr("abs:data-src"));
-                Log.e("src", img.attr("abs:data-src"));
-            }
-
-            System.out.println("!!!!!!!!!!!!" + image_src); // 이미지 URL들
-
-            new DownloadFilesTask().execute(image_src.get(0));
-
-        }
-    }
-
-    private class DownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            Bitmap bmp = null;
-            try {
-                String img_url = strings[0]; //url of the image
-                URL url = new URL(img_url);
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bmp;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            // doInBackground 에서 받아온 total 값 사용 장소
-            resultBitmap = result;
-            mImageView.setImageBitmap(result);
         }
     }
 
@@ -471,11 +351,9 @@ public class WebBrowser extends AppCompatActivity {
 
     //연관 리소스를 clear해서 메모리 누수 줄이기
     public void webViewDestroy(){
-        //1/21 수정 캐시,히스토리 웹데이터 삭제
+        //캐시,히스토리 웹데이터 삭제
         mWebView.clearCache(true);
         mWebView.clearHistory();
-        //mWebView.destroy(); //비정상 종료됨
-//        Toast.makeText(this, "웹뷰 Destroy", Toast.LENGTH_SHORT).show();
 
         mWebView.removeJavascriptInterface("bridge");
         mWebView.loadUrl("about:blank");

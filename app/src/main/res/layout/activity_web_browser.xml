@@ -77,13 +77,6 @@
                                 android:hint="URL 입력"
                                 android:textColor="#919191" />
 
-                            <!--                    <androidx.appcompat.widget.SearchView-->
-                            <!--                        android:id="@+id/searchButton"-->
-                            <!--                        android:layout_width="0dp"-->
-                            <!--                        android:layout_weight="1"-->
-                            <!--                        android:layout_height="match_parent" />-->
-
-
                         </LinearLayout>
 
 
@@ -135,15 +128,6 @@
                     android:layout_weight="1.9"
                     android:orientation="horizontal"
                     android:weightSum="7">
-
-                    <!--                    <Button-->
-                    <!--                        android:id="@+id/clearButton"-->
-                    <!--                        android:layout_width="0dp"-->
-                    <!--                        android:layout_height="match_parent"-->
-                    <!--                        android:layout_weight="1"-->
-                    <!--                        android:layout_marginRight="5dp"-->
-                    <!--                        android:background="@drawable/radius"-->
-                    <!--                        android:text="지우기" />-->
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -206,13 +190,6 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    tools:ignore="MissingConstraints"
-                    tools:srcCompat="@tools:sample/avatars" />
-
             </LinearLayout>
 
 
@@ -244,51 +221,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <!-- 삭제 부분? -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:ignore="MissingConstraints">
-        <!--android:layout_height="match_parent"-->
-
-        <TextView
-            android:id="@+id/analyzeResult"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:text="분석 결과"
-            android:visibility="invisible"
-            tools:ignore="MissingConstraints" />
-        <!--android:layout_height="100dp"-->
-
-        <!--android:layout_height= 400dp로 바꾸기-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-    <!--
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/preButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="20dp"
-                    android:text="이전" />
-
-                <Button
-                    android:id="@+id/nextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="다음" />
-            </LinearLayout>
-    -->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
