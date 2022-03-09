@@ -27,7 +27,7 @@
             android:scaleType="fitCenter"
             android:padding="@dimen/tutorial_speaker_padding"
             android:background="#525252"
-            android:contentDescription="다시듣기"
+            android:contentDescription="안내음성듣기"
             android:layout_weight="1"
             android:text="확성기" />
 
