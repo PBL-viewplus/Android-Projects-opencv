@@ -49,7 +49,7 @@ public class Papago_translate {
             br.close();
             //System.out.println(response.toString());
             String s = response.toString();
-            s = s.split("\"")[27];
+            s = s.split("\"")[15];//초기엔 27였음
             return s;
         } catch (Exception e) {
             e.printStackTrace();
