@@ -64,8 +64,8 @@ public class WebResult extends AppCompatActivity {
     //private String url = "";
     private List<String> image_src = new ArrayList<>();
 
-    private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
-    private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
+    private final String API_KEY = "";
+    private final String API_LINK = "";
 
     VisionServiceClient visionServiceClient = new VisionServiceRestClient(API_KEY,API_LINK);
     // tts 객체 생성

@@ -11,8 +11,8 @@ import java.net.URLEncoder;
 public class Papago_translate {
     public String getTranslation(String word, String source, String target) {
 
-        String clientId = "nhD4rUxRxMYF5SQaWCfR";//애플리케이션 클라이언트 아이디값";
-        String clientSecret = "TmgfBE9url";//애플리케이션 클라이언트 시크릿값";
+        String clientId = "";//애플리케이션 클라이언트 아이디값";
+        String clientSecret = "";//애플리케이션 클라이언트 시크릿값";
 
 
         try {

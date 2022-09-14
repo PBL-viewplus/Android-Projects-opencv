@@ -72,8 +72,8 @@ public class AzureImage extends AppCompatActivity {
     private ImageButton backButton;
     private ImageButton cameraButton_az;
     private ImageButton galleryButton_az;
-    private final String API_KEY = "d4e5bcc8873949e88fd2a12c19a5bcc5";
-    private final String API_LINK = "https://westus.api.cognitive.microsoft.com/vision/v1.0";
+    private final String API_KEY = "";
+    private final String API_LINK = "";
 
     //암호화
     public static String alias = "ItsAlias"; //안드로이드 키스토어 내에서 보여질 키의 별칭

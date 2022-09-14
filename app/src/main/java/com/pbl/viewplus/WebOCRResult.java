@@ -318,23 +318,6 @@ public class WebOCRResult extends AppCompatActivity {
                 } else {
                     progressDialog.dismiss();
 
-                    /*//텍스트에 마스킹할 부분이 있다면
-                    if(regex.isRegex(result)){
-                        //검열 묻는 팝업창
-                        Intent regexDialogIntent = new Intent(getApplicationContext(), RegexDialog.class);
-                        startActivityForResult(regexDialogIntent, 3);
-                        //분석결과 지우기
-                        textView.setText("");
-                        //다음 분석을 위해 셋팅
-                        regex.hasRegex= false;
-                    }else{
-                        //분석결과 지우기
-                        textView.setText("");
-                        //아니면 바로 보여줌
-                        textView.setText(result);
-                        tts.speakOut(textView);
-                        System.out.println("hooonononono"+ result);
-                    }*/
                     //분석결과 지우기
                     textView.setText("");
                     //아니면 바로 보여줌

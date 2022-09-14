@@ -81,13 +81,12 @@ public class AES {
 
         Log.d("ello" ,"33333 : " + Base64.decode(secretKeyEntry.getSecretKey().toString(), 0).length); //바이트: 41. 스트링: 59 왜..?
 //        byte[]dfd=secretKeyEntry.getSecretKey().getEncoded();
-//        Log.d("ello" ,"33333 : " + dfd); //바이트: 41. 스트링: 59 왜..? -> 키의 이름이라서? 내용물을 본게 아니니까.
         return secretKeyEntry.getSecretKey();
     }
 
     // 키스토어 키로 AES256 암호화. string->bytes->암호화->base64 인코딩
     public static String[] encByKeyStoreKey(SecretKey secretKey, byte[] plainText) throws Exception {
-        //이거 왜한거지?
+
 //        SecretKeyFactory factory = SecretKeyFactory.getInstance(secretKey.getAlgorithm(), "AndroidKeyStore");
 //        KeyInfo keyInfo;
 //        try {
@@ -156,9 +155,8 @@ public class AES {
         //랜덤 벡터 초기화 추가 -gcm은 12바이트 권장
         byte[] iv = new byte[12];
         new SecureRandom().nextBytes(iv);
-        System.out.println("helloeeeeeee2224444"+iv.length);
+        //System.out.println("helloeeeeeee2224444"+iv.length);
 
-        //System.out.println("helloeeeeeee"+iv);
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, new IvParameterSpec(iv));
         byte[] randomKey = cipher.doFinal(value.getBytes());//암호화
 
@@ -169,8 +167,6 @@ public class AES {
         Log.d("hello" ," 결과 : " + result[0]);//암호문
         Log.d("hello" ," 결과 : " + result[1]);//벡터
 
-//        System.out.println("helloeeeeeee222"+result[1]);
-//        System.out.println("helloeeeeeee222"+Base64.decode(result[1].getBytes(),0).length);
         return result;
     }
 
